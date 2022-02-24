@@ -22,7 +22,7 @@ class LoginButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
           primary: backgroundColor,
           onPrimary: textColor,
-          textStyle: TextStyle(color: Colors.red)),
+          textStyle: const TextStyle(color: Colors.red)),
     );
   }
 }
