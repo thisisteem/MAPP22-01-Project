@@ -8,9 +8,9 @@ import 'utils/constants/my_constants.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
-  'home': (BuildContext context) => const Home(),
-  'activity': (BuildContext context) => const Activity(),
-  'setting': (BuildContext context) => const Setting(),
+  '/home': (BuildContext context) => const Home(),
+  '/activity': (BuildContext context) => const Activity(),
+  '/setting': (BuildContext context) => const Setting(),
 };
 
 String? initialRoute;
@@ -24,10 +24,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Disable rotation
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    // Full Screen Mode
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: MyConstant.appName,

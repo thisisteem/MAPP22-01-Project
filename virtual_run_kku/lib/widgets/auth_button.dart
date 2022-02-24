@@ -9,15 +9,9 @@ class FacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FacebookAuthButton(
-      onPressed: () {},
+      onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
       text: 'เข้าสู่ระบบด้วย Facebook',
-      style: const AuthButtonStyle(
-        width: 280,
-        textStyle: TextStyle(
-          fontFamily: 'Kanit',
-          fontSize: 16,
-        ),
-      ),
+      style: MyConstant.authButtonStyleTextWhite,
     );
   }
 }
@@ -28,14 +22,10 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GoogleAuthButton(
-      onPressed: () {},
+      onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
       darkMode: false,
       text: 'เข้าสู่ระบบด้วย Google',
-      style: AuthButtonStyle(
-        width: 280,
-        textStyle: TextStyle(
-            fontFamily: 'Kanit', fontSize: 16, color: MyConstant.light),
-      ),
+      style: MyConstant.authButtonStyleTextDark,
     );
   }
 }
