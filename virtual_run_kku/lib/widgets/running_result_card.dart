@@ -23,7 +23,7 @@ class _RunningResultCardState extends State<RunningResultCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 5),
       elevation: 3,
       child: ClipPath(
         clipper: ShapeBorderClipper(

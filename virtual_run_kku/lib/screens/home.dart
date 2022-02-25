@@ -86,7 +86,7 @@ Container buildGreetingText() {
 
 Card buildStatsCard() {
   return Card(
-    margin: const EdgeInsets.symmetric(vertical: 10),
+    margin: const EdgeInsets.symmetric(vertical: 5),
     elevation: 3,
     child: Container(
       width: double.infinity,
