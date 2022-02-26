@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'screens/activity.dart';
 import 'screens/setting.dart';
 import 'screens/home.dart';
@@ -25,13 +26,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Disable rotation
+    child:
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
     // Full Screen Mode
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: MyConstant.appName,

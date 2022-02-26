@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "752591637321",
+    "project_id": "virtualrunkku-c67d1",
+    "storage_bucket": "virtualrunkku-c67d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752591637321:android:8f28af7d66b43c0e942898",
+        "android_client_info": {
+          "package_name": "com.example.virtual_run_kku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752591637321-s4830b3d1250lkvqci3qvemu97omsgm9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZsD27Kmapz8_071DIH1wjM00WUikWizo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752591637321-s4830b3d1250lkvqci3qvemu97omsgm9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

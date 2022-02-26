@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
 import '/widgets/auth_button.dart';
@@ -13,42 +14,43 @@ class Authen extends StatefulWidget {
 
 class _AuthenState extends State<Authen> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: MyConstant.dark,
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  ShowLogo(),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+  Widget build(BuildContext context) => ChangeNotifierProvider(
+        create: (context) => GoogleSignInProvider(),
+        child: Scaffold(
+          backgroundColor: MyConstant.dark,
+          body: SafeArea(
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: const FacebookButton(),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: const GoogleButton(),
-                      ),
-                      const AdminButton(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      ShowLogo(),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: const FacebookButton(),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: const GoogleButton(),
+                          ),
+                          const AdminButton(),
+                        ],
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

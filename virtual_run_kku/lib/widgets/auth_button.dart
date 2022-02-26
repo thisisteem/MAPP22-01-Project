@@ -1,7 +1,40 @@
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'dart:async';
 
 import '../utils/constants/my_constants.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_core/firebase_core.dart';
+
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+}
+
+class GoogleSignInProvider extends ChangeNotifier {
+  final googleSignIn = GoogleSignIn();
+
+  GoogleSignInAccount? _user;
+
+  GoogleSignInAccount get user => _user!;
+
+  Future googleLogin() async {
+    final googleUser = await googleSignIn.signIn();
+    if (googleUser == null) return;
+    _user = googleUser;
+
+    final googleAuth = await googleUser.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+}
 
 class FacebookButton extends StatelessWidget {
   const FacebookButton({Key? key}) : super(key: key);
@@ -23,6 +56,11 @@ class GoogleButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GoogleAuthButton(
       // onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
+      onPressed: () {
+        final provider =
+            Provider.of<GoogleSignInProvider>(context, listen: false);
+        provider.googleLogin();
+      },
       darkMode: false,
       text: 'เข้าสู่ระบบด้วย Google',
       style: MyConstant.authButtonStyleTextDark,
