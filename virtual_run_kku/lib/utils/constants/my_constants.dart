@@ -1,4 +1,5 @@
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -98,4 +99,24 @@ class MyConstant {
           )
         ],
       );
+
+  // Bottom bar
+  static Material bottomBar(int index) => Material(
+        elevation: 50,
+        child: CurvedNavigationBar(
+          items: bottomBarIcons,
+          index: index,
+          height: 50,
+          animationDuration: const Duration(milliseconds: 300),
+          backgroundColor: MyConstant.secondary2,
+          buttonBackgroundColor: MyConstant.primary,
+        ),
+      );
+
+  // Bottom bar Icon
+  static List<Widget> bottomBarIcons = [
+    const Icon(Icons.bar_chart, size: 30),
+    const Icon(Icons.home, size: 30),
+    const Icon(Icons.settings, size: 30),
+  ];
 }
