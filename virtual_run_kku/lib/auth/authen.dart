@@ -15,7 +15,7 @@ class _AuthenState extends State<Authen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyConstant.dark,
+      backgroundColor: MyConstant.white,
       body: SafeArea(
         child: Center(
           child: Column(

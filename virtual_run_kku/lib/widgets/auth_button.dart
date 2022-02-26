@@ -40,7 +40,7 @@ class AdminButton extends StatelessWidget {
       children: [
         Icon(
           Icons.lock,
-          color: MyConstant.light,
+          color: MyConstant.secondary,
         ),
         const SizedBox(
           width: 8,
@@ -49,7 +49,7 @@ class AdminButton extends StatelessWidget {
           onPressed: () {},
           child: Text(
             'สำหรับผู้ดูแลระบบ',
-            style: TextStyle(color: MyConstant.light),
+            style: TextStyle(color: MyConstant.secondary),
           ),
         )
       ],
