@@ -2,6 +2,10 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:virtual_run_kku/screens/home.dart';
+import 'package:virtual_run_kku/screens/setting.dart';
+
+import '../../screens/activity.dart';
 
 class MyConstant {
   // General
@@ -25,6 +29,7 @@ class MyConstant {
   static String logo = 'assets/images/logo-removebg.png';
   static String womanRunIcon = 'assets/images/woman-run-icon.png';
   static String avatarIcon = 'assets/images/avatar1.png';
+
 
   // Color
   static Color primary = const Color(0xFFFF8427);
@@ -110,8 +115,21 @@ class MyConstant {
           animationDuration: const Duration(milliseconds: 300),
           backgroundColor: MyConstant.secondary2,
           buttonBackgroundColor: MyConstant.primary,
-        ),
+        )
       );
+
+  static Material bottomBar2(int index, Function onTap) => Material(
+        elevation: 50,
+        child: CurvedNavigationBar(
+          items: bottomBarIcons,
+          index: index,
+          height: 50,
+          animationDuration: const Duration(milliseconds: 300),
+          backgroundColor: MyConstant.secondary2,
+          buttonBackgroundColor: MyConstant.primary,
+          onTap: onTap(),
+        )
+  );
 
   // Bottom bar Icon
   static List<Widget> bottomBarIcons = [
