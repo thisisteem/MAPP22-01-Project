@@ -13,26 +13,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final items = <Widget>[
-      const Icon(Icons.bar_chart, size: 30),
-      const Icon(Icons.home, size: 30),
-      const Icon(Icons.settings, size: 30),
-    ];
     return Scaffold(
       extendBody: true,
       backgroundColor: MyConstant.white,
       appBar: MyConstant.appBar(MyConstant.titleHome),
-      bottomNavigationBar: Material(
-        elevation: 50,
-        child: CurvedNavigationBar(
-          items: items,
-          index: 1,
-          height: 50,
-          animationDuration: const Duration(milliseconds: 300),
-          backgroundColor: MyConstant.secondary2,
-          buttonBackgroundColor: MyConstant.primary,
-        ),
-      ),
+      bottomNavigationBar: MyConstant.bottomBar(1),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
