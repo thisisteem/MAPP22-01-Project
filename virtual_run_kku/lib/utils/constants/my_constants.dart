@@ -1,4 +1,5 @@
 import 'package:auth_buttons/auth_buttons.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:virtual_run_kku/screens/home.dart';
@@ -13,6 +14,11 @@ class MyConstant {
   static String titleActivity = 'กิจกรรม';
   static String titleSetting = 'ตั้งค่า';
 
+  // Running Status
+  static String statusChecking = 'กำลังตรวจสอบ';
+  static String statusApproved = 'ผ่าน';
+  static String statusDenied = 'ไม่ผ่าน';
+
   // Route
   static String routeAuthen = '/authen';
   static String routeHome = '/home';
@@ -22,13 +28,19 @@ class MyConstant {
   // Image
   static String logo = 'assets/images/logo-removebg.png';
   static String womanRunIcon = 'assets/images/woman-run-icon.png';
+  static String avatarIcon = 'assets/images/avatar1.png';
 
 
   // Color
   static Color primary = const Color(0xFFFF8427);
-  static Color dark = const Color(0xFFFFFFFF);
-  static Color light = const Color(0xFF1E212B);
+  static Color secondary = const Color(0xFF1E212B);
+  static Color secondary2 = const Color.fromARGB(255, 255, 219, 191);
+  static Color secondary3 = const Color.fromARGB(34, 30, 33, 43);
+  static Color white = const Color(0xFFFFFFFF);
   static Color grey = const Color(0xFF8A8A8A);
+  static Color green = const Color(0xFF34A853);
+  static Color yellow = const Color(0xFFFFC800);
+  static Color red = const Color(0xFFEB4C4C);
 
   // Text Style
   static TextStyle h1Style(Color color) => TextStyle(
@@ -53,7 +65,7 @@ class MyConstant {
     textStyle: TextStyle(
       fontFamily: 'Kanit',
       fontSize: 16,
-      color: MyConstant.dark,
+      color: MyConstant.white,
     ),
   );
   static AuthButtonStyle authButtonStyleTextDark = AuthButtonStyle(
@@ -61,7 +73,7 @@ class MyConstant {
     textStyle: TextStyle(
       fontFamily: 'Kanit',
       fontSize: 16,
-      color: MyConstant.light,
+      color: MyConstant.secondary,
     ),
   );
 

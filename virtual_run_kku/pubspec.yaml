@@ -28,12 +28,13 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   auth_buttons: 2.0.4
-  google_fonts: 2.2.0
   cupertino_icons: ^1.0.2
+  curved_navigation_bar: ^1.0.3
   flutter:
     sdk: flutter
   flutter_font_icons: ^2.2.4
   flutter_native_splash: ^2.0.5
+  google_fonts: 2.2.0
   page_transition: ^2.0.5
 
 flutter_native_splash:

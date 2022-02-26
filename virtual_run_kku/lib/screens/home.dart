@@ -1,5 +1,7 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
+import '../widgets/running_result_card.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,8 +14,10 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyConstant.dark,
-      appBar: MyConstant.appBar,
+      extendBody: true,
+      backgroundColor: MyConstant.white,
+      appBar: MyConstant.appBar(MyConstant.titleHome),
+      bottomNavigationBar: MyConstant.bottomBar(1),
       body: Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
@@ -21,6 +25,25 @@ class _HomeState extends State<Home> {
             buildGreetingText(),
             buildStatsCard(),
             buildContentText('ผลการวิ่ง'),
+            RunningResultCard(
+              status: MyConstant.statusChecking,
+              bib: 'Q0001',
+              date: '15/02/65',
+              distance: 24.2,
+            ),
+            RunningResultCard(
+              status: MyConstant.statusApproved,
+              bib: 'Q0002',
+              date: '10/02/65',
+              distance: 12.1,
+            ),
+            RunningResultCard(
+              status: MyConstant.statusDenied,
+              bib: 'Q0001',
+              date: '25/01/65',
+              distance: 24.2,
+            ),
+            buildContentText('ข่าวสารการวิ่ง'),
           ],
         ),
       ),
@@ -39,7 +62,7 @@ Container buildGreetingText() {
         ),
         Text(
           'คุณสมชาย ไกรทอง',
-          style: MyConstant.h3Style(MyConstant.light),
+          style: MyConstant.h3Style(MyConstant.secondary),
         ),
       ],
     ),
@@ -48,7 +71,7 @@ Container buildGreetingText() {
 
 Card buildStatsCard() {
   return Card(
-    margin: const EdgeInsets.symmetric(vertical: 10),
+    margin: const EdgeInsets.symmetric(vertical: 5),
     elevation: 3,
     child: Container(
       width: double.infinity,
@@ -68,7 +91,7 @@ Card buildStatsCard() {
               const SizedBox(width: 10),
               Text(
                 'ระยะทางที่วิ่งได้',
-                style: MyConstant.h3Style(MyConstant.light),
+                style: MyConstant.h3Style(MyConstant.secondary),
               ),
             ],
           ),
@@ -107,7 +130,7 @@ Container buildContentText(String title) {
       children: [
         Text(
           title,
-          style: MyConstant.h2Style(MyConstant.light),
+          style: MyConstant.h2Style(MyConstant.secondary),
         ),
         Text(
           'ดูทั้งหมด',
