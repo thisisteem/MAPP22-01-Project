@@ -9,7 +9,7 @@ class FacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FacebookAuthButton(
-      onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
+      onPressed: () => Navigator.pushNamed(context, MyConstant.routeSetting),
       text: 'เข้าสู่ระบบด้วย Facebook',
       style: MyConstant.authButtonStyleTextWhite,
     );
