@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       extendBody: true,
       backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar,
+      appBar: MyConstant.appBar(MyConstant.titleHome),
       bottomNavigationBar: Material(
         elevation: 50,
         child: CurvedNavigationBar(

@@ -28,8 +28,8 @@ class MyConstant {
   // Color
   static Color primary = const Color(0xFFFF8427);
   static Color secondary = const Color(0xFF1E212B);
-  static Color secondary2 = Color.fromARGB(255, 255, 219, 191);
-  static Color secondary3 = Color.fromARGB(34, 30, 33, 43);
+  static Color secondary2 = const Color.fromARGB(255, 255, 219, 191);
+  static Color secondary3 = const Color.fromARGB(34, 30, 33, 43);
   static Color white = const Color(0xFFFFFFFF);
   static Color grey = const Color(0xFF8A8A8A);
   static Color green = const Color(0xFF34A853);
@@ -72,30 +72,30 @@ class MyConstant {
   );
 
   // App Bar
-  static AppBar appBar = AppBar(
-    foregroundColor: MyConstant.primary,
-    centerTitle: true,
-    title: Text(
-      MyConstant.titleHome,
-      style: MyConstant.h1Style(MyConstant.primary),
-    ),
-    elevation: 1,
-    backgroundColor: MyConstant.white,
-    systemOverlayStyle: SystemUiOverlayStyle(
-      // Status bar color
-      statusBarColor: white,
-
-      // Status bar brightness (optional)
-      statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-      statusBarBrightness: Brightness.light, // For iOS (dark icons)
-    ),
-    actions: [
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: CircleAvatar(
-          child: Image.asset(avatarIcon),
+  static AppBar appBar(String title) => AppBar(
+        foregroundColor: MyConstant.primary,
+        centerTitle: true,
+        title: Text(
+          title,
+          style: MyConstant.h1Style(MyConstant.primary),
         ),
-      )
-    ],
-  );
+        elevation: 1,
+        backgroundColor: MyConstant.white,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          // Status bar color
+          statusBarColor: white,
+
+          // Status bar brightness (optional)
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: CircleAvatar(
+              child: Image.asset(avatarIcon),
+            ),
+          )
+        ],
+      );
 }
