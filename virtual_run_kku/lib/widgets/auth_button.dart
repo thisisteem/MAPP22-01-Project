@@ -22,7 +22,7 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GoogleAuthButton(
-      onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
+      // onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
       darkMode: false,
       text: 'เข้าสู่ระบบด้วย Google',
       style: MyConstant.authButtonStyleTextDark,
