@@ -29,6 +29,7 @@ class MyConstant {
   static String logo = 'assets/images/logo-removebg.png';
   static String womanRunIcon = 'assets/images/woman-run-icon.png';
   static String avatarIcon = 'assets/images/avatar1.png';
+  static String instaIcon = 'assets/images/insta-icon.png';
 
 
   // Color
@@ -107,29 +108,27 @@ class MyConstant {
 
   // Bottom bar
   static Material bottomBar(int index) => Material(
-        elevation: 50,
-        child: CurvedNavigationBar(
-          items: bottomBarIcons,
-          index: index,
-          height: 50,
-          animationDuration: const Duration(milliseconds: 300),
-          backgroundColor: MyConstant.secondary2,
-          buttonBackgroundColor: MyConstant.primary,
-        )
-      );
+      elevation: 50,
+      child: CurvedNavigationBar(
+        items: bottomBarIcons,
+        index: index,
+        height: 50,
+        animationDuration: const Duration(milliseconds: 300),
+        backgroundColor: MyConstant.secondary2,
+        buttonBackgroundColor: MyConstant.primary,
+      ));
 
   static Material bottomBar2(int index, Function onTap) => Material(
-        elevation: 50,
-        child: CurvedNavigationBar(
-          items: bottomBarIcons,
-          index: index,
-          height: 50,
-          animationDuration: const Duration(milliseconds: 300),
-          backgroundColor: MyConstant.secondary2,
-          buttonBackgroundColor: MyConstant.primary,
-          onTap: onTap(),
-        )
-  );
+      elevation: 50,
+      child: CurvedNavigationBar(
+        items: bottomBarIcons,
+        index: index,
+        height: 50,
+        animationDuration: const Duration(milliseconds: 300),
+        backgroundColor: MyConstant.secondary2,
+        buttonBackgroundColor: MyConstant.primary,
+        onTap: onTap(),
+      ));
 
   // Bottom bar Icon
   static List<Widget> bottomBarIcons = [
