@@ -13,6 +13,7 @@ class MyConstant {
   static String titleHome = 'หน้าหลัก';
   static String titleActivity = 'กิจกรรม';
   static String titleSetting = 'ตั้งค่า';
+  static String titleFullResult = 'ผลการวิ่ง';
 
   // Running Status
   static String statusChecking = 'กำลังตรวจสอบ';
@@ -21,9 +22,11 @@ class MyConstant {
 
   // Route
   static String routeAuthen = '/authen';
+  static String routeMainScreen = '/main';
   static String routeHome = '/home';
   static String routeActivity = '/activity';
   static String routeSetting = '/setting';
+  static String routeFullResult = '/fullResult';
 
   // Image
   static String logo = 'assets/images/logo-removebg.png';
@@ -78,7 +81,7 @@ class MyConstant {
   );
 
   // App Bar
-  static AppBar appBar(String title) => AppBar(
+  static AppBar appBar(String title, bool showProfileIcon) => AppBar(
         foregroundColor: MyConstant.primary,
         centerTitle: true,
         title: Text(
@@ -96,12 +99,14 @@ class MyConstant {
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: CircleAvatar(
-              child: Image.asset(avatarIcon),
-            ),
-          )
+          showProfileIcon
+              ? Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: CircleAvatar(
+                    child: Image.asset(avatarIcon),
+                  ),
+                )
+              : Container()
         ],
       );
 

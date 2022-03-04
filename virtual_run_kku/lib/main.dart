@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'screens/activity.dart';
+import 'screens/full_result.dart';
 import 'screens/setting.dart';
 import 'screens/home.dart';
 import 'auth/authen.dart';
@@ -8,9 +10,11 @@ import 'utils/constants/my_constants.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
+  '/main': (BuildContext context) => const MainScreen(),
   '/home': (BuildContext context) => const Home(),
   '/activity': (BuildContext context) => const Activity(),
   '/setting': (BuildContext context) => const Setting(),
+  '/fullResult': (BuildContext context) => const FullResult(),
 };
 
 String? initialRoute;
