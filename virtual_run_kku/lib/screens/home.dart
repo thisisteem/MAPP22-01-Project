@@ -1,10 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import '../utils/constants/content_constant.dart';
 import '../widgets/running_result_card.dart';
+import 'full_result.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -16,41 +16,35 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: false,
-      backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar(MyConstant.titleHome),
-      bottomNavigationBar: MyConstant.bottomBar(1),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: Column(
-          children: [
-            buildGreetingText(),
-            buildStatsCard(),
-            buildContentText('ผลการวิ่ง'),
-            RunningResultCard(
-              status: MyConstant.statusChecking,
-              bib: 'Q0001',
-              date: '15/02/65',
-              distance: 24.2,
-            ),
-            RunningResultCard(
-              status: MyConstant.statusApproved,
-              bib: 'Q0002',
-              date: '10/02/65',
-              distance: 12.1,
-            ),
-            RunningResultCard(
-              status: MyConstant.statusDenied,
-              bib: 'Q0001',
-              date: '25/01/65',
-              distance: 24.2,
-            ),
-            buildContentText('ข่าวสารการวิ่ง'),
-            // buildCarousel2(context),
-            const ContentCarousel(),
-          ],
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      child: Column(
+        children: [
+          buildGreetingText(),
+          buildStatsCard(),
+          buildContentText(context, 'ผลการวิ่ง'),
+          RunningResultCard(
+            status: MyConstant.statusChecking,
+            bib: 'Q0001',
+            date: '15/02/65',
+            distance: 24.2,
+          ),
+          RunningResultCard(
+            status: MyConstant.statusApproved,
+            bib: 'Q0002',
+            date: '10/02/65',
+            distance: 12.1,
+          ),
+          RunningResultCard(
+            status: MyConstant.statusDenied,
+            bib: 'Q0001',
+            date: '25/01/65',
+            distance: 24.2,
+          ),
+          buildContentText(context, 'ข่าวสารการวิ่ง'),
+          // buildCarousel2(context),
+          const ContentCarousel(),
+        ],
       ),
     );
   }
@@ -126,7 +120,7 @@ Card buildStatsCard() {
   );
 }
 
-Container buildContentText(String title) {
+Container buildContentText(context, String title) {
   return Container(
     margin: const EdgeInsets.only(top: 15),
     child: Row(
@@ -137,9 +131,12 @@ Container buildContentText(String title) {
           title,
           style: MyConstant.h2Style(MyConstant.secondary),
         ),
-        Text(
-          'ดูทั้งหมด',
-          style: MyConstant.h3Style(MyConstant.grey),
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, MyConstant.routeFullResult),
+          child: Text(
+            'ดูทั้งหมด',
+            style: MyConstant.h3Style(MyConstant.grey),
+          ),
         ),
       ],
     ),
@@ -205,7 +202,7 @@ class _ContentCarouselState extends State<ContentCarousel> {
   Widget buildIndicator() => AnimatedSmoothIndicator(
         activeIndex: activeIndex,
         count: ContentConstant.imagePathList().length,
-        effect: JumpingDotEffect(
+        effect: WormEffect(
           dotWidth: 10,
           dotHeight: 10,
           activeDotColor: MyConstant.primary,
