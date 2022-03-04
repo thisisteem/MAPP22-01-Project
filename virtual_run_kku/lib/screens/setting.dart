@@ -15,52 +15,46 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar(MyConstant.titleSetting),
-      bottomNavigationBar: MyConstant.bottomBar(2),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: Column(
-          children: [
-            _buildSettingProfileCard(),
-            _buildContactUsCard(context),
-            const SizedBox(
-              height: 5,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      child: Column(
+        children: [
+          _buildSettingProfileCard(),
+          _buildContactUsCard(context),
+          const SizedBox(
+            height: 5,
+          ),
+          Container(
+            child: Text(
+              "เวอร์ชั่น ${version}",
+              style: MyConstant.h3Style(MyConstant.grey),
             ),
-            Container(
-              child: Text(
-                "เวอร์ชั่น ${version}",
-                style: MyConstant.h3Style(MyConstant.grey),
-              ),
-              alignment: Alignment.topLeft,
+            alignment: Alignment.topLeft,
+          ),
+          const Spacer(),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: MyConstant.white,
+              maximumSize: const Size(200, 100),
             ),
-            const Spacer(),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: MyConstant.white,
-                maximumSize: const Size(200, 100),
-              ),
-              onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.exit_to_app,
-                    size: 40,
-                    color: MyConstant.red,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text('ออกจากระบบ', style: MyConstant.h3Style(MyConstant.red)),
-                ],
-              ),
+            onPressed: () {},
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.exit_to_app,
+                  size: 40,
+                  color: MyConstant.red,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text('ออกจากระบบ', style: MyConstant.h3Style(MyConstant.red)),
+              ],
             ),
-            const Spacer(),
-          ],
-        ),
+          ),
+          const Spacer(),
+        ],
       ),
     );
   }
