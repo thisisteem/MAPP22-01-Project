@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -16,11 +17,12 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: Column(
         children: [
-          buildGreetingText(),
+          buildGreetingText(user.displayName!),
           buildStatsCard(),
           buildContentText(context, 'ผลการวิ่ง'),
           RunningResultCard(
@@ -50,7 +52,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-Container buildGreetingText() {
+Container buildGreetingText(name) {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 4),
     child: Row(
@@ -60,7 +62,7 @@ Container buildGreetingText() {
           style: MyConstant.h3Style(MyConstant.primary),
         ),
         Text(
-          'คุณสมชาย ไกรทอง',
+          name,
           style: MyConstant.h3Style(MyConstant.secondary),
         ),
       ],
