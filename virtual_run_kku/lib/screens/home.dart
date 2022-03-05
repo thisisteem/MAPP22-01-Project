@@ -1,6 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
+import '../utils/constants/content_constant.dart';
+import '../widgets/running_result_card.dart';
+import 'full_result.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,18 +18,35 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-    return Scaffold(
-      backgroundColor: MyConstant.dark,
-      appBar: MyConstant.appBar,
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        child: Column(
-          children: [
-            buildGreetingText(user.displayName!),
-            buildStatsCard(),
-            buildContentText('ผลการวิ่ง'),
-          ],
-        ),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      child: Column(
+        children: [
+          buildGreetingText(user.displayName!),
+          buildStatsCard(),
+          buildContentText(context, 'ผลการวิ่ง'),
+          RunningResultCard(
+            status: MyConstant.statusChecking,
+            bib: 'Q0001',
+            date: '15/02/65',
+            distance: 24.2,
+          ),
+          RunningResultCard(
+            status: MyConstant.statusApproved,
+            bib: 'Q0002',
+            date: '10/02/65',
+            distance: 12.1,
+          ),
+          RunningResultCard(
+            status: MyConstant.statusDenied,
+            bib: 'Q0001',
+            date: '25/01/65',
+            distance: 24.2,
+          ),
+          buildContentText(context, 'ข่าวสารการวิ่ง'),
+          // buildCarousel2(context),
+          const ContentCarousel(),
+        ],
       ),
     );
   }
@@ -41,7 +63,7 @@ Container buildGreetingText(name) {
         ),
         Text(
           name,
-          style: MyConstant.h3Style(MyConstant.light),
+          style: MyConstant.h3Style(MyConstant.secondary),
         ),
       ],
     ),
@@ -50,7 +72,7 @@ Container buildGreetingText(name) {
 
 Card buildStatsCard() {
   return Card(
-    margin: const EdgeInsets.symmetric(vertical: 10),
+    margin: const EdgeInsets.symmetric(vertical: 5),
     elevation: 3,
     child: Container(
       width: double.infinity,
@@ -70,7 +92,7 @@ Card buildStatsCard() {
               const SizedBox(width: 10),
               Text(
                 'ระยะทางที่วิ่งได้',
-                style: MyConstant.h3Style(MyConstant.light),
+                style: MyConstant.h3Style(MyConstant.secondary),
               ),
             ],
           ),
@@ -100,7 +122,7 @@ Card buildStatsCard() {
   );
 }
 
-Container buildContentText(String title) {
+Container buildContentText(context, String title) {
   return Container(
     margin: const EdgeInsets.only(top: 15),
     child: Row(
@@ -109,13 +131,86 @@ Container buildContentText(String title) {
       children: [
         Text(
           title,
-          style: MyConstant.h2Style(MyConstant.light),
+          style: MyConstant.h2Style(MyConstant.secondary),
         ),
-        Text(
-          'ดูทั้งหมด',
-          style: MyConstant.h3Style(MyConstant.grey),
+        GestureDetector(
+          onTap: () => Navigator.pushNamed(context, MyConstant.routeFullResult),
+          child: Text(
+            'ดูทั้งหมด',
+            style: MyConstant.h3Style(MyConstant.grey),
+          ),
         ),
       ],
     ),
   );
+}
+
+class ContentCarousel extends StatefulWidget {
+  const ContentCarousel({Key? key}) : super(key: key);
+
+  @override
+  _ContentCarouselState createState() => _ContentCarouselState();
+}
+
+class _ContentCarouselState extends State<ContentCarousel> {
+  int activeIndex = 0;
+  final controller = CarouselController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: Center(
+        child: Column(
+          children: [
+            CarouselSlider.builder(
+              carouselController: controller,
+              itemCount: ContentConstant.imagePathList().length,
+              itemBuilder: (context, index, realIndex) {
+                final pathImage = ContentConstant.imagePathList()[index];
+                return buildImage(pathImage, index);
+              },
+              options: CarouselOptions(
+                  autoPlayCurve: Curves.fastLinearToSlowEaseIn,
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  viewportFraction: 0.6,
+                  aspectRatio: 2.5,
+                  initialPage: 0,
+                  onPageChanged: (index, reason) =>
+                      setState(() => activeIndex = index)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            buildIndicator(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildImage(String pathImage, int index) => Container(
+        width: MediaQuery.of(context).size.width,
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        color: Colors.grey,
+        child: Image.asset(
+          pathImage,
+          fit: BoxFit.cover,
+        ),
+      );
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+        activeIndex: activeIndex,
+        count: ContentConstant.imagePathList().length,
+        effect: WormEffect(
+          dotWidth: 10,
+          dotHeight: 10,
+          activeDotColor: MyConstant.primary,
+        ),
+        onDotClicked: animateToSlide,
+      );
+
+  void animateToSlide(int index) => controller.animateToPage(index);
 }

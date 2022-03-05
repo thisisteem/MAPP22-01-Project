@@ -36,7 +36,7 @@ class FacebookButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FacebookAuthButton(
-      onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
+      onPressed: () => Navigator.pushNamed(context, MyConstant.routeMainScreen),
       text: 'เข้าสู่ระบบด้วย Facebook',
       style: MyConstant.authButtonStyleTextWhite,
     );
@@ -49,12 +49,14 @@ class GoogleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GoogleAuthButton(
-      // onPressed: () => Navigator.pushNamed(context, MyConstant.routeHome),
       onPressed: () {
         final provider =
             Provider.of<GoogleSignInProvider>(context, listen: false);
         provider.googleLogin();
       },
+
+      // onPressed: () => Navigator.pushNamed(context, MyConstant.routeMainScreen),
+
       darkMode: false,
       text: 'เข้าสู่ระบบด้วย Google',
       style: MyConstant.authButtonStyleTextDark,
@@ -72,7 +74,7 @@ class AdminButton extends StatelessWidget {
       children: [
         Icon(
           Icons.lock,
-          color: MyConstant.light,
+          color: MyConstant.secondary,
         ),
         const SizedBox(
           width: 8,
@@ -81,7 +83,7 @@ class AdminButton extends StatelessWidget {
           onPressed: () {},
           child: Text(
             'สำหรับผู้ดูแลระบบ',
-            style: TextStyle(color: MyConstant.light),
+            style: TextStyle(color: MyConstant.secondary),
           ),
         )
       ],

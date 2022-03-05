@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:virtual_run_kku/widgets/logged_in_widget.dart';
+import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'screens/activity.dart';
+import 'screens/full_result.dart';
 import 'screens/setting.dart';
 import 'screens/home.dart';
 import 'auth/authen.dart';
@@ -12,9 +12,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
+  '/main': (BuildContext context) => const MainScreen(),
   '/home': (BuildContext context) => const Home(),
   '/activity': (BuildContext context) => const Activity(),
   '/setting': (BuildContext context) => const Setting(),
+  '/fullResult': (BuildContext context) => const FullResult(),
 };
 
 String? initialRoute;
