@@ -17,7 +17,6 @@ class _AuthenState extends State<Authen> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => GoogleSignInProvider(),
         child: Scaffold(
-          backgroundColor: MyConstant.dark,
           body: SafeArea(
             child: Center(
               child: Column(
@@ -43,6 +42,14 @@ class _AuthenState extends State<Authen> {
                             child: const GoogleButton(),
                           ),
                           const AdminButton(),
+                          TextButton(
+                            onPressed: () => Navigator.pushNamed(
+                                context, MyConstant.routeMainScreen),
+                            child: Text(
+                              'Go to main screen',
+                              style: MyConstant.h3Style(MyConstant.secondary),
+                            ),
+                          )
                         ],
                       ),
                     ],

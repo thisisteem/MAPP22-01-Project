@@ -17,12 +17,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseAuth.instance.currentUser!;
+    // final user = FirebaseAuth.instance.currentUser!;
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: Column(
         children: [
-          buildGreetingText(user.displayName!),
+          // buildGreetingText(user.displayName!),
+          buildGreetingText(),
           buildStatsCard(),
           buildContentText(context, 'ผลการวิ่ง'),
           RunningResultCard(
@@ -52,7 +53,8 @@ class _HomeState extends State<Home> {
   }
 }
 
-Container buildGreetingText(name) {
+// Container buildGreetingText(name) {
+Container buildGreetingText() {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 4),
     child: Row(
@@ -62,7 +64,8 @@ Container buildGreetingText(name) {
           style: MyConstant.h3Style(MyConstant.primary),
         ),
         Text(
-          name,
+          // name,
+          'สมชาย ไกรทอง',
           style: MyConstant.h3Style(MyConstant.secondary),
         ),
       ],
