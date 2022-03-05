@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
@@ -11,6 +12,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser!;
     return Scaffold(
       backgroundColor: MyConstant.dark,
       appBar: MyConstant.appBar,
@@ -18,7 +20,7 @@ class _HomeState extends State<Home> {
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         child: Column(
           children: [
-            buildGreetingText(),
+            buildGreetingText(user.displayName!),
             buildStatsCard(),
             buildContentText('ผลการวิ่ง'),
           ],
@@ -28,7 +30,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-Container buildGreetingText() {
+Container buildGreetingText(name) {
   return Container(
     margin: const EdgeInsets.symmetric(horizontal: 4),
     child: Row(
@@ -38,7 +40,7 @@ Container buildGreetingText() {
           style: MyConstant.h3Style(MyConstant.primary),
         ),
         Text(
-          'คุณสมชาย ไกรทอง',
+          name,
           style: MyConstant.h3Style(MyConstant.light),
         ),
       ],
