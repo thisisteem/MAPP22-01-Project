@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/contact_us.dart';
+import 'package:virtual_run_kku/widgets/auth_button.dart';
 
 import '../utils/constants/my_constants.dart';
 
@@ -37,7 +39,11 @@ class _SettingState extends State<Setting> {
               primary: MyConstant.white,
               maximumSize: const Size(200, 100),
             ),
-            onPressed: () {},
+            onPressed: () {
+              final provider =
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
+              provider.googleLogout();
+            },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

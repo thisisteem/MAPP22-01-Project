@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:virtual_run_kku/widgets/myAppBar.dart';
 
 import '../utils/constants/my_constants.dart';
 import '../widgets/bottom_bar_key.dart';
@@ -7,11 +8,15 @@ import 'activity.dart';
 import 'home.dart';
 import 'setting.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends StatefulWidget with PreferredSizeWidget {
   const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -28,7 +33,13 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       extendBody: false,
       backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar(MyConstant.titleHome, true),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(55),
+        child: MyAppBar(
+          title: MyConstant.titleHome,
+          showProfileIcon: true,
+        ),
+      ),
       bottomNavigationBar: Material(
         elevation: 50,
         child: CurvedNavigationBar(

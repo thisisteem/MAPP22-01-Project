@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
+import 'package:virtual_run_kku/widgets/auth_button.dart';
 import 'screens/activity.dart';
 import 'screens/full_result.dart';
 import 'screens/setting.dart';
@@ -40,7 +42,9 @@ class MyApp extends StatelessWidget {
     ]);
     // Full Screen Mode
     // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    return StreamBuilder(
+    return ChangeNotifierProvider(
+      create: (context) => GoogleSignInProvider(),
+      child: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -48,34 +52,16 @@ class MyApp extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: MyConstant.appName,
-              routes: map,
-              initialRoute: MyConstant.routeHome,
-              theme: ThemeData(
-                fontFamily: 'Kanit',
-                primaryColor: const Color(0xFFFF8427),
-                hintColor: const Color(0xFF1E212B),
-              ),
-            );
+            return const MaterialApp(home: MainScreen());
           } else if (snapshot.hasError) {
             return const Center(
               child: Text('Something went wrong !'),
             );
           } else {
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: MyConstant.appName,
-              routes: map,
-              initialRoute: initialRoute,
-              theme: ThemeData(
-                fontFamily: 'Kanit',
-                primaryColor: const Color(0xFFFF8427),
-                hintColor: const Color(0xFF1E212B),
-              ),
-            );
+            return const MaterialApp(home: Authen());
           }
-        });
+        },
+      ),
+    );
   }
 }
