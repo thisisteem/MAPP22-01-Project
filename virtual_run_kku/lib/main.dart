@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
-import 'package:virtual_run_kku/widgets/auth_button.dart';
+import 'thirdParty/google_thirdParty.dart';
 import 'screens/activity.dart';
 import 'screens/full_result.dart';
 import 'screens/setting.dart';

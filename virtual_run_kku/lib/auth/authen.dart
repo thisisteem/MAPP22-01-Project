@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
+import '../thirdParty/google_thirdParty.dart';
 import '/widgets/auth_button.dart';
 import '/widgets/show_logo.dart';
 

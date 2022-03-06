@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/contact_us.dart';
-import 'package:virtual_run_kku/widgets/auth_button.dart';
 
+import '../thirdParty/google_thirdParty.dart';
 import '../utils/constants/my_constants.dart';
 
 class Setting extends StatefulWidget {
