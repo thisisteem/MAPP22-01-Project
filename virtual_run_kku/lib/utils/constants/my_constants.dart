@@ -14,6 +14,7 @@ class MyConstant {
   static String titleActivity = 'กิจกรรม';
   static String titleSetting = 'ตั้งค่า';
   static String titleFullResult = 'ผลการวิ่ง';
+  static String titleSendResult = 'ส่งผลการวิ่ง';
 
   // Running Status
   static String statusChecking = 'กำลังตรวจสอบ';
@@ -27,13 +28,14 @@ class MyConstant {
   static String routeActivity = '/activity';
   static String routeSetting = '/setting';
   static String routeFullResult = '/fullResult';
+  static String routeSendResult = '/sendResult';
 
   // Image
   static String logo = 'assets/images/logo-removebg.png';
   static String womanRunIcon = 'assets/images/woman-run-icon.png';
   static String avatarIcon = 'assets/images/avatar1.png';
   static String instaIcon = 'assets/images/insta-icon.png';
-
+  static String runningMan = 'assets/images/running-man.png';
 
   // Color
   static Color primary = const Color(0xFFFF8427);
@@ -48,18 +50,28 @@ class MyConstant {
 
   // Text Style
   static TextStyle h1Style(Color color) => TextStyle(
+        letterSpacing: 1,
         fontSize: 24,
         fontWeight: FontWeight.w500,
         color: color,
       );
   static TextStyle h2Style(Color color) => TextStyle(
+        letterSpacing: 1,
         fontSize: 20,
         fontWeight: FontWeight.w700,
         color: color,
       );
   static TextStyle h3Style(Color color) => TextStyle(
+        letterSpacing: 1,
         fontSize: 16,
         fontWeight: FontWeight.w500,
+        color: color,
+      );
+
+  static TextStyle h3StyleBold(Color color) => TextStyle(
+        letterSpacing: 1,
+        fontSize: 16,
+        fontWeight: FontWeight.w800,
         color: color,
       );
 

@@ -31,17 +31,18 @@ dependencies:
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
+  firebase_auth: ^1.1.4
   flutter:
     sdk: flutter
   flutter_font_icons: ^2.2.4
   flutter_native_splash: ^2.0.5
+  fluttertoast: ^8.0.9
   google_fonts: 2.2.0
-  page_transition: ^2.0.5
   google_sign_in: ^5.2.4
-  firebase_auth: ^1.1.4
+  image_picker: ^0.8.4+10
+  page_transition: ^2.0.5
   provider: ^5.0.0
   smooth_page_indicator: ^1.0.0+2
-  image_picker: ^0.8.4+10
 
 flutter_native_splash:
   color: "#ffffff"
