@@ -52,15 +52,29 @@ class MyApp extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return const MaterialApp(home: MainScreen());
+            return changeScreen(const MainScreen());
           } else if (snapshot.hasError) {
             return const Center(
               child: Text('Something went wrong !'),
             );
           } else {
-            return const MaterialApp(home: Authen());
+            return changeScreen(const Authen());
           }
         },
+      ),
+    );
+  }
+
+  MaterialApp changeScreen(Widget screen) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: MyConstant.appName,
+      // routes: map,
+      home: screen,
+      theme: ThemeData(
+        fontFamily: 'Kanit',
+        primaryColor: const Color(0xFFFF8427),
+        hintColor: const Color(0xFF1E212B),
       ),
     );
   }
