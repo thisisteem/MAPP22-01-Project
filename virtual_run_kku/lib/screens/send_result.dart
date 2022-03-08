@@ -164,7 +164,9 @@ class _SendResultState extends State<SendResult> {
         primary: MyConstant.primary,
         minimumSize: const Size.fromHeight(50), // NEW
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pop(context);
+      },
       child: Text(
         'ส่งผลการวิ่ง',
         style: MyConstant.h2Style(MyConstant.white),

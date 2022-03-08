@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
 import '../third_party/google_third_party.dart';
@@ -19,6 +18,7 @@ class _AuthenState extends State<Authen> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => GoogleSignInProvider(),
         child: Scaffold(
+          backgroundColor: MyConstant.white,
           body: SafeArea(
             child: Center(
               child: Column(
@@ -44,17 +44,17 @@ class _AuthenState extends State<Authen> {
                             child: const GoogleButton(),
                           ),
                           const AdminButton(),
-                          TextButton(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const MainScreen()),
-                            ),
-                            child: Text(
-                              'Go to main screen',
-                              style: MyConstant.h3Style(MyConstant.secondary),
-                            ),
-                          )
+                          // TextButton(
+                          //   onPressed: () => Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => const MainScreen()),
+                          //   ),
+                          //   child: Text(
+                          //     'Go to main screen',
+                          //     style: MyConstant.h3Style(MyConstant.secondary),
+                          //   ),
+                          // )
                         ],
                       ),
                     ],

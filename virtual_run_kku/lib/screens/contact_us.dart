@@ -24,7 +24,7 @@ class ContactUs extends StatelessWidget {
                 size: 40,
               ),
               title: Text(
-                'Teem Chakpet',
+                'Teem Chakphet',
                 style: MyConstant.h1Style(MyConstant.secondary),
               ),
             ),
@@ -34,7 +34,7 @@ class ContactUs extends StatelessWidget {
                 maxRadius: 20,
               ),
               title: Text(
-                'Teem Chakpet',
+                'Teem Chakphet',
                 style: MyConstant.h1Style(MyConstant.secondary),
               ),
             ),

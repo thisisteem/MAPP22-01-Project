@@ -27,18 +27,19 @@ class _SettingState extends State<Setting> {
           const SizedBox(
             height: 5,
           ),
+          const Spacer(),
           Container(
+            margin: const EdgeInsets.all(10),
             child: Text(
               "เวอร์ชั่น $version",
               style: MyConstant.h3Style(MyConstant.grey),
             ),
-            alignment: Alignment.topLeft,
+            alignment: Alignment.center,
           ),
-          const Spacer(),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               primary: MyConstant.white,
-              maximumSize: const Size(200, 100),
+              minimumSize: const Size.fromHeight(50),
             ),
             onPressed: () {
               final provider =

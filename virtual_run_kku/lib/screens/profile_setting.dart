@@ -34,133 +34,114 @@ class _ProfileSettingState extends State<ProfileSetting> {
       extendBody: true,
       backgroundColor: MyConstant.white,
       appBar: subAppBar("ติดต่อเรา"),
-      body: Container(
-        margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
-          textDirection: TextDirection.ltr,
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Text(
-                'ชื่อโปรไฟล์',
-                style: MyConstant.h3Style(MyConstant.secondary),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Column(
+            textDirection: TextDirection.ltr,
+            children: [
+              buildProfileName(),
+              buildProfileImage(),
+              buildButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildProfileName() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Text(
+            'ชื่อโปรไฟล์',
+            style: MyConstant.h3Style(MyConstant.secondary),
+          ),
+        ),
+        const TextField(
+          maxLength: 15,
+          obscureText: false,
+          decoration: InputDecoration(
+            alignLabelWithHint: true,
+            border: OutlineInputBorder(),
+            hintText: 'ใส่ชื่อโปรไฟล์ที่ต้องการ',
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget buildProfileImage() {
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.topLeft,
+          padding: const EdgeInsets.only(bottom: 10, top: 10),
+          child: Text(
+            'รูปโปรไฟล์',
+            style: MyConstant.h3Style(MyConstant.secondary),
+          ),
+        ),
+        InkWell(
+          onTap: (() => pickImage()),
+          child: Card(
+            margin: EdgeInsets.zero,
+            shape: BeveledRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+              side: const BorderSide(
+                color: Colors.black,
+                width: 0.35,
               ),
             ),
-            const TextField(
-              maxLength: 15,
-              obscureText: false,
-              decoration: InputDecoration(
-                  alignLabelWithHint: true,
-                  border: OutlineInputBorder(),
-                  hintText: 'ใส่ชื่อโปรไฟล์ที่ต้องการ'),
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              padding: const EdgeInsets.only(bottom: 10, top: 10),
-              child: Text(
-                'รูปโปรไฟล์',
-                style: MyConstant.h3Style(MyConstant.secondary),
-              ),
-            ),
-            SingleChildScrollView(
-              child: InkWell(
-                onTap: (() => pickImage()),
-                child: Card(
-                  margin: EdgeInsets.zero,
-                  shape: BeveledRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
-                    side: const BorderSide(
-                      color: Colors.black,
-                      width: 0.35,
-                    ),
-                  ),
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: const EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        image != null
-                            ? Column(
-                                children: [
-                                  Image.file(
-                                    image!,
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'เปลี่ยนรูปภาพ',
-                                    style:
-                                        MyConstant.h3Style(MyConstant.primary),
-                                  ),
-                                ],
-                              )
-                            : Column(
-                                children: [
-                                  Image(
-                                    image: AssetImage(MyConstant.avatarIcon),
-                                    width: 100,
-                                    height: 100,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'เพิ่มรูปภาพ',
-                                    style:
-                                        MyConstant.h3Style(MyConstant.primary),
-                                  ),
-                                ],
-                              ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const Spacer(),
-            image != null
-                ? ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: MyConstant.primary,
-                      maximumSize: const Size(200, 100),
-                    ),
-                    onPressed: () {
-                      debugPrint("Succeed"); //For API
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 10,
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.all(20),
+              child: Column(
+                children: [
+                  image != null
+                      ? Image.file(
+                          image!,
+                          width: 100,
+                          height: 100,
+                        )
+                      : Image(
+                          image: AssetImage(MyConstant.avatarIcon),
+                          width: 100,
+                          height: 100,
                         ),
-                        Text('เสร็จสิ้น',
-                            style: MyConstant.h3Style(MyConstant.white)),
-                      ],
-                    ),
-                  )
-                : ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: MyConstant.grey,
-                      maximumSize: const Size(200, 100),
-                    ),
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text('เสร็จสิ้น',
-                            style: MyConstant.h3Style(MyConstant.white)),
-                      ],
-                    ),
+                  const SizedBox(
+                    height: 10,
                   ),
-            const Spacer(),
-          ],
+                  Text(
+                    image != null ? 'เปลี่ยนรูปภาพ' : 'เพิ่มรูปภาพ',
+                    style: MyConstant.h3Style(MyConstant.primary),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget buildButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 20),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: image != null ? MyConstant.primary : MyConstant.grey,
+          minimumSize: const Size.fromHeight(50),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text(
+          'เสร็จสิ้น',
+          style: MyConstant.h3Style(MyConstant.white),
         ),
       ),
     );
