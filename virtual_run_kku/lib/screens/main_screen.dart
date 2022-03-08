@@ -8,6 +8,12 @@ import 'activity.dart';
 import 'home.dart';
 import 'setting.dart';
 
+final Map title = {
+  0: MyConstant.titleActivity,
+  1: MyConstant.titleHome,
+  2: MyConstant.titleSetting,
+};
+
 class MainScreen extends StatefulWidget with PreferredSizeWidget {
   const MainScreen({Key? key}) : super(key: key);
 
@@ -35,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(55),
         child: MyAppBar(
-          title: MyConstant.titleHome,
+          title: title[_activePage],
           showProfileIcon: true,
         ),
       ),
