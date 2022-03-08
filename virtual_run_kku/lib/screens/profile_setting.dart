@@ -63,56 +63,60 @@ class _ProfileSettingState extends State<ProfileSetting> {
                 style: MyConstant.h3Style(MyConstant.secondary),
               ),
             ),
-            InkWell(
-              onTap: (() => pickImage()),
-              child: Card(
-                margin: EdgeInsets.zero,
-                shape: BeveledRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                  side: const BorderSide(
-                    color: Colors.black,
-                    width: 0.35,
+            SingleChildScrollView(
+              child: InkWell(
+                onTap: (() => pickImage()),
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  shape: BeveledRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                    side: const BorderSide(
+                      color: Colors.black,
+                      width: 0.35,
+                    ),
                   ),
-                ),
-                child: Container(
-                  alignment: Alignment.center,
-                  margin: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      image != null
-                          ? Column(
-                              children: [
-                                Image.file(
-                                  image!,
-                                  width: 100,
-                                  height: 100,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'เปลี่ยนรุปภาพ',
-                                  style: MyConstant.h3Style(MyConstant.primary),
-                                ),
-                              ],
-                            )
-                          : Column(
-                              children: [
-                                Image(
-                                  image: AssetImage(MyConstant.avatarIcon),
-                                  width: 100,
-                                  height: 100,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'เพิ่มรูปภาพ',
-                                  style: MyConstant.h3Style(MyConstant.primary),
-                                ),
-                              ],
-                            ),
-                    ],
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: const EdgeInsets.all(20),
+                    child: Column(
+                      children: [
+                        image != null
+                            ? Column(
+                                children: [
+                                  Image.file(
+                                    image!,
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'เปลี่ยนรูปภาพ',
+                                    style:
+                                        MyConstant.h3Style(MyConstant.primary),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  Image(
+                                    image: AssetImage(MyConstant.avatarIcon),
+                                    width: 100,
+                                    height: 100,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'เพิ่มรูปภาพ',
+                                    style:
+                                        MyConstant.h3Style(MyConstant.primary),
+                                  ),
+                                ],
+                              ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
+import 'screens/send_result.dart';
 import 'third_party/google_third_party.dart';
 import 'screens/activity.dart';
 import 'screens/full_result.dart';
@@ -19,6 +20,7 @@ final Map<String, WidgetBuilder> map = {
   '/activity': (BuildContext context) => const Activity(),
   '/setting': (BuildContext context) => const Setting(),
   '/fullResult': (BuildContext context) => const FullResult(),
+  '/sendResult': (BuildContext context) => const SendResult(),
 };
 
 String? initialRoute;
@@ -68,7 +70,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: MyConstant.appName,
-      // routes: map,
+      routes: map,
       home: screen,
       theme: ThemeData(
         fontFamily: 'Kanit',

@@ -33,7 +33,7 @@ class MyAppBar extends StatelessWidget {
         showProfileIcon
             ? Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: CircleAvatar(
+                child: ClipOval(
                   child: Image.network(user.photoURL!),
                 ),
               )
