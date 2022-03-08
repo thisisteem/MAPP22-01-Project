@@ -5,7 +5,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import '../utils/constants/content_constant.dart';
 import '../widgets/running_result_card.dart';
-import 'full_result.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

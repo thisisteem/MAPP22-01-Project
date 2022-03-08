@@ -2,10 +2,6 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:virtual_run_kku/screens/home.dart';
-import 'package:virtual_run_kku/screens/setting.dart';
-
-import '../../screens/activity.dart';
 
 class MyConstant {
   // General

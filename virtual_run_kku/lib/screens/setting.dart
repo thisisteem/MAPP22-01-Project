@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/contact_us.dart';
 import 'package:virtual_run_kku/screens/profile_setting.dart';
 
-import '../thirdParty/google_thirdParty.dart';
+import '../third_party/google_third_party.dart';
 import '../utils/constants/my_constants.dart';
 
 class Setting extends StatefulWidget {
@@ -29,7 +29,7 @@ class _SettingState extends State<Setting> {
           ),
           Container(
             child: Text(
-              "เวอร์ชั่น ${version}",
+              "เวอร์ชั่น $version",
               style: MyConstant.h3Style(MyConstant.grey),
             ),
             alignment: Alignment.topLeft,
@@ -71,7 +71,7 @@ class _SettingState extends State<Setting> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileSetting(),
+          builder: (context) => const ProfileSetting(),
         ),
       ),
       child: Card(

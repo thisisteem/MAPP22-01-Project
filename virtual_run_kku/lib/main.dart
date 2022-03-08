@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
-import 'thirdParty/google_thirdParty.dart';
+import 'third_party/google_third_party.dart';
 import 'screens/activity.dart';
 import 'screens/full_result.dart';
 import 'screens/setting.dart';
@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Disable rotation
-    child:
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,

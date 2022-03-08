@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -25,7 +24,7 @@ class _SendResultState extends State<SendResult> {
       setState(() => this.image = imageTemporary);
       this.image = imageTemporary;
     } on PlatformException catch (e) {
-      print('Failed to pick image: $e');
+      debugPrint('Failed to pick image: $e');
     }
   }
 

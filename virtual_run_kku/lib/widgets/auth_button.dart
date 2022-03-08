@@ -2,7 +2,7 @@ import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../thirdParty/google_thirdParty.dart';
+import '../third_party/google_third_party.dart';
 import '../utils/constants/my_constants.dart';
 
 class FacebookButton extends StatelessWidget {
@@ -12,7 +12,7 @@ class FacebookButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FacebookAuthButton(
       // onPressed: () => Navigator.pushNamed(context, MyConstant.routeMainScreen),
-      onPressed: () => null,
+      onPressed: () => {},
       text: 'เข้าสู่ระบบด้วย Facebook',
       style: MyConstant.authButtonStyleTextWhite,
     );

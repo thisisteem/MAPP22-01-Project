@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ContentConstant {
   static List<String> imagePathList() => [
         'assets/images/event1.png',

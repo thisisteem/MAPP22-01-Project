@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
-import '../thirdParty/google_thirdParty.dart';
+import '../third_party/google_third_party.dart';
 import '/widgets/auth_button.dart';
 import '/widgets/show_logo.dart';
 

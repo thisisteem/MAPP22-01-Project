@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_run_kku/widgets/myAppBar.dart';
+import 'package:virtual_run_kku/widgets/my_app_bar.dart';
 
 import '../utils/constants/my_constants.dart';
 import '../widgets/bottom_bar_key.dart';
@@ -15,8 +15,7 @@ class MainScreen extends StatefulWidget with PreferredSizeWidget {
   State<MainScreen> createState() => _MainScreenState();
 
   @override
-  // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
 
 class _MainScreenState extends State<MainScreen> {
