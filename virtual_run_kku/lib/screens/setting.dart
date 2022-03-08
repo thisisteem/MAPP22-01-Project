@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/screens/contact_us.dart';
+import 'package:virtual_run_kku/screens/profile_setting.dart';
 
 import '../utils/constants/my_constants.dart';
 
@@ -61,9 +62,12 @@ class _SettingState extends State<Setting> {
 
   InkWell _buildSettingProfileCard() {
     return InkWell(
-      onTap: () {
-        print("Click event on Container");
-      },
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ProfileSetting(),
+        ),
+      ),
       child: Card(
         margin: const EdgeInsets.symmetric(vertical: 5),
         elevation: 3,

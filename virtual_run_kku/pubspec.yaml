@@ -41,6 +41,7 @@ dependencies:
   firebase_auth: ^1.1.4
   provider: ^5.0.0
   smooth_page_indicator: ^1.0.0+2
+  image_picker: ^0.8.4+10
 
 flutter_native_splash:
   color: "#ffffff"
