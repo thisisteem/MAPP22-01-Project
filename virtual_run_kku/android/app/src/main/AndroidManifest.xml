@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.virtual_run_kku">
    <application
-        android:label="virtual_run_kku"
+        android:label="Virtual Run KKU"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
