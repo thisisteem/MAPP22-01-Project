@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
 
 class ContactUs extends StatelessWidget {
@@ -10,7 +11,7 @@ class ContactUs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: MyConstant.white,
+      backgroundColor: colorWhite,
       appBar: subAppBar("ติดต่อเรา"),
       body: Container(
         alignment: Alignment.center,
@@ -25,7 +26,7 @@ class ContactUs extends StatelessWidget {
               ),
               title: Text(
                 'Teem Chakphet',
-                style: MyConstant.h1Style(MyConstant.secondary),
+                style: MyConstant.h1Style(colorSecondary),
               ),
             ),
             ListTile(
@@ -35,18 +36,18 @@ class ContactUs extends StatelessWidget {
               ),
               title: Text(
                 'Teem Chakphet',
-                style: MyConstant.h1Style(MyConstant.secondary),
+                style: MyConstant.h1Style(colorSecondary),
               ),
             ),
             ListTile(
               leading: Icon(
                 Icons.contact_phone,
                 size: 40,
-                color: MyConstant.primary,
+                color: colorPrimary,
               ),
               title: Text(
                 '084-798-8456',
-                style: MyConstant.h1Style(MyConstant.secondary),
+                style: MyConstant.h1Style(colorSecondary),
               ),
             ),
           ],
@@ -57,17 +58,17 @@ class ContactUs extends StatelessWidget {
 }
 
 AppBar subAppBar(String title) => AppBar(
-      foregroundColor: MyConstant.primary,
+      foregroundColor: colorPrimary,
       centerTitle: true,
       title: Text(
         title,
-        style: MyConstant.h1Style(MyConstant.primary),
+        style: MyConstant.h1Style(colorPrimary),
       ),
       elevation: 1,
-      backgroundColor: MyConstant.white,
+      backgroundColor: colorWhite,
       systemOverlayStyle: SystemUiOverlayStyle(
         // Status bar color
-        statusBarColor: MyConstant.white,
+        statusBarColor: colorWhite,
 
         // Status bar brightness (optional)
         statusBarIconBrightness: Brightness.dark, // For Android (dark icons)

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
+import 'package:virtual_run_kku/theme.dart';
 import 'screens/send_result.dart';
 import 'third_party/google_third_party.dart';
 import 'screens/activity.dart';
@@ -12,6 +13,8 @@ import 'screens/home.dart';
 import 'auth/authen.dart';
 import 'utils/constants/my_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'utils/constants/texts.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
@@ -25,7 +28,6 @@ final Map<String, WidgetBuilder> map = {
 
 String? initialRoute;
 Future<void> main() async {
-  initialRoute = MyConstant.routeAuthen;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -70,15 +72,11 @@ class MyApp extends StatelessWidget {
 
   MaterialApp changeScreen(Widget screen) {
     return MaterialApp(
+      theme: RunKKUTheme.themeData(),
       debugShowCheckedModeBanner: false,
-      title: MyConstant.appName,
+      title: appName,
       routes: map,
       home: screen,
-      theme: ThemeData(
-        fontFamily: 'Kanit',
-        primaryColor: const Color(0xFFFF8427),
-        hintColor: const Color(0xFF1E212B),
-      ),
     );
   }
 }

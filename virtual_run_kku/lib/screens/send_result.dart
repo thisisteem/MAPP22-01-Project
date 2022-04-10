@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import '../utils/constants/my_constants.dart';
+import '../utils/constants/colors.dart';
 
 class SendResult extends StatefulWidget {
   const SendResult({Key? key}) : super(key: key);
@@ -30,23 +31,26 @@ class _SendResultState extends State<SendResult> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // extendBody: true,
-      backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar(MyConstant.titleSendResult, false),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-        children: [
-          buildDate(),
-          const SizedBox(height: 20),
-          buildDistance(),
-          const SizedBox(height: 20),
-          buildTime(),
-          const SizedBox(height: 20),
-          buildImagePicker(),
-          const SizedBox(height: 20),
-          buildButton()
-        ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: colorWhite,
+        body: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+          children: [
+            // buildDate(),
+            // const SizedBox(height: 20),
+            // buildDistance(),
+            // const SizedBox(height: 20),
+            // buildTime(),
+            // const SizedBox(height: 20),
+            // buildImagePicker(),
+            // const SizedBox(height: 20),
+            // buildButton()
+            Center(
+              child: Text('Send Result'),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -57,7 +61,7 @@ class _SendResultState extends State<SendResult> {
       children: [
         TextFormField(
           decoration: InputDecoration(
-            labelStyle: MyConstant.h3Style(MyConstant.secondary),
+            labelStyle: MyConstant.h3Style(colorSecondary),
             labelText: 'วันทีและเวลา',
             suffixIcon: const Icon(Icons.calendar_month),
             enabledBorder: OutlineInputBorder(
@@ -82,7 +86,7 @@ class _SendResultState extends State<SendResult> {
       children: [
         TextFormField(
           decoration: InputDecoration(
-            labelStyle: MyConstant.h3Style(MyConstant.secondary),
+            labelStyle: MyConstant.h3Style(colorSecondary),
             labelText: 'ระยะทาง (km)',
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300),
@@ -106,7 +110,7 @@ class _SendResultState extends State<SendResult> {
       children: [
         TextFormField(
           decoration: InputDecoration(
-            labelStyle: MyConstant.h3Style(MyConstant.secondary),
+            labelStyle: MyConstant.h3Style(colorSecondary),
             labelText: 'ระยะเวลา',
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey.shade300),
@@ -161,7 +165,7 @@ class _SendResultState extends State<SendResult> {
   Widget buildButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        primary: MyConstant.primary,
+        primary: colorPrimary,
         minimumSize: const Size.fromHeight(50), // NEW
       ),
       onPressed: () {
@@ -169,7 +173,7 @@ class _SendResultState extends State<SendResult> {
       },
       child: Text(
         'ส่งผลการวิ่ง',
-        style: MyConstant.h2Style(MyConstant.white),
+        style: MyConstant.h2Style(colorWhite),
       ),
     );
   }

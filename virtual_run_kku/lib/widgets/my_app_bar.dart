@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
 
 class MyAppBar extends StatelessWidget {
@@ -13,17 +14,17 @@ class MyAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      foregroundColor: MyConstant.primary,
+      foregroundColor: colorPrimary,
       centerTitle: true,
       title: Text(
         title,
-        style: MyConstant.h1Style(MyConstant.primary),
+        style: MyConstant.h1Style(colorPrimary),
       ),
       elevation: 1,
-      backgroundColor: MyConstant.white,
+      backgroundColor: colorWhite,
       systemOverlayStyle: SystemUiOverlayStyle(
         // Status bar color
-        statusBarColor: MyConstant.white,
+        statusBarColor: colorWhite,
 
         // Status bar brightness (optional)
         statusBarIconBrightness: Brightness.dark, // For Android (dark icons)

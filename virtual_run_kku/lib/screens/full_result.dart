@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
+import '../utils/constants/texts.dart';
 import '../widgets/running_result_card.dart';
 
 class FullResult extends StatefulWidget {
@@ -15,8 +17,7 @@ class _FullResultState extends State<FullResult> {
   Widget build(BuildContext context) {
     return Scaffold(
       // extendBody: true,
-      backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar(MyConstant.titleFullResult, false),
+      backgroundColor: colorWhite,
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -27,61 +28,61 @@ class _FullResultState extends State<FullResult> {
               Column(
                 children: [
                   RunningResultCard(
-                    status: MyConstant.statusChecking,
+                    status: statusChecking,
                     bib: 'Q0001',
                     date: '15/02/65',
                     distance: 24.2,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusDenied,
+                    status: statusDenied,
                     bib: 'Q0001',
                     date: '25/01/65',
                     distance: 24.2,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
                   ),
                   RunningResultCard(
-                    status: MyConstant.statusApproved,
+                    status: statusApproved,
                     bib: 'Q0002',
                     date: '10/02/65',
                     distance: 12.1,
@@ -110,12 +111,12 @@ class _FullResultState extends State<FullResult> {
           children: [
             Text(
               'ระยะทางที่วิ่งได้ทั้งหมด',
-              style: MyConstant.h2Style(MyConstant.secondary),
+              style: MyConstant.h2Style(colorSecondary),
             ),
             Text(
               '154.9 KM',
               style: TextStyle(
-                  color: MyConstant.secondary,
+                  color: colorSecondary,
                   fontSize: 50,
                   fontWeight: FontWeight.bold),
             ),
@@ -134,7 +135,7 @@ class _FullResultState extends State<FullResult> {
         children: [
           Text(
             title,
-            style: MyConstant.h2Style(MyConstant.secondary),
+            style: MyConstant.h2Style(colorSecondary),
           ),
         ],
       ),

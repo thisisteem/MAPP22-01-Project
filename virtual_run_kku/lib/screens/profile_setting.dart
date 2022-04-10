@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
+import '../utils/constants/colors.dart';
 import 'contact_us.dart';
 
 class ProfileSetting extends StatefulWidget {
@@ -32,7 +33,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      backgroundColor: MyConstant.white,
+      backgroundColor: colorWhite,
       appBar: subAppBar("ติดต่อเรา"),
       body: SingleChildScrollView(
         child: Container(
@@ -58,7 +59,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
           padding: const EdgeInsets.only(bottom: 10),
           child: Text(
             'ชื่อโปรไฟล์',
-            style: MyConstant.h3Style(MyConstant.secondary),
+            style: MyConstant.h3Style(colorSecondary),
           ),
         ),
         const TextField(
@@ -82,7 +83,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
           padding: const EdgeInsets.only(bottom: 10, top: 10),
           child: Text(
             'รูปโปรไฟล์',
-            style: MyConstant.h3Style(MyConstant.secondary),
+            style: MyConstant.h3Style(colorSecondary),
           ),
         ),
         InkWell(
@@ -117,7 +118,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
                   ),
                   Text(
                     image != null ? 'เปลี่ยนรูปภาพ' : 'เพิ่มรูปภาพ',
-                    style: MyConstant.h3Style(MyConstant.primary),
+                    style: MyConstant.h3Style(colorPrimary),
                   ),
                 ],
               ),
@@ -133,7 +134,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          primary: image != null ? MyConstant.primary : MyConstant.grey,
+          primary: image != null ? colorPrimary : colorGrey,
           minimumSize: const Size.fromHeight(50),
         ),
         onPressed: () {
@@ -141,7 +142,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
         },
         child: Text(
           'เสร็จสิ้น',
-          style: MyConstant.h3Style(MyConstant.white),
+          style: MyConstant.h3Style(colorWhite),
         ),
       ),
     );

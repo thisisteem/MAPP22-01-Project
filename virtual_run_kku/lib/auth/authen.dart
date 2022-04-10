@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
 import '../third_party/google_third_party.dart';
+import '../utils/constants/colors.dart';
 import '/widgets/auth_button.dart';
 import '/widgets/show_logo.dart';
 
@@ -18,7 +19,7 @@ class _AuthenState extends State<Authen> {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => GoogleSignInProvider(),
         child: Scaffold(
-          backgroundColor: MyConstant.white,
+          backgroundColor: colorWhite,
           body: SafeArea(
             child: Center(
               child: Column(
@@ -52,7 +53,7 @@ class _AuthenState extends State<Authen> {
                           //   ),
                           //   child: Text(
                           //     'Go to main screen',
-                          //     style: MyConstant.h3Style(MyConstant.secondary),
+                          //     style: MyConstant.h3Style(colorSecondary),
                           //   ),
                           // )
                         ],
