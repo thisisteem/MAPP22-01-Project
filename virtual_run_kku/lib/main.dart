@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'package:virtual_run_kku/theme.dart';
@@ -11,7 +13,6 @@ import 'screens/full_result.dart';
 import 'screens/setting.dart';
 import 'screens/home.dart';
 import 'auth/authen.dart';
-import 'utils/constants/my_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'utils/constants/texts.dart';
@@ -30,6 +31,10 @@ String? initialRoute;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  Intl.defaultLocale = 'th';
+  initializeDateFormatting();
+
   runApp(const MyApp());
 }
 

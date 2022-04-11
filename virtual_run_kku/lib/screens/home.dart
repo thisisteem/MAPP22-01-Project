@@ -1,12 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
-import 'package:virtual_run_kku/utils/constants/my_constants.dart';
+import 'package:virtual_run_kku/models/news_model.dart';
+import 'package:virtual_run_kku/models/stats_model.dart';
 import '../utils/constants/colors.dart';
-import '../utils/constants/content_constant.dart';
-import '../widgets/running_result_card.dart';
+import '../utils/functions/seconds_to_time.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -17,6 +17,53 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _statsSwitcher = 0;
+
+  final statsWeekly = Stats(
+    distance: 30.7,
+    events: 1,
+    timeInSeconds: 100000,
+  );
+
+  final statsMonthly = Stats(
+    distance: 130.2,
+    events: 3,
+    timeInSeconds: 500000,
+  );
+
+  final List<News> newsList = [
+    News(
+      title: 'SAT Khon Kaen Virtual Run 2022',
+      description:
+          'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
+      date: DateTime.now(),
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+    News(
+      title: 'HW Virtual Run 2022',
+      description:
+          'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
+      date: DateTime.now(),
+      urlImage:
+          'https://www.realasset.co.th/upload/news/Adjust-size-for-Web-%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%91%E0%B9%90%E0%B9%94-0001.jpg',
+    ),
+    News(
+      title: 'SAT Khon Kaen Virtual Run 2022',
+      description:
+          'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
+      date: DateTime.now(),
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+  ];
+
+  @override
+  void initState() {
+    var time = intToTimeLeft(statsWeekly.timeInSeconds);
+    debugPrint('time: $time');
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +96,9 @@ class _HomeState extends State<Home> {
             children: [
               const CircleAvatar(
                 radius: 30.0,
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'),
+                backgroundImage: CachedNetworkImageProvider(
+                  'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+                ),
                 backgroundColor: Colors.transparent,
               ),
               const SizedBox(width: 18),
@@ -71,7 +119,6 @@ class _HomeState extends State<Home> {
               ToggleSwitch(
                 initialLabelIndex: _statsSwitcher,
                 totalSwitches: 2,
-                // radiusStyle: true,
                 animate: true,
                 animationDuration: 100,
                 labels: const ['สัปดาห์', 'เดือน'],
@@ -170,15 +217,68 @@ class _HomeState extends State<Home> {
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
       color: colorWhite,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                'ข่าวสารการวิ่ง',
-                style: Theme.of(context).textTheme.displayMedium,
-              ),
-            ],
+          Text(
+            'ข่าวสารการวิ่ง',
+            style: Theme.of(context).textTheme.displayMedium,
           ),
+          newsList.isNotEmpty
+              ? ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: newsList.length,
+                  itemBuilder: (BuildContext context, index) {
+                    var news = newsList[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(11),
+                            // color: Colors.transparent,
+                            child: CachedNetworkImage(
+                              imageUrl: news.urlImage,
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              height: 150,
+                              width: 150,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  news.title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium,
+                                ),
+                                Text(
+                                  DateFormat('วันที่ dd/MM/yyyy', 'th')
+                                      .format(news.date),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: colorGrey),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                )
+              : Center(
+                  child: Text(
+                    'ยังไม่มีข่าวสาร',
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                ),
         ],
       ),
     );
