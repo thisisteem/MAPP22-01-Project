@@ -1,10 +1,10 @@
-class News {
+class NewsModel {
   final String title;
   final String description;
   final DateTime date;
   final String urlImage;
 
-  News({
+  NewsModel({
     required this.title,
     required this.description,
     required this.date,

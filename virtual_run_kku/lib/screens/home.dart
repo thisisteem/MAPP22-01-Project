@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 import 'package:virtual_run_kku/models/stats_model.dart';
+import 'package:virtual_run_kku/screens/news.dart';
 import '../utils/constants/colors.dart';
 import '../utils/functions/seconds_to_time.dart';
 
@@ -21,17 +22,17 @@ class _HomeState extends State<Home> {
   final statsWeekly = Stats(
     distance: 30.7,
     events: 1,
-    timeInSeconds: 100000,
+    timeInSeconds: 13802,
   );
 
   final statsMonthly = Stats(
     distance: 130.2,
     events: 3,
-    timeInSeconds: 500000,
+    timeInSeconds: 58142,
   );
 
-  final List<News> newsList = [
-    News(
+  final List<NewsModel> newsList = [
+    NewsModel(
       title: 'SAT Khon Kaen Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
@@ -39,7 +40,7 @@ class _HomeState extends State<Home> {
       urlImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
-    News(
+    NewsModel(
       title: 'HW Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
@@ -47,7 +48,7 @@ class _HomeState extends State<Home> {
       urlImage:
           'https://www.realasset.co.th/upload/news/Adjust-size-for-Web-%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%91%E0%B9%90%E0%B9%94-0001.jpg',
     ),
-    News(
+    NewsModel(
       title: 'SAT Khon Kaen Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
@@ -56,14 +57,6 @@ class _HomeState extends State<Home> {
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
   ];
-
-  @override
-  void initState() {
-    var time = intToTimeLeft(statsWeekly.timeInSeconds);
-    debugPrint('time: $time');
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +71,7 @@ class _HomeState extends State<Home> {
           // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           children: [
             buildStats(),
-            // const SizedBox(height: 30),
+            const SizedBox(height: 20),
             buildNews(),
           ],
         ),
@@ -151,7 +144,9 @@ class _HomeState extends State<Home> {
           Row(
             children: [
               Text(
-                '30.4',
+                _statsSwitcher == 0
+                    ? statsWeekly.distance.toString()
+                    : statsMonthly.distance.toString(),
                 style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontSize: 60,
                     ),
@@ -176,7 +171,9 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '3',
+                    _statsSwitcher == 0
+                        ? statsWeekly.events.toString()
+                        : statsMonthly.events.toString(),
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                   Text(
@@ -193,7 +190,9 @@ class _HomeState extends State<Home> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '3:26:07',
+                    _statsSwitcher == 0
+                        ? intToTimeLeft(statsWeekly.timeInSeconds).toString()
+                        : intToTimeLeft(statsMonthly.timeInSeconds).toString(),
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                   Text(
@@ -230,53 +229,68 @@ class _HomeState extends State<Home> {
                   itemCount: newsList.length,
                   itemBuilder: (BuildContext context, index) {
                     var news = newsList[index];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(11),
-                            // color: Colors.transparent,
-                            child: CachedNetworkImage(
-                              imageUrl: news.urlImage,
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              height: 150,
-                              width: 150,
-                              fit: BoxFit.cover,
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: InkWell(
+                        onTap: () {
+                          debugPrint('tapped');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => News(news: news),
                             ),
-                          ),
-                          const SizedBox(width: 16),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  news.title,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium,
-                                ),
-                                Text(
-                                  DateFormat('วันที่ dd/MM/yyyy', 'th')
-                                      .format(news.date),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall!
-                                      .copyWith(color: colorGrey),
-                                ),
-                              ],
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(11),
+                              child: CachedNetworkImage(
+                                imageUrl: news.urlImage,
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                height: 130,
+                                width: 130,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    news.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
+                                  ),
+                                  const SizedBox(height: 40),
+                                  Text(
+                                    DateFormat('วันที่ dd/MM/yyyy', 'th')
+                                        .format(news.date),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(color: colorGrey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
                 )
-              : Center(
-                  child: Text(
-                    'ยังไม่มีข่าวสาร',
-                    style: Theme.of(context).textTheme.displaySmall,
+              : Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Center(
+                    child: Text(
+                      'ยังไม่มีข่าวสาร',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
                   ),
                 ),
         ],
