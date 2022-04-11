@@ -1,14 +1,16 @@
-class NewsModel {
+class EventModel {
   final int id;
   final String title;
-  final String description;
+  final int distance;
+  final String bib;
   final DateTime date;
   final String urlImage;
 
-  NewsModel({
+  EventModel({
     required this.id,
     required this.title,
-    required this.description,
+    required this.distance,
+    required this.bib,
     required this.date,
     required this.urlImage,
   });

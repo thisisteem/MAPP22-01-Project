@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
 
   final List<NewsModel> newsList = [
     NewsModel(
+      id: 1,
       title: 'SAT Khon Kaen Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
@@ -41,6 +42,7 @@ class _HomeState extends State<Home> {
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     NewsModel(
+      id: 2,
       title: 'HW Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
@@ -49,6 +51,7 @@ class _HomeState extends State<Home> {
           'https://www.realasset.co.th/upload/news/Adjust-size-for-Web-%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%91%E0%B9%90%E0%B9%94-0001.jpg',
     ),
     NewsModel(
+      id: 3,
       title: 'SAT Khon Kaen Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
@@ -64,17 +67,15 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('หน้าหลัก'),
+        centerTitle: false,
       ),
       backgroundColor: colorBackground,
-      body: SafeArea(
-        child: ListView(
-          // padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          children: [
-            buildStats(),
-            const SizedBox(height: 20),
-            buildNews(),
-          ],
-        ),
+      body: ListView(
+        children: [
+          buildStats(),
+          const SizedBox(height: 20),
+          buildNews(),
+        ],
       ),
     );
   }
@@ -233,7 +234,6 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       child: InkWell(
                         onTap: () {
-                          debugPrint('tapped');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -245,13 +245,16 @@ class _HomeState extends State<Home> {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(11),
-                              child: CachedNetworkImage(
-                                imageUrl: news.urlImage,
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                height: 130,
-                                width: 130,
-                                fit: BoxFit.cover,
+                              child: Hero(
+                                tag: 'news_${news.id}',
+                                child: CachedNetworkImage(
+                                  imageUrl: news.urlImage,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                  height: 130,
+                                  width: 130,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             const SizedBox(width: 16),

@@ -32,6 +32,7 @@ dependencies:
   carousel_slider: ^4.0.0
   cupertino_icons: ^1.0.2
   curved_navigation_bar: ^1.0.3
+  expandable: ^5.0.1
   firebase_auth: ^1.1.4
   flutter:
     sdk: flutter
@@ -45,6 +46,7 @@ dependencies:
   intl: ^0.17.0
   page_transition: ^2.0.5
   provider: ^5.0.0
+  scroll_app_bar: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
   toggle_switch: ^1.4.0
 

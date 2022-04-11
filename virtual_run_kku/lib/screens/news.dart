@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 
 import '../utils/constants/colors.dart';
@@ -27,12 +29,12 @@ class _NewsState extends State<News> {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: colorPrimary,
-            minimumSize: const Size.fromHeight(50), // NEW
+            minimumSize: const Size.fromHeight(40),
           ),
           onPressed: () {},
           child: Text(
             'เข้าร่วม',
-            style: Theme.of(context).textTheme.displaySmall!.copyWith(
+            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   color: colorWhite,
                 ),
           ),
@@ -41,7 +43,69 @@ class _NewsState extends State<News> {
       backgroundColor: colorWhite,
       body: SafeArea(
         child: ListView(
-          children: [Text(widget.news.title)],
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(11),
+                    child: Hero(
+                      tag: 'news_${widget.news.id}',
+                      child: CachedNetworkImage(
+                        imageUrl: widget.news.urlImage,
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                        height: 240,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          widget.news.title,
+                          style: Theme.of(context).textTheme.displayMedium,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Text(
+                        'วันที่: ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: colorGrey),
+                      ),
+                      Expanded(
+                        child: Text(
+                          DateFormat('dd MMMM yyyy', 'th')
+                              .format(widget.news.date),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 50),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '\t \t \t ${widget.news.description}',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

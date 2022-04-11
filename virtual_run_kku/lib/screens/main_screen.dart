@@ -1,14 +1,11 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_run_kku/screens/history.dart';
-import 'package:virtual_run_kku/screens/send_result.dart';
-import 'package:virtual_run_kku/widgets/my_app_bar.dart';
 
 import '../utils/constants/colors.dart';
-import '../utils/constants/my_constants.dart';
-import '../widgets/bottom_bar_key.dart';
-import 'activity.dart';
+
 import 'home.dart';
+import 'send_result.dart';
+import 'activity.dart';
+import 'history.dart';
 import 'setting.dart';
 
 class MainScreen extends StatefulWidget with PreferredSizeWidget {
