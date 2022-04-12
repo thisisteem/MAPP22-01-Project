@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../models/event.model.dart';
+import '../screens/send_result_step.dart';
 import '../utils/constants/colors.dart';
 
 class SendResultCard extends StatefulWidget {
@@ -15,34 +16,17 @@ class SendResultCard extends StatefulWidget {
 }
 
 class _SendResultCardState extends State<SendResultCard> {
-  static bool isOpened = false;
-  ExpandableController eventController = ExpandableController(
-    initialExpanded: isOpened,
-  );
-
-  @override
-  void initState() {
-    eventController.addListener(() {
-      setState(() {
-        isOpened = !isOpened;
-      });
-    });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
       key: widget.key,
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
       child: Card(
         elevation: 3,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         child: ExpandablePanel(
-          controller: eventController,
           header: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,8 +76,8 @@ class _SendResultCardState extends State<SendResultCard> {
                       widget.event.title,
                       style: Theme.of(context).textTheme.bodyMedium,
                       softWrap: true,
-                      maxLines: isOpened ? null : 2,
-                      overflow: isOpened ? null : TextOverflow.ellipsis,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ],
@@ -105,7 +89,13 @@ class _SendResultCardState extends State<SendResultCard> {
                     primary: colorPrimary,
                     minimumSize: const Size.fromHeight(30),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SendResultStep()),
+                    );
+                  },
                   child: Text(
                     'ส่งผลการวิ่ง',
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
