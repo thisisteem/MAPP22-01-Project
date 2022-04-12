@@ -116,7 +116,7 @@ class _HomeState extends State<Home> {
                 animate: true,
                 animationDuration: 100,
                 labels: const ['สัปดาห์', 'เดือน'],
-                cornerRadius: 50.0,
+                // cornerRadius: 10.0,
                 activeBgColor: [colorPrimary],
                 activeFgColor: Colors.black,
                 inactiveBgColor: colorSecondary3,
