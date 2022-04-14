@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/admin.dart';
 import 'package:virtual_run_kku/screens/admin_login.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
+import 'package:virtual_run_kku/theme.dart';
 import 'screens/send_result.dart';
 import 'third_party/google_third_party.dart';
 import 'screens/activity.dart';
@@ -14,8 +15,9 @@ import 'screens/full_result.dart';
 import 'screens/setting.dart';
 import 'screens/home.dart';
 import 'auth/authen.dart';
-import 'utils/constants/my_constants.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'utils/constants/texts.dart';
 
 final Map<String, WidgetBuilder> map = {
   '/authen': (BuildContext context) => const Authen(),
@@ -31,7 +33,6 @@ final Map<String, WidgetBuilder> map = {
 
 String? initialRoute;
 Future<void> main() async {
-  initialRoute = MyConstant.routeAuthen;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   Intl.defaultLocale = 'th';
@@ -78,15 +79,11 @@ class MyApp extends StatelessWidget {
 
   MaterialApp changeScreen(Widget screen) {
     return MaterialApp(
+      theme: RunKKUTheme.themeData(),
       debugShowCheckedModeBanner: false,
-      title: MyConstant.appName,
+      title: appName,
       routes: map,
       home: screen,
-      theme: ThemeData(
-        fontFamily: 'Kanit',
-        primaryColor: const Color(0xFFFF8427),
-        hintColor: const Color(0xFF1E212B),
-      ),
     );
   }
 }

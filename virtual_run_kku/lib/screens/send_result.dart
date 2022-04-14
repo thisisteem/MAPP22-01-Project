@@ -1,9 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import '../utils/constants/my_constants.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:virtual_run_kku/models/event.model.dart';
+import 'package:virtual_run_kku/screens/home.dart';
+import 'package:virtual_run_kku/screens/main_screen.dart';
+import 'package:virtual_run_kku/widgets/send_result_card.dart';
+import '../utils/constants/colors.dart';
 
 class SendResult extends StatefulWidget {
   const SendResult({Key? key}) : super(key: key);
@@ -13,163 +14,94 @@ class SendResult extends StatefulWidget {
 }
 
 class _SendResultState extends State<SendResult> {
-  File? image;
-
-  Future pickImage(BuildContext context) async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
-      this.image = imageTemporary;
-    } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
-    }
-  }
+  final List<EventModel> eventsList = [
+    EventModel(
+      id: 1,
+      title:
+          '40th RX KKU: 40,000 KM FOR YOU DREAM AT KHON KAEN KHON KAEN KHON KAEN KHON KAEN',
+      distance: 15,
+      bib: 'Q0001',
+      date: DateTime.now(),
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+    EventModel(
+      id: 2,
+      title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
+      distance: 11,
+      bib: 'Q0032',
+      date: DateTime.now(),
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBody: true,
-      backgroundColor: MyConstant.white,
-      appBar: MyConstant.appBar(MyConstant.titleSendResult, false),
+      appBar: AppBar(
+        title: const Text('ส่งผลการวิ่ง'),
+        centerTitle: false,
+      ),
+      backgroundColor: colorWhite,
       body: ListView(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
         children: [
-          buildDate(),
-          const SizedBox(height: 20),
-          buildDistance(),
-          const SizedBox(height: 20),
-          buildTime(),
-          const SizedBox(height: 20),
-          buildImagePicker(),
-          const SizedBox(height: 20),
-          buildButton()
-        ],
-      ),
-    );
-  }
-
-  Widget buildDate() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          decoration: InputDecoration(
-            labelStyle: MyConstant.h3Style(MyConstant.secondary),
-            labelText: 'วันทีและเวลา',
-            suffixIcon: const Icon(Icons.calendar_month),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(10),
-              gapPadding: 2.0,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade900),
-              borderRadius: BorderRadius.circular(10),
-              gapPadding: 2.0,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget buildDistance() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          decoration: InputDecoration(
-            labelStyle: MyConstant.h3Style(MyConstant.secondary),
-            labelText: 'ระยะทาง (km)',
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(10),
-              gapPadding: 2.0,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade900),
-              borderRadius: BorderRadius.circular(10),
-              gapPadding: 2.0,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget buildTime() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          decoration: InputDecoration(
-            labelStyle: MyConstant.h3Style(MyConstant.secondary),
-            labelText: 'ระยะเวลา',
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade300),
-              borderRadius: BorderRadius.circular(10),
-              gapPadding: 2.0,
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.grey.shade900),
-              borderRadius: BorderRadius.circular(10),
-              gapPadding: 2.0,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget buildImagePicker() {
-    return InkWell(
-      onTap: () => pickImage(context),
-      child: Container(
-        height: 250,
-        child: image != null
-            ? Image.file(
-                image!,
-                fit: BoxFit.contain,
-              )
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey.shade700,
+          eventsList.isNotEmpty
+              ? ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: eventsList.length,
+                  itemBuilder: (BuildContext context, index) {
+                    var event = eventsList[index];
+                    return SendResultCard(event: event);
+                  },
+                )
+              : Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          'ยังไม่มีกิจกรรมที่เข้าร่วม',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          'สามารถเข้าร่วมกิจกรรมการวิ่ง\nได้ที่ข่าวสารการวิ่ง',
+                          style: Theme.of(context).textTheme.displaySmall,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 30),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: colorPrimary,
+                            minimumSize: const Size.fromHeight(40),
+                          ),
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: const MainScreen(),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'ไปที่ข่าวสารการวิ่ง',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                  color: colorWhite,
+                                ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  Text(
-                    'เพิ่มรูปภาพ',
-                    style: MyConstant.h3Style(Colors.grey.shade700),
-                  )
-                ],
-              ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.grey.shade300, spreadRadius: 1),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildButton() {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: MyConstant.primary,
-        minimumSize: const Size.fromHeight(50), // NEW
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-      child: Text(
-        'ส่งผลการวิ่ง',
-        style: MyConstant.h2Style(MyConstant.white),
+                ),
+        ],
       ),
     );
   }

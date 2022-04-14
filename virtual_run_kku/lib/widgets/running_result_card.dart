@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
+import '../utils/constants/texts.dart';
 
 class RunningResultCard extends StatefulWidget {
   final String bib;
@@ -65,11 +68,11 @@ class _RunningResultCardState extends State<RunningResultCard> {
                 children: [
                   Text(
                     'BIB',
-                    style: MyConstant.h3Style(MyConstant.grey),
+                    style: MyConstant.h3Style(colorGrey),
                   ),
                   Text(
                     widget.bib,
-                    style: MyConstant.h3Style(MyConstant.secondary),
+                    style: MyConstant.h3Style(colorSecondary),
                   ),
                 ],
               ),
@@ -78,11 +81,11 @@ class _RunningResultCardState extends State<RunningResultCard> {
                 children: [
                   Text(
                     'ระยะทาง',
-                    style: MyConstant.h3Style(MyConstant.grey),
+                    style: MyConstant.h3Style(colorGrey),
                   ),
                   Text(
                     '${widget.distance}',
-                    style: MyConstant.h3Style(MyConstant.secondary),
+                    style: MyConstant.h3Style(colorSecondary),
                   ),
                 ],
               ),
@@ -91,11 +94,11 @@ class _RunningResultCardState extends State<RunningResultCard> {
                 children: [
                   Text(
                     'วันที่',
-                    style: MyConstant.h3Style(MyConstant.grey),
+                    style: MyConstant.h3Style(colorGrey),
                   ),
                   Text(
                     date,
-                    style: MyConstant.h3Style(MyConstant.secondary),
+                    style: MyConstant.h3Style(colorSecondary),
                   ),
                 ],
               ),
@@ -103,7 +106,7 @@ class _RunningResultCardState extends State<RunningResultCard> {
                 width: 100,
                 child: Text(
                   widget.status,
-                  style: MyConstant.h3Style(MyConstant.secondary),
+                  style: MyConstant.h3Style(colorSecondary),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -116,12 +119,12 @@ class _RunningResultCardState extends State<RunningResultCard> {
 }
 
 Color checkStatusColor(String status) {
-  if (status == MyConstant.statusApproved) {
-    return MyConstant.green;
-  } else if (status == MyConstant.statusChecking) {
-    return MyConstant.yellow;
-  } else if (status == MyConstant.statusDenied) {
-    return MyConstant.red;
+  if (status == statusApproved) {
+    return colorGreen;
+  } else if (status == statusChecking) {
+    return colorYellow;
+  } else if (status == statusDenied) {
+    return colorRed;
   } else {
     return Colors.white;
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
+import '../utils/constants/colors.dart';
+
 class ShowLogo extends StatelessWidget {
   const ShowLogo({Key? key}) : super(key: key);
 
@@ -18,7 +20,7 @@ class ShowLogo extends StatelessWidget {
           style: TextStyle(
             fontSize: 36,
             fontWeight: FontWeight.bold,
-            color: MyConstant.primary,
+            color: colorPrimary,
           ),
         )
       ],

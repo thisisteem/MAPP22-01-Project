@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/admin.dart';
 
 import '../third_party/google_third_party.dart';
+import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
 
 class FacebookButton extends StatelessWidget {
@@ -51,7 +52,7 @@ class AdminButton extends StatelessWidget {
       children: [
         Icon(
           Icons.lock,
-          color: MyConstant.secondary,
+          color: colorSecondary,
         ),
         const SizedBox(
           width: 8,
@@ -62,7 +63,7 @@ class AdminButton extends StatelessWidget {
           },
           child: Text(
             'สำหรับผู้ดูแลระบบ',
-            style: TextStyle(color: MyConstant.secondary),
+            style: TextStyle(color: colorSecondary),
           ),
         )
       ],

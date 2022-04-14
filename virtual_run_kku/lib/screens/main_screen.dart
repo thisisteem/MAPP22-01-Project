@@ -1,18 +1,12 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_run_kku/widgets/my_app_bar.dart';
 
-import '../utils/constants/my_constants.dart';
-import '../widgets/bottom_bar_key.dart';
-import 'activity.dart';
+import '../utils/constants/colors.dart';
+
 import 'home.dart';
+import 'send_result.dart';
+import 'activity.dart';
+import 'history.dart';
 import 'setting.dart';
-
-final Map title = {
-  0: MyConstant.titleActivity,
-  1: MyConstant.titleHome,
-  2: MyConstant.titleSetting,
-};
 
 class MainScreen extends StatefulWidget with PreferredSizeWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -25,44 +19,56 @@ class MainScreen extends StatefulWidget with PreferredSizeWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int _activePage = 1;
-  final List<Widget> screen = [const Activity(), const Home(), const Setting()];
-  List<Widget> bottomBarIcons = [
-    const Icon(Icons.bar_chart, size: 30),
-    const Icon(Icons.home, size: 30),
-    const Icon(Icons.settings, size: 30),
+  int _activePage = 0;
+  final screens = [
+    const Home(),
+    const SendResult(),
+    const Activity(),
+    const History(),
+    const Setting(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: false,
-      backgroundColor: MyConstant.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(55),
-        child: MyAppBar(
-          title: title[_activePage],
-          showProfileIcon: true,
-        ),
+      backgroundColor: colorWhite,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: colorPrimary,
+        unselectedItemColor: colorSecondary,
+        backgroundColor: Colors.white,
+        currentIndex: _activePage,
+        onTap: (index) => setState(() {
+          _activePage = index;
+        }),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'หน้าหลัก',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.directions_run),
+            label: 'ส่งผลการวิ่ง',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bolt),
+            label: 'กิจกรรม',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: 'ประวัติ',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'ตั้งค่า',
+          ),
+        ],
       ),
-      bottomNavigationBar: Material(
-        elevation: 50,
-        child: CurvedNavigationBar(
-          key: BottomBarKey.getKey(),
-          items: bottomBarIcons,
-          index: _activePage,
-          height: 50,
-          animationDuration: const Duration(milliseconds: 300),
-          backgroundColor: MyConstant.secondary2,
-          buttonBackgroundColor: MyConstant.primary,
-          onTap: (index) {
-            setState(() {
-              _activePage = index;
-            });
-          },
-        ),
+      body: IndexedStack(
+        index: _activePage,
+        children: screens,
       ),
-      body: screen[_activePage],
       // body: Text('test'),
     );
   }

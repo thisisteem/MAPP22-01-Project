@@ -1,10 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:virtual_run_kku/utils/constants/my_constants.dart';
-import '../utils/constants/content_constant.dart';
-import '../widgets/running_result_card.dart';
+import 'package:intl/intl.dart';
+import 'package:toggle_switch/toggle_switch.dart';
+import 'package:virtual_run_kku/models/news_model.dart';
+import 'package:virtual_run_kku/models/stats_model.dart';
+import 'package:virtual_run_kku/screens/news.dart';
+import '../utils/constants/colors.dart';
+import '../utils/functions/seconds_to_time.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,205 +17,287 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _statsSwitcher = 0;
+
+  final statsWeekly = Stats(
+    distance: 30.7,
+    events: 1,
+    timeInSeconds: 13802,
+  );
+
+  final statsMonthly = Stats(
+    distance: 130.2,
+    events: 3,
+    timeInSeconds: 58142,
+  );
+
+  final List<NewsModel> newsList = [
+    NewsModel(
+      id: 1,
+      title: 'SAT Khon Kaen Virtual Run 2022',
+      description:
+          'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
+      date: DateTime.now(),
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+    NewsModel(
+      id: 2,
+      title: 'HW Virtual Run 2022',
+      description:
+          'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
+      date: DateTime.now(),
+      urlImage:
+          'https://www.realasset.co.th/upload/news/Adjust-size-for-Web-%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%91%E0%B9%90%E0%B9%94-0001.jpg',
+    ),
+    NewsModel(
+      id: 3,
+      title: 'SAT Khon Kaen Virtual Run 2022',
+      description:
+          'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
+      date: DateTime.now(),
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      child: Column(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('หน้าหลัก'),
+        centerTitle: false,
+      ),
+      backgroundColor: colorBackground,
+      body: ListView(
         children: [
-          buildGreetingText(user.displayName!),
-          // buildGreetingText(),
-          buildStatsCard(),
-          buildContentText(context, 'ผลการวิ่ง'),
-          RunningResultCard(
-            status: MyConstant.statusChecking,
-            bib: 'Q0001',
-            date: '15/02/65',
-            distance: 24.2,
-          ),
-          RunningResultCard(
-            status: MyConstant.statusApproved,
-            bib: 'Q0002',
-            date: '10/02/65',
-            distance: 12.1,
-          ),
-          RunningResultCard(
-            status: MyConstant.statusDenied,
-            bib: 'Q0001',
-            date: '25/01/65',
-            distance: 24.2,
-          ),
-          buildContentText(context, 'ข่าวสารการวิ่ง'),
-          // buildCarousel2(context),
-          const ContentCarousel(),
+          buildStats(),
+          const SizedBox(height: 20),
+          buildNews(),
         ],
       ),
     );
   }
-}
 
-Container buildGreetingText(name) {
-// Container buildGreetingText() {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 4),
-    child: Row(
-      children: [
-        Text(
-          'สวัสดี! ',
-          style: MyConstant.h3Style(MyConstant.primary),
-        ),
-        Text(
-          name,
-          // 'สมชาย ไกรทอง',
-          style: MyConstant.h3Style(MyConstant.secondary),
-        ),
-      ],
-    ),
-  );
-}
-
-Card buildStatsCard() {
-  return Card(
-    margin: const EdgeInsets.symmetric(vertical: 5),
-    elevation: 3,
-    child: Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        vertical: 5,
-        horizontal: 12,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget buildStats() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+      color: colorWhite,
+      child: Column(
         children: [
           Row(
             children: [
-              Image.asset(
-                MyConstant.womanRunIcon,
-                width: 40,
+              const CircleAvatar(
+                radius: 30.0,
+                backgroundImage: CachedNetworkImageProvider(
+                  'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+                ),
+                backgroundColor: Colors.transparent,
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 18),
               Text(
-                'ระยะทางที่วิ่งได้',
-                style: MyConstant.h3Style(MyConstant.secondary),
+                'Eleanor Pena',
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),
-          Stack(
-            alignment: Alignment.topRight,
-            // crossAxisAlignment: CrossAxisAlignment.end,
+          const SizedBox(height: 14),
+          Row(
             children: [
-              const Text(
-                '154.9',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+              Text(
+                'สถิติการวิ่งล่าสุด',
+                style: Theme.of(context).textTheme.displayMedium,
               ),
-              Container(
-                padding: const EdgeInsets.only(top: 25),
-                child: Text(
-                  'km',
-                  style: TextStyle(fontSize: 16, color: MyConstant.grey),
-                ),
+              const Spacer(),
+              ToggleSwitch(
+                initialLabelIndex: _statsSwitcher,
+                totalSwitches: 2,
+                animate: true,
+                animationDuration: 100,
+                labels: const ['สัปดาห์', 'เดือน'],
+                // cornerRadius: 10.0,
+                activeBgColor: [colorPrimary],
+                activeFgColor: Colors.black,
+                inactiveBgColor: colorSecondary3,
+                inactiveFgColor: Colors.black,
+                customTextStyles: [
+                  Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: colorWhite),
+                  Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: colorWhite),
+                ],
+                onToggle: (index) {
+                  debugPrint('index: $index');
+
+                  setState(() {
+                    _statsSwitcher = index!;
+                  });
+                  debugPrint('_statsSwitcher: $_statsSwitcher');
+                },
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                _statsSwitcher == 0
+                    ? statsWeekly.distance.toString()
+                    : statsMonthly.distance.toString(),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 60,
+                    ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'กิโลเมตร',
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: colorGrey,
+                      height: 0.2,
+                    ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 25),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _statsSwitcher == 0
+                        ? statsWeekly.events.toString()
+                        : statsMonthly.events.toString(),
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  Text(
+                    'กิจกรรม',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colorGrey,
+                          height: 1,
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 50),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    _statsSwitcher == 0
+                        ? intToTimeLeft(statsWeekly.timeInSeconds).toString()
+                        : intToTimeLeft(statsMonthly.timeInSeconds).toString(),
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                  Text(
+                    'เวลาที่ใช้',
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: colorGrey,
+                          height: 1,
+                        ),
+                  ),
+                ],
               ),
             ],
           )
         ],
       ),
-    ),
-  );
-}
-
-Container buildContentText(context, String title) {
-  return Container(
-    margin: const EdgeInsets.only(top: 15),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Text(
-          title,
-          style: MyConstant.h2Style(MyConstant.secondary),
-        ),
-        GestureDetector(
-          onTap: () => Navigator.pushNamed(context, MyConstant.routeFullResult),
-          child: Text(
-            'ดูทั้งหมด',
-            style: MyConstant.h3Style(MyConstant.grey),
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-class ContentCarousel extends StatefulWidget {
-  const ContentCarousel({Key? key}) : super(key: key);
-
-  @override
-  _ContentCarouselState createState() => _ContentCarouselState();
-}
-
-class _ContentCarouselState extends State<ContentCarousel> {
-  int activeIndex = 0;
-  final controller = CarouselController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10),
-      child: Center(
-        child: Column(
-          children: [
-            CarouselSlider.builder(
-              carouselController: controller,
-              itemCount: ContentConstant.imagePathList().length,
-              itemBuilder: (context, index, realIndex) {
-                final pathImage = ContentConstant.imagePathList()[index];
-                return buildImage(pathImage, index);
-              },
-              options: CarouselOptions(
-                  autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                  autoPlay: true,
-                  enlargeCenterPage: true,
-                  enlargeStrategy: CenterPageEnlargeStrategy.height,
-                  viewportFraction: 0.6,
-                  aspectRatio: 2.5,
-                  initialPage: 0,
-                  onPageChanged: (index, reason) =>
-                      setState(() => activeIndex = index)),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            buildIndicator(),
-          ],
-        ),
-      ),
     );
   }
 
-  Widget buildImage(String pathImage, int index) => Container(
-        width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        color: Colors.grey,
-        child: Image.asset(
-          pathImage,
-          fit: BoxFit.cover,
-        ),
-      );
-
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-        activeIndex: activeIndex,
-        count: ContentConstant.imagePathList().length,
-        effect: WormEffect(
-          dotWidth: 10,
-          dotHeight: 10,
-          activeDotColor: MyConstant.primary,
-        ),
-        onDotClicked: animateToSlide,
-      );
-
-  void animateToSlide(int index) => controller.animateToPage(index);
+  Widget buildNews() {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+      color: colorWhite,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'ข่าวสารการวิ่ง',
+            style: Theme.of(context).textTheme.displayMedium,
+          ),
+          newsList.isNotEmpty
+              ? ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: newsList.length,
+                  itemBuilder: (BuildContext context, index) {
+                    var news = newsList[index];
+                    return Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => News(news: news),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(11),
+                              child: Hero(
+                                tag: 'news_${news.id}',
+                                child: CachedNetworkImage(
+                                  imageUrl: news.urlImage,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                  height: 130,
+                                  width: 130,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    news.title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineMedium,
+                                  ),
+                                  const SizedBox(height: 40),
+                                  Text(
+                                    DateFormat('วันที่ dd/MM/yyyy', 'th')
+                                        .format(news.date),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(color: colorGrey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Center(
+                    child: Text(
+                      'ยังไม่มีข่าวสาร',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ),
+                  ),
+                ),
+        ],
+      ),
+    );
+  }
 }
