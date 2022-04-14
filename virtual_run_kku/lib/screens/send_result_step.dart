@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
 import '../utils/functions/seconds_to_time.dart';
+import '../widgets/custom_image_picker.dart';
 import '../widgets/custom_textformfield.dart';
 import '../widgets/date_picker_custom_textformfield.dart';
 
@@ -19,28 +20,11 @@ class SendResultStep extends StatefulWidget {
 }
 
 class _SendResultStepState extends State<SendResultStep> {
-  File? image;
-  bool isSelectedImage = false;
-
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _distanceController = TextEditingController();
   final TextEditingController _timeSpendController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeStartController = TextEditingController();
-
-  Future pickImage(BuildContext context) async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
-
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
-      this.image = imageTemporary;
-      isSelectedImage = true;
-    } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +42,7 @@ class _SendResultStepState extends State<SendResultStep> {
           ),
           onPressed: () {
             // Navigator.pop(context);
-            if (_formKey.currentState!.validate() && isSelectedImage) {
+            if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
               debugPrint('ระยะทาง: ${_distanceController.text}');
               debugPrint('เวลาที่ใช้: ${_timeSpendController.text}');
@@ -237,40 +221,6 @@ class _SendResultStepState extends State<SendResultStep> {
   }
 
   Widget buildImagePicker() {
-    return InkWell(
-      onTap: () => pickImage(context),
-      child: image != null
-          ? ClipRRect(
-              borderRadius: BorderRadius.circular(11),
-              child: Image.file(
-                image!,
-                fit: BoxFit.contain,
-              ),
-            )
-          : Container(
-              height: 250,
-              width: double.infinity,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.camera_alt,
-                    color: Colors.grey.shade700,
-                  ),
-                  Text(
-                    'เพิ่มรูปภาพ',
-                    style: MyConstant.h3Style(Colors.grey.shade700),
-                  )
-                ],
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(color: Colors.grey.shade300, spreadRadius: 1),
-                ],
-              ),
-            ),
-    );
+    return const CustomImagePicker();
   }
 }

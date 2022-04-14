@@ -21,78 +21,70 @@ class _SettingState extends State<Setting> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorWhite,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-          children: [
-            // Container(
-            //   margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-            //   child: Column(
-            //     children: [
-            //       _buildSettingProfileCard(),
-            //       _buildContactUsCard(context),
-            //       const SizedBox(
-            //         height: 5,
-            //       ),
-            //       const Spacer(),
-            //       Container(
-            //         margin: const EdgeInsets.all(10),
-            //         child: Text(
-            //           "เวอร์ชั่น $version",
-            //           style: MyConstant.h3Style(colorGrey),
-            //         ),
-            //         alignment: Alignment.center,
-            //       ),
-            //       ElevatedButton(
-            //         style: ElevatedButton.styleFrom(
-            //           primary: colorWhite,
-            //           minimumSize: const Size.fromHeight(50),
-            //         ),
-            //         onPressed: () {
-            //           final provider = Provider.of<GoogleSignInProvider>(
-            //               context,
-            //               listen: false);
-            //           provider.googleLogout();
-            //         },
-            //         child: Row(
-            //           mainAxisAlignment: MainAxisAlignment.center,
-            //           children: [
-            //             Icon(
-            //               Icons.exit_to_app,
-            //               size: 40,
-            //               color: colorRed,
-            //             ),
-            //             const SizedBox(
-            //               width: 10,
-            //             ),
-            //             Text('ออกจากระบบ', style: MyConstant.h3Style(colorRed)),
-            //           ],
-            //         ),
-            //       ),
-            //       const Spacer(),
-            //     ],
-            //   ),
-            // ),
-            Center(
-              child: Text('Setting'),
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: const Text('ตั้งค่า'),
+        centerTitle: false,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+        children: [
+          Column(
+            children: [
+              _buildSettingProfileCard(),
+              _buildContactUsCard(context),
+              const SizedBox(height: 50),
+              Container(
+                margin: const EdgeInsets.all(10),
+                child: Text(
+                  "เวอร์ชั่น $version",
+                  style: MyConstant.h3Style(colorGrey),
+                ),
+                alignment: Alignment.center,
+              ),
+              OutlinedButton(
+                onPressed: () {
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+                  provider.googleLogout();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.exit_to_app,
+                      color: colorRed,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      'ออกจากระบบ',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: colorRed),
+                    ),
+                  ],
+                ),
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: colorRed),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
 
-  InkWell _buildSettingProfileCard() {
-    return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const ProfileSetting(),
+  Widget _buildSettingProfileCard() {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ProfileSetting(),
+          ),
         ),
-      ),
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        elevation: 3,
         child: Container(
           width: double.infinity,
           height: 75,
@@ -101,32 +93,28 @@ class _SettingState extends State<Setting> {
             horizontal: 12,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              const SizedBox(width: 10),
+              Icon(
+                Icons.account_circle,
+                size: 40,
+                color: colorPrimary,
+              ),
+              const SizedBox(width: 15),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(width: 10),
-                  Icon(
-                    Icons.account_circle,
-                    size: 40,
-                    color: colorPrimary,
+                  Text(
+                    'ตั้งค่าโปรไฟล์',
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                  const SizedBox(width: 15),
-                  Padding(
-                    padding: const EdgeInsets.all(5.5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'ตั้งค่าโปรไฟล์',
-                          style: MyConstant.h2Style(colorSecondary),
-                        ),
-                        Text(
-                          'ชื่อโปรไฟล์, รูป',
-                          style: MyConstant.h3Style(colorGrey),
-                        ),
-                      ],
-                    ),
+                  Text(
+                    'ชื่อโปรไฟล์, รูป',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: colorGrey),
                   ),
                 ],
               ),
@@ -137,17 +125,16 @@ class _SettingState extends State<Setting> {
     );
   }
 
-  InkWell _buildContactUsCard(BuildContext context) {
-    return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const ContactUs(),
+  Widget _buildContactUsCard(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ContactUs(),
+          ),
         ),
-      ),
-      child: Card(
-        margin: const EdgeInsets.symmetric(vertical: 5),
-        elevation: 3,
         child: Container(
           width: double.infinity,
           height: 75,
@@ -156,32 +143,17 @@ class _SettingState extends State<Setting> {
             horizontal: 12,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  const SizedBox(width: 10),
-                  Icon(
-                    Icons.contact_support,
-                    size: 40,
-                    color: colorPrimary,
-                  ),
-                  const SizedBox(width: 15),
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8.0, top: 17),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'ติดต่อเรา',
-                            style: MyConstant.h2Style(colorSecondary),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+              const SizedBox(width: 10),
+              Icon(
+                Icons.contact_support,
+                size: 40,
+                color: colorPrimary,
+              ),
+              const SizedBox(width: 15),
+              Text(
+                'ติดต่อเรา',
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),

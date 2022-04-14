@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:virtual_run_kku/utils/constants/my_constants.dart';
+import 'package:virtual_run_kku/models/profile.dart';
 
 import '../utils/constants/colors.dart';
-import 'contact_us.dart';
+import '../widgets/custom_profile_image_picker.dart';
+import '../widgets/custom_textformfield.dart';
 
 class ProfileSetting extends StatefulWidget {
   const ProfileSetting({Key? key}) : super(key: key);
@@ -15,18 +13,19 @@ class ProfileSetting extends StatefulWidget {
 }
 
 class _ProfileSettingState extends State<ProfileSetting> {
-  File? image;
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController _profileNameController = TextEditingController();
 
-  Future pickImage() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (image == null) return;
+  final ProfileModel profile = ProfileModel(
+      id: 1,
+      name: 'Eleanor Pena',
+      urlImage:
+          'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80');
 
-      final imageTemporary = File(image.path);
-      setState(() => this.image = imageTemporary);
-    } on PlatformException catch (e) {
-      debugPrint('Failed to pick image: $e');
-    }
+  @override
+  void initState() {
+    _profileNameController.text = profile.name;
+    super.initState();
   }
 
   @override
@@ -34,117 +33,103 @@ class _ProfileSettingState extends State<ProfileSetting> {
     return Scaffold(
       extendBody: true,
       backgroundColor: colorWhite,
-      appBar: subAppBar("ติดต่อเรา"),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-          child: Column(
-            textDirection: TextDirection.ltr,
+      appBar: AppBar(
+        title: const Text('ตั้งค่าโปรไฟล์'),
+        centerTitle: true,
+      ),
+      bottomNavigationBar: Container(
+        color: colorWhite,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
             children: [
-              buildProfileName(),
-              buildProfileImage(),
-              buildButton(),
+              Flexible(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: colorGrey,
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ยกเลิก',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: colorWhite,
+                        ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Flexible(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: colorPrimary,
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                      debugPrint('ชื่อโปรไฟล์: ${_profileNameController.text}');
+                    }
+                  },
+                  child: Text(
+                    'บันทึก',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: colorWhite,
+                        ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
+      body: ListView(children: [
+        Container(
+          margin: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                buildProfileName(),
+                const SizedBox(height: 20),
+                buildProfileImage(),
+              ],
+            ),
+          ),
+        ),
+      ]),
     );
   }
 
   Widget buildProfileName() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
-            'ชื่อโปรไฟล์',
-            style: MyConstant.h3Style(colorSecondary),
-          ),
+        CustomTextFormField(
+          textLabel: 'ชื่อโปรไฟล์',
+          isRequired: true,
+          textInputAction: TextInputAction.next,
+          controller: _profileNameController,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'โปรดกรอกชื่อโปรไฟล์';
+            }
+            return null;
+          },
+          onSaved: (value) {
+            _profileNameController.text = value.toString().trim();
+          },
         ),
-        const TextField(
-          maxLength: 15,
-          obscureText: false,
-          decoration: InputDecoration(
-            alignLabelWithHint: true,
-            border: OutlineInputBorder(),
-            hintText: 'ใส่ชื่อโปรไฟล์ที่ต้องการ',
-          ),
-        )
       ],
     );
   }
 
   Widget buildProfileImage() {
-    return Column(
-      children: [
-        Container(
-          alignment: Alignment.topLeft,
-          padding: const EdgeInsets.only(bottom: 10, top: 10),
-          child: Text(
-            'รูปโปรไฟล์',
-            style: MyConstant.h3Style(colorSecondary),
-          ),
-        ),
-        InkWell(
-          onTap: (() => pickImage()),
-          child: Card(
-            margin: EdgeInsets.zero,
-            shape: BeveledRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              side: const BorderSide(
-                color: Colors.black,
-                width: 0.35,
-              ),
-            ),
-            child: Container(
-              alignment: Alignment.center,
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  image != null
-                      ? Image.file(
-                          image!,
-                          width: 100,
-                          height: 100,
-                        )
-                      : Image(
-                          image: AssetImage(MyConstant.avatarIcon),
-                          width: 100,
-                          height: 100,
-                        ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    image != null ? 'เปลี่ยนรูปภาพ' : 'เพิ่มรูปภาพ',
-                    style: MyConstant.h3Style(colorPrimary),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: image != null ? colorPrimary : colorGrey,
-          minimumSize: const Size.fromHeight(50),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-        child: Text(
-          'เสร็จสิ้น',
-          style: MyConstant.h3Style(colorWhite),
-        ),
-      ),
+    return CustomProfileImagePicker(
+      urlImage: profile.urlImage,
     );
   }
 }
