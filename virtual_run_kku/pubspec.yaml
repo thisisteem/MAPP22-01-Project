@@ -49,6 +49,7 @@ dependencies:
   provider: ^5.0.0
   scroll_app_bar: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
+  flutter_login: ^2.2.1
   toggle_switch: ^1.4.0
 
 flutter_native_splash:

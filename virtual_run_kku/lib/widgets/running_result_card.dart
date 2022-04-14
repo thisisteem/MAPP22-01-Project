@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
@@ -22,6 +23,20 @@ class RunningResultCard extends StatefulWidget {
 }
 
 class _RunningResultCardState extends State<RunningResultCard> {
+  String date = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(
+      () {
+        final DateFormat formatter = DateFormat('d/MM/yyyy');
+        DateTime newDate = DateTime.parse(widget.date);
+        date = formatter.format(newDate);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -82,7 +97,7 @@ class _RunningResultCardState extends State<RunningResultCard> {
                     style: MyConstant.h3Style(colorGrey),
                   ),
                   Text(
-                    widget.date,
+                    date,
                     style: MyConstant.h3Style(colorSecondary),
                   ),
                 ],

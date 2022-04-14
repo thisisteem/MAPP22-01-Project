@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:virtual_run_kku/screens/admin.dart';
+import 'package:virtual_run_kku/screens/admin_login.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'package:virtual_run_kku/theme.dart';
 import 'screens/send_result.dart';
@@ -25,16 +27,16 @@ final Map<String, WidgetBuilder> map = {
   '/setting': (BuildContext context) => const Setting(),
   '/fullResult': (BuildContext context) => const FullResult(),
   '/sendResult': (BuildContext context) => const SendResult(),
+  '/admin': (BuildContext context) => const Admin(),
+  '/adminLogin': (BuildContext context) => AdminLoginScreen(),
 };
 
 String? initialRoute;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   Intl.defaultLocale = 'th';
   initializeDateFormatting();
-
   runApp(const MyApp());
 }
 
