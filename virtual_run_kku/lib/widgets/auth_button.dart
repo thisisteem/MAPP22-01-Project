@@ -1,6 +1,7 @@
 import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:virtual_run_kku/screens/admin.dart';
 
 import '../third_party/google_third_party.dart';
 import '../utils/constants/my_constants.dart';
@@ -56,7 +57,9 @@ class AdminButton extends StatelessWidget {
           width: 8,
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, MyConstant.routeAdmin);
+          },
           child: Text(
             'สำหรับผู้ดูแลระบบ',
             style: TextStyle(color: MyConstant.secondary),

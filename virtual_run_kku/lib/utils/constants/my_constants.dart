@@ -25,6 +25,8 @@ class MyConstant {
   static String routeSetting = '/setting';
   static String routeFullResult = '/fullResult';
   static String routeSendResult = '/sendResult';
+  static String routeAdmin = '/admin';
+  static String rountAdminAuthen = '/adminLogin';
 
   // Image
   static String logo = 'assets/images/logo-removebg.png';
@@ -32,6 +34,7 @@ class MyConstant {
   static String avatarIcon = 'assets/images/avatar1.png';
   static String instaIcon = 'assets/images/insta-icon.png';
   static String runningMan = 'assets/images/running-man.png';
+  static String adminIcon = 'assets/images/admin-icon.jpg';
 
   // Color
   static Color primary = const Color(0xFFFF8427);
