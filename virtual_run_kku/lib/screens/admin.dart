@@ -4,46 +4,12 @@ import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/contact_us.dart';
 import 'package:virtual_run_kku/screens/profile_setting.dart';
 import 'package:virtual_run_kku/screens/result_check.dart';
+import 'package:virtual_run_kku/utils/constants/colors.dart';
 
 import '../third_party/google_third_party.dart';
 import '../utils/constants/my_constants.dart';
 import '../widgets/my_app_bar.dart';
 import 'main_screen.dart';
-
-class AppBarTest extends StatelessWidget {
-  const AppBarTest({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      foregroundColor: MyConstant.primary,
-      centerTitle: true,
-      title: Text(
-        "Admin",
-        style: MyConstant.h1Style(MyConstant.primary),
-      ),
-      elevation: 1,
-      backgroundColor: MyConstant.white,
-      systemOverlayStyle: SystemUiOverlayStyle(
-        // Status bar color
-        statusBarColor: MyConstant.white,
-
-        // Status bar brightness (optional)
-        statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-        statusBarBrightness: Brightness.light, // For iOS (dark icons)
-      ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: ClipOval(
-            child: Image.network(
-                "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-admin.png"),
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -61,10 +27,19 @@ class _AdminState extends State<Admin> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         extendBody: false,
-        backgroundColor: MyConstant.white,
-        appBar: const PreferredSize(
-          child: AppBarTest(),
-          preferredSize: Size.fromHeight(55),
+        backgroundColor: colorWhite,
+        appBar: AppBar(
+          title: const Text('ข่าวสารการวิ่ง'),
+          centerTitle: true,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ClipOval(
+                child: Image.network(
+                    "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-admin.png"),
+              ),
+            ),
+          ],
         ),
         body: adminOption(context),
         // body: Text('test'),
@@ -87,13 +62,13 @@ class _AdminState extends State<Admin> {
             margin: const EdgeInsets.all(10),
             child: Text(
               "เวอร์ชั่น $version",
-              style: MyConstant.h3Style(MyConstant.grey),
+              style: MyConstant.h3Style(colorGrey),
             ),
             alignment: Alignment.bottomLeft,
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              primary: MyConstant.white,
+              primary: colorWhite,
               minimumSize: const Size.fromHeight(50),
             ),
             onPressed: () {
@@ -107,12 +82,12 @@ class _AdminState extends State<Admin> {
                 Icon(
                   Icons.exit_to_app,
                   size: 40,
-                  color: MyConstant.red,
+                  color: colorRed,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Text('ออกจากระบบ', style: MyConstant.h3Style(MyConstant.red)),
+                Text('ออกจากระบบ', style: MyConstant.h3Style(colorRed)),
               ],
             ),
           ),
@@ -149,7 +124,7 @@ class _AdminState extends State<Admin> {
                   Icon(
                     Icons.account_circle,
                     size: 40,
-                    color: MyConstant.primary,
+                    color: colorPrimary,
                   ),
                   const SizedBox(width: 15),
                   Padding(
@@ -157,7 +132,7 @@ class _AdminState extends State<Admin> {
                     child: Center(
                         child: Text(
                       "ตรวจสอบผลการวิ่ง",
-                      style: MyConstant.h2Style(MyConstant.secondary),
+                      style: MyConstant.h2Style(colorSecondary),
                     )),
                   ),
                 ],
@@ -196,7 +171,7 @@ class _AdminState extends State<Admin> {
                   Icon(
                     Icons.contact_support,
                     size: 40,
-                    color: MyConstant.primary,
+                    color: colorPrimary,
                   ),
                   const SizedBox(width: 15),
                   Center(
@@ -211,7 +186,7 @@ class _AdminState extends State<Admin> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               softWrap: false,
-                              style: MyConstant.h3Style(MyConstant.secondary),
+                              style: MyConstant.h3Style(colorSecondary),
                             ),
                           ),
                         ],

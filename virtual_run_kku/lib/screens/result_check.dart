@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/screens/running_detail.dart';
+import 'package:virtual_run_kku/utils/constants/colors.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import 'package:virtual_run_kku/widgets/running_result_card.dart';
 import 'package:virtual_run_kku/screens/admin.dart';
@@ -37,9 +38,18 @@ class _ResultCheckState extends State<ResultCheck> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        child: AppBarTest(),
-        preferredSize: Size.fromHeight(55),
+      appBar: AppBar(
+        title: const Text('ข่าวสารการวิ่ง'),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ClipOval(
+              child: Image.network(
+                  "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-admin.png"),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: const ScrollPhysics(),
@@ -49,7 +59,7 @@ class _ResultCheckState extends State<ResultCheck> {
               margin: const EdgeInsets.all(20),
               child: Text(
                 'ผลการวิ่งที่ต้องการการตรวจสอบ',
-                style: MyConstant.h2Style(MyConstant.secondary),
+                style: MyConstant.h2Style(colorSecondary),
               ),
               alignment: Alignment.bottomLeft,
             ),

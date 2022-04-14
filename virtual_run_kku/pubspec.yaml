@@ -46,7 +46,6 @@ dependencies:
   image_picker: ^0.8.4+10
   intl: ^0.17.0
   page_transition: ^2.0.5
-  intl: ^0.17.0
   provider: ^5.0.0
   scroll_app_bar: ^2.0.0
   smooth_page_indicator: ^1.0.0+2

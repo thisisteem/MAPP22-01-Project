@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:virtual_run_kku/utils/constants/colors.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import 'package:intl/intl.dart';
 import 'admin.dart';
@@ -54,9 +55,18 @@ class _RunningDetailState extends State<RunningDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        child: AppBarTest(),
-        preferredSize: Size.fromHeight(55),
+      appBar: AppBar(
+        title: const Text('ข่าวสารการวิ่ง'),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: ClipOval(
+              child: Image.network(
+                  "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-admin.png"),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -70,7 +80,7 @@ class _RunningDetailState extends State<RunningDetail> {
               padding: const EdgeInsets.only(left: 10),
               child: Text(
                 "รูปภาพ",
-                style: MyConstant.h2Style(MyConstant.secondary),
+                style: MyConstant.h2Style(colorSecondary),
               ),
             ),
             _resultPhoto(widget.imgUrl),
@@ -78,7 +88,7 @@ class _RunningDetailState extends State<RunningDetail> {
               padding: const EdgeInsets.all(10),
               child: Text(
                 "ข้อมูล",
-                style: MyConstant.h2Style(MyConstant.secondary),
+                style: MyConstant.h2Style(colorSecondary),
               ),
             ),
             _detail(widget.name, widget.bib, widget.date, widget.distance,
@@ -192,35 +202,35 @@ Widget _detail(
             children: [
               Text(
                 "ชื่อผู้ส่ง: $name",
-                style: MyConstant.h3Style(MyConstant.secondary),
+                style: MyConstant.h3Style(colorSecondary),
               ),
               const SizedBox(
                 height: 7,
               ),
               Text(
                 "BIB: $bib",
-                style: MyConstant.h3Style(MyConstant.secondary),
+                style: MyConstant.h3Style(colorSecondary),
               ),
               const SizedBox(
                 height: 7,
               ),
               Text(
                 "ระยะทาง: $distance กิโลเมตร",
-                style: MyConstant.h3Style(MyConstant.secondary),
+                style: MyConstant.h3Style(colorSecondary),
               ),
               const SizedBox(
                 height: 7,
               ),
               Text(
                 "ชื่อโครงการ: $projectName",
-                style: MyConstant.h3Style(MyConstant.secondary),
+                style: MyConstant.h3Style(colorSecondary),
               ),
               const SizedBox(
                 height: 7,
               ),
               Text(
                 "ส่งวันที่: $formatted",
-                style: MyConstant.h3Style(MyConstant.secondary),
+                style: MyConstant.h3Style(colorSecondary),
               ),
             ],
           ),

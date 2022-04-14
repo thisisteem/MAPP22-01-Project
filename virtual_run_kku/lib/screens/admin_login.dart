@@ -4,11 +4,13 @@ import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
 import 'admin.dart';
 
-const users = const {
+const users = {
   'admin@gmail.com': '1234',
 };
 
 class AdminLoginScreen extends StatelessWidget {
+  const AdminLoginScreen({Key? key}) : super(key: key);
+
   Duration get loginTime => Duration(milliseconds: 2250);
 
   Future<String?> _authUser(LoginData data) {
