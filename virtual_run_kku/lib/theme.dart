@@ -15,6 +15,7 @@ class RunKKUTheme {
       ),
       dividerTheme: DividerThemeData(color: colorGrey, thickness: 1, space: 0),
       textTheme: textTheme,
+      textSelectionTheme: TextSelectionThemeData(cursorColor: colorSecondary),
     );
   }
 

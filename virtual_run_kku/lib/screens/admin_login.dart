@@ -1,5 +1,6 @@
 import 'package:flutter_login/flutter_login.dart';
 import 'package:flutter/material.dart';
+import 'package:virtual_run_kku/utils/constants/colors.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
 import 'admin.dart';
@@ -11,7 +12,7 @@ const users = {
 class AdminLoginScreen extends StatelessWidget {
   const AdminLoginScreen({Key? key}) : super(key: key);
 
-  Duration get loginTime => Duration(milliseconds: 2250);
+  Duration get loginTime => const Duration(milliseconds: 1000);
 
   Future<String?> _authUser(LoginData data) {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
@@ -29,7 +30,7 @@ class AdminLoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
-      title: 'Admin Zone',
+      title: 'Admin Login',
       logo: MyConstant.adminIcon,
       onLogin: _authUser,
       onSubmitAnimationCompleted: () {
@@ -41,6 +42,17 @@ class AdminLoginScreen extends StatelessWidget {
       onRecoverPassword: (String) {},
       hideSignUpButton: true,
       hideForgotPasswordButton: true,
+      theme: LoginTheme(
+        primaryColor: colorSecondary2,
+        titleStyle: Theme.of(context)
+            .textTheme
+            .titleMedium!
+            .copyWith(color: colorSecondary),
+        buttonTheme: LoginButtonTheme(
+          splashColor: colorPrimary,
+          backgroundColor: colorPrimary,
+        ),
+      ),
     );
   }
 }
