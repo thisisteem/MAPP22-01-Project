@@ -3,11 +3,14 @@ class ActivityModel {
   final String title;
   final int distance;
   final String bib;
-  final int timeSpendInSeconds;
+  final int? timeSpendInSeconds;
   final DateTime eventDate;
-  final DateTime sendResultDate;
+  final DateTime? sendResultDate;
   // ? Status [checking, approved, rejected]
+  final bool isSendResult;
+  final bool isArchive;
   final String status;
+  final String rejectReason;
   final String urlImage;
 
   ActivityModel({
@@ -15,10 +18,13 @@ class ActivityModel {
     required this.title,
     required this.distance,
     required this.bib,
-    required this.timeSpendInSeconds,
+    this.timeSpendInSeconds,
     required this.eventDate,
-    required this.sendResultDate,
+    this.sendResultDate,
+    required this.isSendResult,
+    required this.isArchive,
     required this.status,
+    required this.rejectReason,
     required this.urlImage,
   });
 }

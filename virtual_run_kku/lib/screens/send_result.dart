@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:virtual_run_kku/models/event.model.dart';
-import 'package:virtual_run_kku/screens/home.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
 import 'package:virtual_run_kku/widgets/send_result_card.dart';
+import '../models/activity_model.dart';
 import '../utils/constants/colors.dart';
 
 class SendResult extends StatefulWidget {
@@ -14,25 +13,109 @@ class SendResult extends StatefulWidget {
 }
 
 class _SendResultState extends State<SendResult> {
-  final List<EventModel> eventsList = [
-    EventModel(
+  final List<ActivityModel> activitiesList = [
+    ActivityModel(
       id: 1,
       title:
           '40th RX KKU: 40,000 KM FOR YOU DREAM AT KHON KAEN KHON KAEN KHON KAEN KHON KAEN',
       distance: 15,
       bib: 'Q0001',
-      date: DateTime.now(),
+      eventDate: DateTime.now(),
+      isSendResult: false,
+      isArchive: false,
+      status: '',
+      rejectReason: '',
       urlImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
-    EventModel(
+    ActivityModel(
       id: 2,
       title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
       distance: 11,
       bib: 'Q0032',
-      date: DateTime.now(),
+      eventDate: DateTime.now(),
+      isSendResult: false,
+      isArchive: false,
+      status: '',
+      rejectReason: '',
       urlImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+    ActivityModel(
+      id: 3,
+      title:
+          '40th RX KKU: 40,000 KM FOR YOU DREAM AT KHON KAEN KHON KAEN KHON KAEN KHON KAEN',
+      distance: 15,
+      bib: 'Q0001',
+      timeSpendInSeconds: 9512,
+      eventDate: DateTime.now(),
+      sendResultDate: DateTime.now(),
+      isSendResult: true,
+      isArchive: false,
+      status: 'checking',
+      rejectReason: '',
+      urlImage:
+          'https://p-u.popcdn.net/event_details/posters/000/010/917/medium/4fb06c866283e480c87678ebcc77140e6fc029e7.jpg?1615432226',
+    ),
+    ActivityModel(
+      id: 4,
+      title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
+      distance: 11,
+      bib: 'Q0032',
+      timeSpendInSeconds: 9512,
+      eventDate: DateTime.now(),
+      sendResultDate: DateTime.now(),
+      isSendResult: true,
+      isArchive: false,
+      status: 'approved',
+      rejectReason: '',
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+    ActivityModel(
+      id: 5,
+      title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
+      distance: 11,
+      bib: 'Q0032',
+      timeSpendInSeconds: 9512,
+      eventDate: DateTime.now(),
+      sendResultDate: DateTime.now(),
+      isSendResult: true,
+      isArchive: false,
+      status: 'rejected',
+      rejectReason: 'รูปภาพไม่ชัด กรุณาส่งผลการวิ่งอีกครั้งด้วยค่ะ',
+      urlImage:
+          'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
+    ),
+    ActivityModel(
+      id: 6,
+      title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
+      distance: 11,
+      bib: 'Q0032',
+      timeSpendInSeconds: 9512,
+      eventDate: DateTime.now(),
+      sendResultDate: DateTime.now(),
+      isSendResult: true,
+      isArchive: true,
+      status: 'approved',
+      rejectReason: '',
+      urlImage:
+          'https://cdn.discordapp.com/attachments/502121669171740673/964971869449101332/unknown.png',
+    ),
+    ActivityModel(
+      id: 7,
+      title: 'KKU RUNNING AROUND THE WORLD',
+      distance: 150,
+      bib: 'Q0001',
+      timeSpendInSeconds: 9512,
+      eventDate: DateTime.now(),
+      sendResultDate: DateTime.now(),
+      isSendResult: true,
+      isArchive: true,
+      status: 'approved',
+      rejectReason: '',
+      urlImage:
+          'https://cdn.discordapp.com/attachments/502121669171740673/964971926537785374/unknown.png',
     ),
   ];
 
@@ -46,14 +129,16 @@ class _SendResultState extends State<SendResult> {
       backgroundColor: colorWhite,
       body: ListView(
         children: [
-          eventsList.isNotEmpty
+          activitiesList.isNotEmpty
               ? ListView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: eventsList.length,
+                  itemCount: activitiesList.length,
                   itemBuilder: (BuildContext context, index) {
-                    var event = eventsList[index];
-                    return SendResultCard(event: event);
+                    var activity = activitiesList[index];
+                    return !activity.isSendResult
+                        ? SendResultCard(event: activity)
+                        : Container();
                   },
                 )
               : Padding(

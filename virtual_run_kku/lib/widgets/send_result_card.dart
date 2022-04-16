@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:virtual_run_kku/models/activity_model.dart';
 
-import '../models/event.model.dart';
 import '../screens/send_result_step.dart';
 import '../utils/constants/colors.dart';
 
 class SendResultCard extends StatefulWidget {
-  final EventModel event;
+  final ActivityModel event;
   const SendResultCard({Key? key, required this.event}) : super(key: key);
 
   @override
@@ -44,11 +44,12 @@ class _SendResultCardState extends State<SendResultCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.event.date.day.toString(),
+                          widget.event.eventDate.day.toString(),
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         Text(
-                          DateFormat('MMM', 'th').format(widget.event.date),
+                          DateFormat('MMM', 'th')
+                              .format(widget.event.eventDate),
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium!
@@ -150,7 +151,7 @@ class _SendResultCardState extends State<SendResultCard> {
                         ),
                         Text(
                           DateFormat('dd MMMM yyyy', 'th')
-                              .format(widget.event.date),
+                              .format(widget.event.eventDate),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],

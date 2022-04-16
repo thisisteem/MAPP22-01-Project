@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Stats {
   final double distance;
   final int events;

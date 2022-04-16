@@ -1,12 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../utils/constants/colors.dart';
-import '../utils/constants/my_constants.dart';
 import '../utils/functions/seconds_to_time.dart';
 import '../widgets/custom_image_picker.dart';
 import '../widgets/custom_textformfield.dart';
