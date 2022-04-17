@@ -3,16 +3,71 @@ import 'package:flutter/services.dart';
 
 import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
+import '../widgets/custom_textformfield.dart';
 
-class ContactUs extends StatelessWidget {
+class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
 
+  @override
+  State<ContactUs> createState() => _ContactUsState();
+}
+
+class _ContactUsState extends State<ContactUs> {
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
       backgroundColor: colorWhite,
       appBar: subAppBar("ติดต่อเรา"),
+      bottomNavigationBar: Container(
+        color: colorWhite,
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Row(
+            children: [
+              Flexible(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: colorGrey,
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'ยกเลิก',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: colorWhite,
+                        ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 15),
+              Flexible(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: colorPrimary,
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  onPressed: () {
+                    // Navigator.pop(context);
+                    if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.save();
+                    }
+                  },
+                  child: Text(
+                    'บันทึก',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          color: colorWhite,
+                        ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Container(
         alignment: Alignment.center,
         margin: const EdgeInsets.all(20),
@@ -49,6 +104,26 @@ class ContactUs extends StatelessWidget {
                 '084-798-8456',
                 style: MyConstant.h1Style(colorSecondary),
               ),
+            ),
+            const Center(
+              child: Text(
+                'หรือ',
+              ),
+            ),
+            CustomTextFormField(
+              numMaxLine: 3,
+              textLabel: 'แจ้งปัญหา (Optional)',
+              isRequired: true,
+              textInputAction: TextInputAction.next,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'โปรดกรอกปัญหาที่ท่านพบ';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                //_profileNameController.text = value.toString().trim();
+              },
             ),
           ],
         ),
