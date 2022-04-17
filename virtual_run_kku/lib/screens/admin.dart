@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/screens/contact_us.dart';
+import 'package:virtual_run_kku/screens/list_bug_report.dart';
+import 'package:virtual_run_kku/screens/news_create.dart';
 import 'package:virtual_run_kku/screens/profile_setting.dart';
 import 'package:virtual_run_kku/screens/result_check.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
@@ -137,6 +139,43 @@ class _AdminState extends State<Admin> {
     );
   }
 
+  Widget _buildNews(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CreateNewsPage(),
+          ),
+        ),
+        child: Container(
+          width: double.infinity,
+          height: 75,
+          padding: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 12,
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Icon(
+                Icons.contact_support,
+                size: 40,
+                color: colorPrimary,
+              ),
+              const SizedBox(width: 15),
+              Text(
+                'สร้างข่าว',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildContactUsCard() {
     return Card(
       elevation: 2,
@@ -168,6 +207,43 @@ class _AdminState extends State<Admin> {
                   'ตรวจสอบการรายงานแอปพลิเคชัน',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBugReported(BuildContext context) {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const ListBugReport(),
+          ),
+        ),
+        child: Container(
+          width: double.infinity,
+          height: 75,
+          padding: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 12,
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Icon(
+                Icons.contact_support,
+                size: 40,
+                color: colorPrimary,
+              ),
+              const SizedBox(width: 15),
+              Text(
+                'ตรวจสอบการรายงานบัค',
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],
           ),

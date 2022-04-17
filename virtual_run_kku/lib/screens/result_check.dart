@@ -39,7 +39,7 @@ class _ResultCheckState extends State<ResultCheck> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ข่าวสารการวิ่ง'),
+        title: const Text('ผลการวิ่ง'),
         centerTitle: true,
         actions: [
           Padding(
