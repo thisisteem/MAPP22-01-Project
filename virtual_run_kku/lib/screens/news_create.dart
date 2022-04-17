@@ -132,7 +132,6 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
       children: [
         CustomTextFormField(
           textInputType: TextInputType.number,
-          // numMaxLine: 1,
           textLabel: 'ระยะทาง',
           isRequired: true,
           textInputAction: TextInputAction.next,
@@ -156,7 +155,6 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextFormField(
-          // numMaxLine: 1,
           textLabel: 'หัวข้อข่าว',
           isRequired: true,
           textInputAction: TextInputAction.next,
@@ -180,7 +178,7 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CustomTextFormField(
-          // numMaxLine: 6,
+          numMaxLine: 6,
           textLabel: 'รายละเอียดข่าว',
           isRequired: true,
           textInputAction: TextInputAction.next,

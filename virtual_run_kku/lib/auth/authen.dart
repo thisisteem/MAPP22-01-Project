@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 
+import '../screens/admin.dart';
 import '../third_party/google_third_party.dart';
 import '../utils/constants/colors.dart';
 import '/widgets/auth_button.dart';
@@ -44,7 +45,13 @@ class _AuthenState extends State<Authen> {
                             margin: const EdgeInsets.symmetric(vertical: 8),
                             child: const GoogleButton(),
                           ),
-                          const AdminButton(),
+                          Row(
+                            children: [
+                              const AdminButton(),
+                              bypassAdmin(),
+                              const Text('<-- bypass')
+                            ],
+                          ),
                           // TextButton(
                           //   onPressed: () => Navigator.push(
                           //     context,
@@ -66,4 +73,15 @@ class _AuthenState extends State<Authen> {
           ),
         ),
       );
+
+  Widget bypassAdmin() {
+    return IconButton(
+      onPressed: () {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const Admin(),
+        ));
+      },
+      icon: const Icon(Icons.person),
+    );
+  }
 }

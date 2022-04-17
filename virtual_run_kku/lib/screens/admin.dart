@@ -58,6 +58,7 @@ class _AdminState extends State<Admin> {
             children: [
               _buildResultCheck(),
               _buildContactUsCard(),
+              _buildBugReported(),
               const SizedBox(height: 50),
               Container(
                 margin: const EdgeInsets.all(10),
@@ -183,7 +184,7 @@ class _AdminState extends State<Admin> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ContactUs(),
+            builder: (context) => CreateNewsPage(),
           ),
         ),
         child: Container(
@@ -204,7 +205,7 @@ class _AdminState extends State<Admin> {
               const SizedBox(width: 15),
               Expanded(
                 child: Text(
-                  'ตรวจสอบการรายงานแอปพลิเคชัน',
+                  'สร้างข่าว',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
@@ -215,7 +216,7 @@ class _AdminState extends State<Admin> {
     );
   }
 
-  Widget _buildBugReported(BuildContext context) {
+  Widget _buildBugReported() {
     return Card(
       elevation: 2,
       child: InkWell(
