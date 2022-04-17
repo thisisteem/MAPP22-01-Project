@@ -33,29 +33,29 @@ class _HomeState extends State<Home> {
 
   final List<NewsModel> newsList = [
     NewsModel(
-      id: 1,
       title: 'SAT Khon Kaen Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
       date: DateTime.now(),
+      distance: 35,
       urlImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     NewsModel(
-      id: 2,
       title: 'HW Virtual Run 2022',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
       date: DateTime.now(),
+      distance: 51,
       urlImage:
           'https://www.realasset.co.th/upload/news/Adjust-size-for-Web-%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%91%E0%B9%90%E0%B9%94-0001.jpg',
     ),
     NewsModel(
-      id: 3,
-      title: 'SAT Khon Kaen Virtual Run 2022',
+      title: 'SAT Khon Kaen Virtual Run 2023',
       description:
           'วิ่งสะสมระยะทาง "ที่ไหนก็ได้" ให้ครบตามที่ กำหนดโดยจำลองเส้นทางเสมือนจริงของงานวิ่ง SAT Khon Kaen Virtual 2021 ผ่าน Function MAP  ในแอพพลิเคชั่น Dromos Virtual Club ซึ่งทำงานผ่านการเชื่อมต่อกับเวปไซต์แผนที่นำทางชั้นนำ ที่เชื่อถือได้ที่สุดอย่าง Google Map',
       date: DateTime.now(),
+      distance: 26,
       urlImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
@@ -237,7 +237,10 @@ class _HomeState extends State<Home> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => News(news: news),
+                              builder: (context) => News(
+                                  news: news,
+                                  index: newsList.indexWhere(
+                                      (i) => i.title == news.title)),
                             ),
                           );
                         },
@@ -246,7 +249,8 @@ class _HomeState extends State<Home> {
                             ClipRRect(
                               borderRadius: BorderRadius.circular(11),
                               child: Hero(
-                                tag: 'news_${news.id}',
+                                tag:
+                                    'news_${newsList.indexWhere((i) => i.title == news.title)}',
                                 child: CachedNetworkImage(
                                   imageUrl: news.urlImage,
                                   errorWidget: (context, url, error) =>

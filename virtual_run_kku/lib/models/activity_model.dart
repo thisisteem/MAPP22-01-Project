@@ -1,5 +1,4 @@
 class ActivityModel {
-  final int id;
   final String title;
   final int distance;
   final String bib;
@@ -14,7 +13,6 @@ class ActivityModel {
   final String urlImage;
 
   ActivityModel({
-    required this.id,
     required this.title,
     required this.distance,
     required this.bib,

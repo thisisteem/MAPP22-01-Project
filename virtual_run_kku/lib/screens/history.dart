@@ -14,7 +14,6 @@ class History extends StatefulWidget {
 class _HistoryState extends State<History> {
   final List<ActivityModel> activitiesList = [
     ActivityModel(
-      id: 1,
       title:
           '40th RX KKU: 40,000 KM FOR YOU DREAM AT KHON KAEN KHON KAEN KHON KAEN KHON KAEN',
       distance: 15,
@@ -28,7 +27,6 @@ class _HistoryState extends State<History> {
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
-      id: 2,
       title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
       distance: 11,
       bib: 'Q0032',
@@ -41,7 +39,6 @@ class _HistoryState extends State<History> {
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
-      id: 3,
       title:
           '40th RX KKU: 40,000 KM FOR YOU DREAM AT KHON KAEN KHON KAEN KHON KAEN KHON KAEN',
       distance: 15,
@@ -57,7 +54,6 @@ class _HistoryState extends State<History> {
           'https://p-u.popcdn.net/event_details/posters/000/010/917/medium/4fb06c866283e480c87678ebcc77140e6fc029e7.jpg?1615432226',
     ),
     ActivityModel(
-      id: 4,
       title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
       distance: 11,
       bib: 'Q0032',
@@ -72,7 +68,6 @@ class _HistoryState extends State<History> {
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
-      id: 5,
       title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
       distance: 11,
       bib: 'Q0032',
@@ -87,7 +82,6 @@ class _HistoryState extends State<History> {
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
-      id: 6,
       title: 'SBPT Virtual Run be For Your Dream at Khon Kaen',
       distance: 11,
       bib: 'Q0032',
@@ -102,7 +96,6 @@ class _HistoryState extends State<History> {
           'https://cdn.discordapp.com/attachments/502121669171740673/964971869449101332/unknown.png',
     ),
     ActivityModel(
-      id: 7,
       title: 'KKU RUNNING AROUND THE WORLD',
       distance: 150,
       bib: 'Q0001',

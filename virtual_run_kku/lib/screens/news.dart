@@ -1,15 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 
+import '../services/firestore_database.dart';
 import '../utils/constants/colors.dart';
 
 class News extends StatefulWidget {
   final NewsModel news;
+  final int index;
   const News({
     Key? key,
     required this.news,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -31,7 +36,22 @@ class _NewsState extends State<News> {
             primary: colorPrimary,
             minimumSize: const Size.fromHeight(40),
           ),
-          onPressed: () {},
+          onPressed: () {
+            CoolAlert.show(
+                context: context,
+                type: CoolAlertType.confirm,
+                title: 'คุณแน่ใจหรือไม่ ?',
+                confirmBtnText: 'ใช่',
+                cancelBtnText: 'ยกเลิก',
+                widget: Text(
+                  'ที่จะเข้าร่วมกิจกรรมนี้',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                onConfirmBtnTap: () {
+                  Navigator.pop(context);
+                  joinEvent(widget.news);
+                });
+          },
           child: Text(
             'เข้าร่วม',
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
@@ -51,7 +71,7 @@ class _NewsState extends State<News> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(11),
                     child: Hero(
-                      tag: 'news_${widget.news.id}',
+                      tag: 'news_${widget.index}',
                       child: CachedNetworkImage(
                         imageUrl: widget.news.urlImage,
                         errorWidget: (context, url, error) =>
