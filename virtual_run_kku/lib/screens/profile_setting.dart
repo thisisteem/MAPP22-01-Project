@@ -17,10 +17,13 @@ class _ProfileSettingState extends State<ProfileSetting> {
   final TextEditingController _profileNameController = TextEditingController();
 
   final ProfileModel profile = ProfileModel(
-      id: 1,
-      name: 'Eleanor Pena',
-      urlImage:
-          'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80');
+    name: 'Eleanor Pena',
+    urlImage:
+        'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
+    distance: 30,
+    events: 2,
+    timeInSeconds: 1239,
+  );
 
   @override
   void initState() {

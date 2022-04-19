@@ -50,6 +50,7 @@ dependencies:
   intl: ^0.17.0
   page_transition: ^2.0.5
   provider: ^5.0.0
+  pull_to_refresh: ^2.0.0
   scroll_app_bar: ^2.0.0
   smooth_page_indicator: ^1.0.0+2
   toggle_switch: ^1.4.0

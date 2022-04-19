@@ -31,7 +31,7 @@ class _HistoryCardState extends State<HistoryCard> {
           header: Column(
             children: [
               CachedNetworkImage(
-                imageUrl: widget.activity.urlImage,
+                imageUrl: widget.activity.eventImage,
                 errorWidget: (context, url, error) => const Icon(Icons.error),
                 height: 150,
                 width: double.infinity,

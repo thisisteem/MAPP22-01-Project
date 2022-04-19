@@ -10,11 +10,9 @@ import '../utils/constants/colors.dart';
 
 class News extends StatefulWidget {
   final NewsModel news;
-  final int index;
   const News({
     Key? key,
     required this.news,
-    required this.index,
   }) : super(key: key);
 
   @override
@@ -26,7 +24,10 @@ class _NewsState extends State<News> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ข่าวสารการวิ่ง'),
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(widget.news.title),
+        ),
         centerTitle: true,
       ),
       bottomNavigationBar: Padding(
@@ -40,12 +41,13 @@ class _NewsState extends State<News> {
             CoolAlert.show(
                 context: context,
                 type: CoolAlertType.confirm,
-                title: 'คุณแน่ใจหรือไม่ ?',
+                title: '',
                 confirmBtnText: 'ใช่',
                 cancelBtnText: 'ยกเลิก',
                 widget: Text(
-                  'ที่จะเข้าร่วมกิจกรรมนี้',
+                  'คุณแน่ใจหรือไม่ ?\nที่จะเข้าร่วมกิจกรรม\n${widget.news.title}',
                   style: Theme.of(context).textTheme.headlineMedium,
+                  textAlign: TextAlign.center,
                 ),
                 onConfirmBtnTap: () {
                   Navigator.pop(context);
@@ -70,15 +72,12 @@ class _NewsState extends State<News> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(11),
-                    child: Hero(
-                      tag: 'news_${widget.index}',
-                      child: CachedNetworkImage(
-                        imageUrl: widget.news.urlImage,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        height: 240,
-                        fit: BoxFit.cover,
-                      ),
+                    child: CachedNetworkImage(
+                      imageUrl: widget.news.urlImage,
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                      height: 240,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -106,6 +105,23 @@ class _NewsState extends State<News> {
                         child: Text(
                           DateFormat('dd MMMM yyyy', 'th')
                               .format(widget.news.date),
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'ระยะทาง: ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: colorGrey),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '${widget.news.distance.toString()} กม.',
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),

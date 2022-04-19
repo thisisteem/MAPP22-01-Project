@@ -63,7 +63,7 @@ class _SendResultCardState extends State<SendResultCard> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(11),
                       child: CachedNetworkImage(
-                        imageUrl: widget.event.urlImage,
+                        imageUrl: widget.event.eventImage,
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
                         height: 50,

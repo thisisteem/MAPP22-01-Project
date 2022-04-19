@@ -1,9 +1,10 @@
 class NewsModel {
   final String title;
-  final int distance;
+  final double distance;
   final String description;
   final DateTime date;
   final String urlImage;
+  final int currentBib;
 
   NewsModel({
     required this.title,
@@ -11,5 +12,24 @@ class NewsModel {
     required this.description,
     required this.date,
     required this.urlImage,
+    required this.currentBib,
   });
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'distance': distance,
+        'description': description,
+        'date': date,
+        'urlImage': urlImage,
+        'currentBib': currentBib
+      };
+
+  static NewsModel fromJson(Map<String, dynamic> json) => NewsModel(
+        title: json['title'],
+        distance: json['distance'],
+        description: json['description'],
+        date: DateTime.parse(json['date']),
+        urlImage: json['urlImage'],
+        currentBib: json['currentBib'],
+      );
 }

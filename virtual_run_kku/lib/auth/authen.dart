@@ -37,10 +37,10 @@ class _AuthenState extends State<Authen> {
                     children: [
                       Column(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: const FacebookButton(),
-                          ),
+                          // Container(
+                          //   margin: const EdgeInsets.symmetric(vertical: 8),
+                          //   child: const FacebookButton(),
+                          // ),
                           Container(
                             margin: const EdgeInsets.symmetric(vertical: 8),
                             child: const GoogleButton(),

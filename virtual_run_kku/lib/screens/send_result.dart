@@ -24,7 +24,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: false,
       status: '',
       rejectReason: '',
-      urlImage:
+      eventImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
@@ -36,7 +36,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: false,
       status: '',
       rejectReason: '',
-      urlImage:
+      eventImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
@@ -51,7 +51,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: false,
       status: 'checking',
       rejectReason: '',
-      urlImage:
+      eventImage:
           'https://p-u.popcdn.net/event_details/posters/000/010/917/medium/4fb06c866283e480c87678ebcc77140e6fc029e7.jpg?1615432226',
     ),
     ActivityModel(
@@ -65,7 +65,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: false,
       status: 'approved',
       rejectReason: '',
-      urlImage:
+      eventImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
@@ -79,7 +79,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: false,
       status: 'rejected',
       rejectReason: 'รูปภาพไม่ชัด กรุณาส่งผลการวิ่งอีกครั้งด้วยค่ะ',
-      urlImage:
+      eventImage:
           'https://img5.localgymsandfitness.com/010/163/1967232840101631.jpg',
     ),
     ActivityModel(
@@ -93,7 +93,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: true,
       status: 'approved',
       rejectReason: '',
-      urlImage:
+      eventImage:
           'https://cdn.discordapp.com/attachments/502121669171740673/964971869449101332/unknown.png',
     ),
     ActivityModel(
@@ -107,7 +107,7 @@ class _SendResultState extends State<SendResult> {
       isArchive: true,
       status: 'approved',
       rejectReason: '',
-      urlImage:
+      eventImage:
           'https://cdn.discordapp.com/attachments/502121669171740673/964971926537785374/unknown.png',
     ),
   ];

@@ -1,7 +1,7 @@
 class EventModel {
   final int id;
   final String title;
-  final int distance;
+  final double distance;
   final String bib;
   final DateTime date;
   final String urlImage;
