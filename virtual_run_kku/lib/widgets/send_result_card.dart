@@ -2,14 +2,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/models/activity_model.dart';
 
+import '../providers/file_upload_provider.dart';
 import '../screens/send_result_step.dart';
 import '../utils/constants/colors.dart';
 
 class SendResultCard extends StatefulWidget {
-  final ActivityModel event;
-  const SendResultCard({Key? key, required this.event}) : super(key: key);
+  final ActivityModel activity;
+  const SendResultCard({Key? key, required this.activity}) : super(key: key);
 
   @override
   _SendResultCardState createState() => _SendResultCardState();
@@ -18,6 +20,8 @@ class SendResultCard extends StatefulWidget {
 class _SendResultCardState extends State<SendResultCard> {
   @override
   Widget build(BuildContext context) {
+    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
+
     return Container(
       key: widget.key,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -44,12 +48,12 @@ class _SendResultCardState extends State<SendResultCard> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.event.eventDate.day.toString(),
+                          widget.activity.eventDate.day.toString(),
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         Text(
                           DateFormat('MMM', 'th')
-                              .format(widget.event.eventDate),
+                              .format(widget.activity.eventDate),
                           style: Theme.of(context)
                               .textTheme
                               .headlineMedium!
@@ -63,10 +67,11 @@ class _SendResultCardState extends State<SendResultCard> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(11),
                       child: CachedNetworkImage(
-                        imageUrl: widget.event.eventImage,
+                        imageUrl: widget.activity.eventImage,
                         errorWidget: (context, url, error) =>
                             const Icon(Icons.error),
-                        height: 50,
+                        height: 80,
+                        width: 50,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -74,7 +79,7 @@ class _SendResultCardState extends State<SendResultCard> {
                   const SizedBox(width: 10),
                   Flexible(
                     child: Text(
-                      widget.event.title,
+                      widget.activity.title,
                       style: Theme.of(context).textTheme.bodyMedium,
                       softWrap: true,
                       maxLines: 2,
@@ -91,10 +96,13 @@ class _SendResultCardState extends State<SendResultCard> {
                     minimumSize: const Size.fromHeight(30),
                   ),
                   onPressed: () {
+                    fileUploadProvider.setFileName('');
+                    fileUploadProvider.setFilePath('');
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const SendResultStep()),
+                          builder: (context) =>
+                              SendResultStep(activity: widget.activity)),
                     );
                   },
                   child: Text(
@@ -142,16 +150,16 @@ class _SendResultCardState extends State<SendResultCard> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.event.bib,
+                          widget.activity.bib,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
-                          '${widget.event.distance} กม.',
+                          '${widget.activity.distance} กม.',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                         Text(
                           DateFormat('dd MMMM yyyy', 'th')
-                              .format(widget.event.eventDate),
+                              .format(widget.activity.eventDate),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],

@@ -9,7 +9,8 @@ import 'history.dart';
 import 'setting.dart';
 
 class MainScreen extends StatefulWidget with PreferredSizeWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  final int? gotoPage;
+  const MainScreen({Key? key, this.gotoPage}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -27,6 +28,12 @@ class _MainScreenState extends State<MainScreen> {
     const History(),
     const Setting(),
   ];
+
+  @override
+  void initState() {
+    _activePage = widget.gotoPage ?? 0;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

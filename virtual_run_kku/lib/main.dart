@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:virtual_run_kku/providers/file_upload_provider.dart';
 import 'package:virtual_run_kku/screens/admin.dart';
 import 'package:virtual_run_kku/screens/admin_login.dart';
 import 'package:virtual_run_kku/screens/main_screen.dart';
@@ -77,13 +78,19 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  MaterialApp changeScreen(Widget screen) {
-    return MaterialApp(
-      theme: RunKKUTheme.themeData(),
-      debugShowCheckedModeBanner: false,
-      title: appName,
-      routes: map,
-      home: screen,
+  Widget changeScreen(Widget screen) {
+    return MultiProvider(
+      providers: [
+        ListenableProvider<FileUploadProvider>(
+            create: (_) => FileUploadProvider()),
+      ],
+      child: MaterialApp(
+        theme: RunKKUTheme.themeData(),
+        debugShowCheckedModeBanner: false,
+        title: appName,
+        routes: map,
+        home: screen,
+      ),
     );
   }
 }

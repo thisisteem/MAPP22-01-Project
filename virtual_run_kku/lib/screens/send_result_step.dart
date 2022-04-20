@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
+import 'package:provider/provider.dart';
+import 'package:virtual_run_kku/models/activity_model.dart';
+import 'package:virtual_run_kku/services/firestore_database.dart';
+import 'package:virtual_run_kku/widgets/toast.dart';
 
+import '../providers/file_upload_provider.dart';
 import '../utils/constants/colors.dart';
 import '../utils/functions/seconds_to_time.dart';
 import '../widgets/custom_image_picker.dart';
@@ -8,7 +13,8 @@ import '../widgets/custom_textformfield.dart';
 import '../widgets/date_picker_custom_textformfield.dart';
 
 class SendResultStep extends StatefulWidget {
-  const SendResultStep({Key? key}) : super(key: key);
+  final ActivityModel activity;
+  const SendResultStep({Key? key, required this.activity}) : super(key: key);
 
   @override
   _SendResultStepState createState() => _SendResultStepState();
@@ -23,9 +29,14 @@ class _SendResultStepState extends State<SendResultStep> {
 
   @override
   Widget build(BuildContext context) {
+    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ส่งผลการวิ่ง'),
+        title: FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(widget.activity.title),
+        ),
         centerTitle: true,
       ),
       bottomNavigationBar: Padding(
@@ -37,12 +48,23 @@ class _SendResultStepState extends State<SendResultStep> {
           ),
           onPressed: () {
             // Navigator.pop(context);
-            if (_formKey.currentState!.validate()) {
+            if (_formKey.currentState!.validate() &&
+                fileUploadProvider.fileName != '' &&
+                fileUploadProvider.filePath != '') {
               _formKey.currentState!.save();
               debugPrint('ระยะทาง: ${_distanceController.text}');
               debugPrint('เวลาที่ใช้: ${_timeSpendController.text}');
               debugPrint('วันที่วิ่ง: ${_dateController.text}');
               debugPrint('เวลาที่เริ่มวิ่ง: ${_timeStartController.text}');
+              // hhmmssToSeconds(_timeSpendController.text);
+
+              // sendResult(
+              //   activityTitle: widget.activity.title,
+              //   timeSpendInSeconds: hhmmssToSeconds(_timeSpendController.text),
+              //   distance: double.parse(_distanceController.text),
+              // ).then((value) => Navigator.pop(context));
+            } else {
+              toastError(msg: 'กรุณาใส่ข้อมูลให้ครบ');
             }
           },
           child: Text(
@@ -56,10 +78,13 @@ class _SendResultStepState extends State<SendResultStep> {
       backgroundColor: colorWhite,
       body: ListView(
         children: [
-          // Container(
-          //   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-          //   child: Text('test'),
-          // ),
+          ElevatedButton(
+            child: const Text('check'),
+            onPressed: () {
+              debugPrint('fileName: ${fileUploadProvider.fileName}');
+              debugPrint('filePath: ${fileUploadProvider.filePath}');
+            },
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: Form(

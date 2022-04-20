@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:virtual_run_kku/widgets/history_card.dart';
 
 import '../models/activity_model.dart';
+import '../services/firestore_database.dart';
 import '../utils/constants/colors.dart';
+import 'main_screen.dart';
 
 class History extends StatefulWidget {
   const History({Key? key}) : super(key: key);
@@ -119,43 +122,75 @@ class _HistoryState extends State<History> {
         centerTitle: false,
       ),
       backgroundColor: colorWhite,
-      body: ListView(
-        children: [
-          activitiesList.isNotEmpty
-              ? ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: activitiesList.length,
-                  itemBuilder: (BuildContext context, index) {
-                    var activity = activitiesList[index];
-                    return activity.isSendResult && activity.isArchive
-                        ? HistoryCard(activity: activity)
-                        : Container();
-                  },
-                )
-              : Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
-                  child: Center(
-                    child: Column(
-                      children: [
-                        Text(
-                          'ยังไม่มีกิจกรรมที่เข้าร่วม',
+      body: StreamBuilder<List<ActivityModel>>(
+        stream: readActivityHistory(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            debugPrint(snapshot.error.toString());
+            return Text('มีบางอย่างผิดพลาด ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            final activity = snapshot.data!;
+
+            return activity.isNotEmpty
+                ? ListView(
+                    children: activity.map<Widget>(((e) {
+                      return HistoryCard(activity: e);
+                    })).toList(),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 100, horizontal: 20),
+                      child: Center(
+                        child: Text(
+                          'ยังไม่มีประวัติกิจกรรม',
                           style: Theme.of(context).textTheme.displaySmall,
                         ),
-                        const SizedBox(height: 30),
-                        Text(
-                          'ยังไม่มีประวัติการวิ่ง',
-                          style: Theme.of(context).textTheme.displaySmall,
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(height: 30),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-        ],
+                  );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
       ),
+      // body: ListView(
+      //   children: [
+      //     activitiesList.isNotEmpty
+      //         ? ListView.builder(
+      //             physics: const NeverScrollableScrollPhysics(),
+      //             shrinkWrap: true,
+      //             itemCount: activitiesList.length,
+      //             itemBuilder: (BuildContext context, index) {
+      //               var activity = activitiesList[index];
+      //               return activity.isSendResult && activity.isArchive
+      //                   ? HistoryCard(activity: activity)
+      //                   : Container();
+      //             },
+      //           )
+      //         : Padding(
+      //             padding:
+      //                 const EdgeInsets.symmetric(vertical: 100, horizontal: 20),
+      //             child: Center(
+      //               child: Column(
+      //                 children: [
+      //                   Text(
+      //                     'ยังไม่มีกิจกรรมที่เข้าร่วม',
+      //                     style: Theme.of(context).textTheme.displaySmall,
+      //                   ),
+      //                   const SizedBox(height: 30),
+      //                   Text(
+      //                     'ยังไม่มีประวัติการวิ่ง',
+      //                     style: Theme.of(context).textTheme.displaySmall,
+      //                     textAlign: TextAlign.center,
+      //                   ),
+      //                   const SizedBox(height: 30),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //   ],
+      // ),
     );
   }
 }

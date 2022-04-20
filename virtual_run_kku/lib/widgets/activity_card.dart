@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:virtual_run_kku/services/firestore_database.dart';
 
 import '../models/activity_model.dart';
 import '../utils/constants/colors.dart';
@@ -50,7 +52,7 @@ class _ActivityCardState extends State<ActivityCard> {
                     Text(
                       widget.activity.title,
                       style: Theme.of(context).textTheme.bodyMedium,
-                      softWrap: true,
+                      softWrap: false,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -151,7 +153,7 @@ class _ActivityCardState extends State<ActivityCard> {
                               ),
                               Text(
                                 DateFormat('dd MMMM yyyy', 'th')
-                                    .format(widget.activity.eventDate),
+                                    .format(widget.activity.sendResultDate!),
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ],
@@ -166,7 +168,25 @@ class _ActivityCardState extends State<ActivityCard> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     OutlinedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        CoolAlert.show(
+                                            context: context,
+                                            type: CoolAlertType.confirm,
+                                            title: '',
+                                            confirmBtnText: 'ใช่',
+                                            cancelBtnText: 'ยกเลิก',
+                                            widget: Text(
+                                              'คุณแน่ใจหรือไม่ ?\nที่จะจัดเก็บกิจกรรม\n${widget.activity.title}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineMedium,
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            onConfirmBtnTap: () {
+                                              Navigator.pop(context);
+                                              archive(widget.activity.title);
+                                            });
+                                      },
                                       child: Row(
                                         children: [
                                           Icon(
@@ -207,7 +227,9 @@ class _ActivityCardState extends State<ActivityCard> {
         ? 'กำลังตรวจสอบ'
         : status == 'approved'
             ? 'ผ่าน'
-            : 'ไม่ผ่าน';
+            : status == 'rejected'
+                ? 'ไม่ผ่าน'
+                : 'กำลังตรวจสอบ';
     return Container(
       height: 30,
       color: Colors.transparent,
@@ -217,7 +239,9 @@ class _ActivityCardState extends State<ActivityCard> {
               ? colorYellow
               : status == 'approved'
                   ? colorGreen
-                  : colorRed,
+                  : status == 'rejected'
+                      ? colorRed
+                      : colorYellow,
           borderRadius: const BorderRadius.all(Radius.circular(6)),
         ),
         child: Center(

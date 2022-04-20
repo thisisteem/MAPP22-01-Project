@@ -10,7 +10,7 @@ void toastSuccess({
       msg: msg,
       fontSize: 18,
       backgroundColor: colorGreen,
-      timeInSecForIosWeb: 3,
+      timeInSecForIosWeb: 5,
     );
 
 void toastError({
@@ -20,5 +20,5 @@ void toastError({
       msg: msg,
       fontSize: 18,
       backgroundColor: colorRed,
-      timeInSecForIosWeb: 3,
+      timeInSecForIosWeb: 5,
     );

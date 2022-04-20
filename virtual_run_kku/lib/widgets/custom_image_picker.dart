@@ -7,6 +7,9 @@ import 'package:virtual_run_kku/utils/constants/colors.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:provider/provider.dart';
+
+import '../providers/file_upload_provider.dart';
 
 class CustomImagePicker extends StatefulWidget {
   final String? urlImage;
@@ -24,9 +27,18 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
   File? image;
 
   Future pickImage(ImageSource source) async {
+    // TODO แก้บัค update provider ตอนเลือกรูปเสร็จ
+    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
+
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
+
+      fileUploadProvider.fileName = image.name;
+      fileUploadProvider.filePath = image.path;
+
+      debugPrint('fileName: ${image.name}');
+      debugPrint('filePath: ${image.path}');
 
       final imageTemporary = File(image.path);
       setState(() => this.image = imageTemporary);

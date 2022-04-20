@@ -28,7 +28,7 @@ String addZeroToTime(int value) {
 int hhmmssToSeconds(String time) {
   int result = 0;
 
-  var list = time.split(':').asMap().forEach(
+  time.split(':').asMap().forEach(
     (index, value) {
       // print('index: $index');
       // print('value: $value');
@@ -42,8 +42,6 @@ int hhmmssToSeconds(String time) {
       }
     },
   );
-  // print(list);
-  print('result: $result');
 
   return result;
 }

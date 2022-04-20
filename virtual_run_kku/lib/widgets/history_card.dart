@@ -31,7 +31,7 @@ class _HistoryCardState extends State<HistoryCard> {
           header: Column(
             children: [
               CachedNetworkImage(
-                imageUrl: widget.activity.eventImage,
+                imageUrl: widget.activity.resultImage!,
                 errorWidget: (context, url, error) => const Icon(Icons.error),
                 height: 150,
                 width: double.infinity,
@@ -160,7 +160,7 @@ class _HistoryCardState extends State<HistoryCard> {
                         ),
                         Text(
                           DateFormat('dd MMMM yyyy', 'th')
-                              .format(widget.activity.eventDate),
+                              .format(widget.activity.sendResultDate!),
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ],

@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   }
 
   setProfileData() async {
-    bool docExists = await checkIfDocExists(user.email!);
+    bool docExists = await checkIfProfileExists(user.email!);
     if (!docExists) {
       createProfile(
         collectionName: user.email!,
@@ -231,7 +231,7 @@ class _HomeState extends State<Home> {
               }
               return const Center(child: CircularProgressIndicator());
             },
-          )
+          ),
         ],
       ),
     );
@@ -288,10 +288,4 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-
-  Stream<List<NewsModel>> readNews() => FirebaseFirestore.instance
-      .collection('Events')
-      .snapshots()
-      .map((snapshot) =>
-          snapshot.docs.map((doc) => NewsModel.fromJson(doc.data())).toList());
 }
