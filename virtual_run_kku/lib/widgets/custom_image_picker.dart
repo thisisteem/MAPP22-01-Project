@@ -25,20 +25,16 @@ class CustomImagePicker extends StatefulWidget {
 
 class _CustomImagePickerState extends State<CustomImagePicker> {
   File? image;
+  late String fileName;
+  late String filePath;
 
   Future pickImage(ImageSource source) async {
-    // TODO แก้บัค update provider ตอนเลือกรูปเสร็จ
-    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
-
     try {
       final image = await ImagePicker().pickImage(source: source);
       if (image == null) return;
 
-      fileUploadProvider.fileName = image.name;
-      fileUploadProvider.filePath = image.path;
-
-      debugPrint('fileName: ${image.name}');
-      debugPrint('filePath: ${image.path}');
+      fileName = image.name;
+      filePath = image.path;
 
       final imageTemporary = File(image.path);
       setState(() => this.image = imageTemporary);
@@ -77,8 +73,13 @@ class _CustomImagePickerState extends State<CustomImagePicker> {
 
   @override
   Widget build(BuildContext context) {
+    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
+
     return InkWell(
-      onTap: () => cameraSelect(context),
+      onTap: () => cameraSelect(context).then((value) {
+        fileUploadProvider.fileName = fileName;
+        fileUploadProvider.filePath = filePath;
+      }),
       child: Container(
         height: image == null ? 250 : null,
         width: double.infinity,

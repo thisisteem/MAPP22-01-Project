@@ -37,6 +37,7 @@ dependencies:
   expandable: ^5.0.1
   firebase_auth: ^1.1.4
   firebase_core: ^1.14.1
+  firebase_image: ^1.1.1
   firebase_storage: ^10.2.12
   flutter:
     sdk: flutter

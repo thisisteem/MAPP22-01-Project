@@ -2,15 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/models/activity_model.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 import 'package:virtual_run_kku/models/profile.dart';
 import 'package:virtual_run_kku/widgets/toast.dart';
 
 import '../models/checking_model.dart';
+import '../providers/file_upload_provider.dart';
 import '../utils/functions/bib_converter.dart';
+import '../utils/functions/checking_document_id_converter.dart';
+import 'firestore_storage.dart';
 
 final user = FirebaseAuth.instance.currentUser!;
+final FirebaseStorage storage = FirebaseStorage();
 
 // ! General
 
@@ -42,9 +47,8 @@ Future<bool> checkIfUserEventExists({
 
 // ! Home Screen
 
-Future joinEvent(NewsModel news) async {
+Future createEvent(NewsModel news) async {
   bool docExists = await checkIfUserEventExists(docName: news.title);
-  print('is event exist: $docExists');
 
   if (!docExists) {
     final docUser =
@@ -101,7 +105,6 @@ Future createProfile(
 }
 
 Future<ProfileModel?> readProfile(String docId) async {
-  debugPrint('reading profile');
   final docUser = FirebaseFirestore.instance.collection('Profile').doc(docId);
   final snapshot = await docUser.get();
 
@@ -124,7 +127,8 @@ Stream<List<ActivityModel>> readSendResult() => FirebaseFirestore.instance
     .doc(user.displayName)
     .collection('Event')
     .where('isSendResult', isEqualTo: false)
-    // .orderBy('eventDate')
+    .orderBy('eventDate')
+    .orderBy('title')
     .snapshots()
     .map(
       (snapshot) => snapshot.docs
@@ -140,32 +144,78 @@ Future sendResult({
   required String activityTitle,
   required int timeSpendInSeconds,
   required double distance,
+  String? fileName,
+  required BuildContext context,
 }) async {
   final docUser =
       FirebaseFirestore.instance.collection('Profile').doc(user.displayName);
+  final fileUploadProvider =
+      Provider.of<FileUploadProvider>(context, listen: false);
 
-  // TODO ส่งรูป
+  await storage.uploadFile(
+      fileName: fileUploadProvider.fileName,
+      filePath: fileUploadProvider.filePath);
 
-  await docUser
-      .collection('Event')
-      .doc('HW Virtual Run 2022')
-      .update({
-        'isSendResult': true,
-        'status': 'checking',
-        'sendResultDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-        'timeSpendInSeconds': timeSpendInSeconds,
-        'distance': distance,
-      })
-      .then(
-        (value) => toastSuccess(msg: 'ส่งผลการวิ่งสำเร็จ!'),
-      )
-      .catchError(
-        (error) {
-          debugPrint("Failed to add user: $error");
-          toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
-        },
-      );
+  await docUser.collection('Event').doc(activityTitle).update({
+    'isSendResult': true,
+    'status': 'checking',
+    'sendResultDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    'timeSpendInSeconds': timeSpendInSeconds,
+    'distance': distance,
+  }).then((value) {
+    toastSuccess(msg: 'ส่งผลการวิ่งสำเร็จ!');
+  }).catchError(
+    (error) {
+      debugPrint("Failed to add user: $error");
+      toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
+    },
+  );
+
+  String path = 'images/results/${user.email}/$fileName';
+  updateSendResultImage(path: path, eventTitle: activityTitle);
+
+  // Create Checking for admin
+  createCheckingForAdmin(activityTitle: activityTitle);
 }
+
+void updateIsSendResult({
+  required String eventTitle,
+  required bool status,
+}) =>
+    FirebaseFirestore.instance
+        .collection('Profile')
+        .doc(user.displayName)
+        .collection('Event')
+        .doc(eventTitle)
+        .update({
+      'isSendResult': status,
+    });
+
+void changeStatus({
+  required String eventTitle,
+  required String status,
+}) =>
+    FirebaseFirestore.instance
+        .collection('Profile')
+        .doc(user.displayName)
+        .collection('Event')
+        .doc(eventTitle)
+        .update({
+      'status': status,
+    });
+
+void updateSendResultImage({
+  required String eventTitle,
+  required String path,
+}) =>
+    FirebaseFirestore.instance
+        .collection('Profile')
+        .doc(user.displayName)
+        .collection('Event')
+        .doc(eventTitle)
+        .update({
+      'resultImage': path,
+    });
 
 // ! Activity Screen
 
@@ -173,6 +223,8 @@ Stream<List<ActivityModel>> readActivity() => FirebaseFirestore.instance
     .collection('Profile')
     .doc(user.displayName)
     .collection('Event')
+    .orderBy('status', descending: false)
+    .orderBy('title')
     .snapshots()
     .map(
       (snapshot) => snapshot.docs
@@ -207,7 +259,8 @@ Stream<List<ActivityModel>> readActivityHistory() => FirebaseFirestore.instance
     .doc(user.displayName)
     .collection('Event')
     .where('isArchive', isEqualTo: true)
-    // .orderBy('eventDate', descending: true)
+    .orderBy('eventDate', descending: true)
+    .orderBy('title', descending: false)
     .snapshots()
     .map(
       (snapshot) => snapshot.docs
@@ -229,3 +282,38 @@ Stream<List<CheckingModel>> readChecking() =>
               )
               .toList(),
         );
+// ! Admin
+
+void createCheckingForAdmin({required String activityTitle}) async {
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
+      .collection('Profile')
+      .doc(user.displayName)
+      .collection('Event')
+      .doc(activityTitle)
+      .get();
+
+  final json = snapshot.data()!;
+
+  final newJson = {
+    'displayName': user.displayName,
+    'title': json['title'],
+    'distance': json['distance'],
+    'bib': json['bib'],
+    'timeSpendInSeconds': json['timeSpendInSeconds'],
+    'eventDate': json['eventDate'],
+    'eventImage': json['eventImage'],
+    'sendResultDate': json['sendResultDate'],
+    'isSendResult': json['isSendResult'],
+    'isArchive': json['isArchive'],
+    'status': json['status'],
+    'rejectReason': json['rejectReason'],
+    'resultImage': json['resultImage'],
+  };
+  String docName = checkingDocumentIdConverter(
+    displayName: user.displayName!,
+    eventTitle: activityTitle,
+    bib: json['bib'],
+  );
+  await _firestore.collection('Checking').doc(docName).set(newJson);
+}
