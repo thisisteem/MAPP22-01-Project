@@ -191,7 +191,7 @@ void updateIsSendResult({
       'isSendResult': status,
     });
 
-void changeStatus({
+Future<void> changeStatus({
   required String eventTitle,
   required String status,
 }) =>
@@ -317,3 +317,17 @@ void createCheckingForAdmin({required String activityTitle}) async {
   );
   await _firestore.collection('Checking').doc(docName).set(newJson);
 }
+
+Future<void> changeStatusAdmin({
+  required String eventTitle,
+  required String status,
+  required String displayName,
+}) =>
+    FirebaseFirestore.instance
+        .collection('Profile')
+        .doc(displayName)
+        .collection('Event')
+        .doc(eventTitle)
+        .update({
+      'status': status,
+    });

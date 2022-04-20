@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class CheckingModel {
   final String title;
-  final double distance;
+  final dynamic distance;
   final String bib;
   final int? timeSpendInSeconds;
   final DateTime eventDate;

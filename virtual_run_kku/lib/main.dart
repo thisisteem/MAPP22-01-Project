@@ -12,7 +12,6 @@ import 'package:virtual_run_kku/theme.dart';
 import 'screens/send_result.dart';
 import 'third_party/google_third_party.dart';
 import 'screens/activity.dart';
-import 'screens/full_result.dart';
 import 'screens/setting.dart';
 import 'screens/home.dart';
 import 'auth/authen.dart';
@@ -26,7 +25,6 @@ final Map<String, WidgetBuilder> map = {
   '/home': (BuildContext context) => const Home(),
   '/activity': (BuildContext context) => const Activity(),
   '/setting': (BuildContext context) => const Setting(),
-  '/fullResult': (BuildContext context) => const FullResult(),
   '/sendResult': (BuildContext context) => const SendResult(),
   '/admin': (BuildContext context) => const Admin(),
   '/adminLogin': (BuildContext context) => AdminLoginScreen(),

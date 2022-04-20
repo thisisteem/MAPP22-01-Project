@@ -1,71 +1,30 @@
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import 'package:intl/intl.dart';
 
+import '../models/checking_model.dart';
+import '../services/firestore_database.dart';
+
 class RunningDetail extends StatefulWidget {
-  const RunningDetail(
-      {Key? key,
-      required this.bib,
-      required this.imgUrl,
-      required this.name,
-      required this.distance,
-      required this.eventName,
-      required this.date})
-      : super(key: key);
-  final String bib;
-  final String imgUrl;
-  final String name;
-  final double distance;
-  final String eventName;
-  final String date;
+  final CheckingModel activity;
+  const RunningDetail({Key? key, required this.activity}) : super(key: key);
 
   @override
-  State<RunningDetail> createState() => _RunningDetailState();
+  _RunningDetailState createState() => _RunningDetailState();
 }
 
 class _RunningDetailState extends State<RunningDetail> {
-  Future _showMaxDialog() {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Out of Bound problem!'),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: const <Widget>[
-                Text('the maximum value is'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ข่าวสารการวิ่ง'),
+        title: const FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text('ตรวจสอบผลการวิ่ง'),
+        ),
         centerTitle: true,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: ClipOval(
-              child: Image.network(
-                  "https://icons.veryicon.com/png/o/miscellaneous/yuanql/icon-admin.png"),
-            ),
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -75,23 +34,18 @@ class _RunningDetailState extends State<RunningDetail> {
             const SizedBox(
               height: 10,
             ),
+            _resultPhoto(),
             Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                "รูปภาพ",
-                style: MyConstant.h2Style(colorSecondary),
-              ),
-            ),
-            _resultPhoto(widget.imgUrl),
-            Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Text(
                 "ข้อมูล",
-                style: MyConstant.h2Style(colorSecondary),
+                style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
-            _detail(widget.name, widget.bib, widget.date, widget.distance,
-                widget.eventName),
+            const SizedBox(
+              height: 7,
+            ),
+            _detail(),
             const SizedBox(
               height: 20,
             ),
@@ -108,250 +62,308 @@ class _RunningDetailState extends State<RunningDetail> {
                   ),
                   decoration: InputDecoration(
                       border: const OutlineInputBorder(),
-                      hintText: 'คำแนะนำในการปรับปรุงข้อมูล',
-                      hintStyle: Theme.of(context).textTheme.headlineSmall),
+                      hintText: 'เหตุผล',
+                      hintStyle: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(color: colorGrey)),
                 ),
               ),
             ),
-            _buttonChoice(context),
+            _buttonChoice(),
           ],
         ),
       ),
     );
   }
-}
 
-Widget _buttonChoice(BuildContext context) {
-  double height = 75;
-  double width = 75;
+  Widget _buttonChoice() {
+    double height = 75;
+    double width = 75;
 
-  return Padding(
-    padding: const EdgeInsets.all(10.0),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        InkWell(
-          onTap: () {
-            _showFailedDialog(context);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            height: height,
-            width: width,
-            child: const Center(
-              child: Icon(
-                Icons.close,
-                size: 50,
-                color: Colors.white,
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          InkWell(
+            onTap: () async {
+              _showFailedDialog();
+              // await changeStatusAdmin(
+              //   eventTitle: widget.activity.title,
+              //   status: 'rejected',
+              //   displayName: widget.activity.displayName,
+              // );
+              // Navigator.pop(context);
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              height: height,
+              width: width,
+              child: const Center(
+                child: Icon(
+                  Icons.close,
+                  size: 50,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-        ),
-        InkWell(
-          onTap: () {
-            _showSuccessDialog(context);
-          },
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.green,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            height: height,
-            width: width,
-            child: const Center(
-              child: Icon(
-                Icons.done,
-                size: 50,
-                color: Colors.white,
+          InkWell(
+            onTap: () {
+              _showSuccessDialog();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.green,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              height: height,
+              width: width,
+              child: const Center(
+                child: Icon(
+                  Icons.done,
+                  size: 50,
+                  color: Colors.white,
+                ),
               ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
-}
-
-Widget _resultPhoto(String imgUrl) {
-  return Container(
-    padding: const EdgeInsets.only(top: 20),
-    height: 200,
-    child: Center(
-      child: Image(
-        image: NetworkImage(imgUrl),
+        ],
       ),
-    ),
-  );
-}
+    );
+  }
 
-Widget _detail(
-    String name, String bib, String date, double distance, String eventName) {
-  final DateFormat formatter = DateFormat('dd MMMM yy');
-  DateTime newDate = DateTime.parse(date);
-  final String formatted = formatter.format(newDate);
-  return Center(
-    child: Container(
-      width: 350,
-      child: Card(
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 12,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "ชื่อผู้ส่ง: $name",
-                style: MyConstant.h3Style(colorSecondary),
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
-                "BIB: $bib",
-                style: MyConstant.h3Style(colorSecondary),
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
-                "ระยะทาง: $distance กิโลเมตร",
-                style: MyConstant.h3Style(colorSecondary),
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
-                "ชื่อโครงการ: $eventName",
-                style: MyConstant.h3Style(colorSecondary),
-              ),
-              const SizedBox(
-                height: 7,
-              ),
-              Text(
-                "ส่งวันที่: $formatted",
-                style: MyConstant.h3Style(colorSecondary),
-              ),
-            ],
+  Widget _resultPhoto() {
+    return Container(
+      padding: const EdgeInsets.all(30),
+      child: Center(
+        child: Image(
+          image: FirebaseImage(
+            'gs://virtualrunkku-c67d1.appspot.com/${widget.activity.resultImage}',
+            maxSizeBytes: 10000 * 1000,
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-_showSuccessDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
+  Widget _detail() {
+    return Center(
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(
+          vertical: 5,
+          horizontal: 30,
         ),
-        backgroundColor: Colors.black26,
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: const <Widget>[
-              Icon(
-                Icons.check_circle_outline_outlined,
-                color: Colors.white,
-                size: 100,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            RichText(
+              text: TextSpan(
+                text: 'ชื่อผู้ส่ง: ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: colorGrey),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: widget.activity.displayName,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                ],
               ),
-              SizedBox(
-                height: 10,
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'BIB: ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: colorGrey),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: widget.activity.bib,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                ],
               ),
-              Center(
-                child: Text(
-                  'Success',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'ระยะทาง: ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: colorGrey),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: '${widget.activity.distance} กม.',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'กิจกรรม: ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: colorGrey),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: widget.activity.title,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 7,
+            ),
+            RichText(
+              text: TextSpan(
+                text: 'วันที่ส่ง: ',
+                style: Theme.of(context)
+                    .textTheme
+                    .headlineSmall!
+                    .copyWith(color: colorGrey),
+                children: <TextSpan>[
+                  TextSpan(
+                    text: DateFormat('dd MMMM yyyy', 'th')
+                        .format(widget.activity.sendResultDate!),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _showSuccessDialog() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          backgroundColor: Colors.black26,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Icon(
+                  Icons.check_circle_outline_outlined,
+                  color: Colors.white,
+                  size: 100,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Text(
+                    'Success',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        actions: const <Widget>[
-          // Center(
-          //   child:
-          //   ElevatedButton(
-          //     style: ElevatedButton.styleFrom(primary: Colors.black12),
-          //     child: const Text(
-          //       'Success',
-          //       style: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: 20,
-          //       ),
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //   ),
-          // ),
-        ],
-      );
-    },
-  );
-}
+          actions: const <Widget>[
+            // Center(
+            //   child:
+            //   ElevatedButton(
+            //     style: ElevatedButton.styleFrom(primary: Colors.black12),
+            //     child: const Text(
+            //       'Success',
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 20,
+            //       ),
+            //     ),
+            //     onPressed: () {
+            //       Navigator.of(context).pop();
+            //     },
+            //   ),
+            // ),
+          ],
+        );
+      },
+    );
+  }
 
-_showFailedDialog(BuildContext context) {
-  return showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20)),
-        ),
-        backgroundColor: Colors.black26,
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: const <Widget>[
-              Icon(
-                Icons.close,
-                color: Colors.white,
-                size: 100,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: Text(
-                  'Failed',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
+  _showFailedDialog() {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          backgroundColor: Colors.black26,
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Icon(
+                  Icons.close,
+                  color: Colors.white,
+                  size: 100,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Text(
+                    'ไม่ผ่าน',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        actions: const <Widget>[
-          // Center(
-          //   child:
-          //   ElevatedButton(
-          //     style: ElevatedButton.styleFrom(primary: Colors.black12),
-          //     child: const Text(
-          //       'Success',
-          //       style: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: 20,
-          //       ),
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //   ),
-          // ),
-        ],
-      );
-    },
-  );
+          actions: const <Widget>[
+            // Center(
+            //   child:
+            //   ElevatedButton(
+            //     style: ElevatedButton.styleFrom(primary: Colors.black12),
+            //     child: const Text(
+            //       'Success',
+            //       style: TextStyle(
+            //         color: Colors.white,
+            //         fontSize: 20,
+            //       ),
+            //     ),
+            //     onPressed: () {
+            //       Navigator.of(context).pop();
+            //     },
+            //   ),
+            // ),
+          ],
+        );
+      },
+    );
+  }
 }
