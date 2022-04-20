@@ -1,12 +1,10 @@
-import 'dart:ffi';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/screens/running_detail.dart';
-import 'package:virtual_run_kku/utils/constants/colors.dart';
-import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import 'package:virtual_run_kku/widgets/running_result_card.dart';
-import 'package:virtual_run_kku/screens/admin.dart';
+
+import '../models/checking_model.dart';
+import '../services/firestore_database.dart';
 
 class ResultCheck extends StatefulWidget {
   const ResultCheck({Key? key}) : super(key: key);
@@ -16,23 +14,11 @@ class ResultCheck extends StatefulWidget {
 }
 
 class _ResultCheckState extends State<ResultCheck> {
-  List<RunningResult> _runningResultList = [];
-
-  void getData() async {
-    var url = Uri.parse(
-        "https://api.json-generator.com/templates/qnqJFFDD5A16/data?access_token=303cetegl6kljis2b7y0flojifv882vgy0d7pbqs");
-    http.Response response = await http.get(url);
-    setState(() {
-      _runningResultList =
-          RunningResultList.fromJson(jsonDecode(response.body)).runningResult;
-    });
-  }
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+    readChecking();
   }
 
   @override
@@ -51,48 +37,61 @@ class _ResultCheckState extends State<ResultCheck> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        physics: const ScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(20),
-              child: Text(
-                'ผลการวิ่งที่ต้องการการตรวจสอบ',
-                style: MyConstant.h2Style(colorSecondary),
-              ),
-              alignment: Alignment.bottomLeft,
-            ),
-            ListView.builder(
-              itemCount: _runningResultList.length,
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RunningDetail(
-                        bib: _runningResultList[index].bib,
-                        imgUrl: _runningResultList[index].imgUrl,
-                        name: _runningResultList[index].name,
-                        date: _runningResultList[index].date,
-                        projectName: _runningResultList[index].projectName,
-                        distance: _runningResultList[index].distance,
+      body: StreamBuilder<List<CheckingModel>>(
+        stream: readChecking(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            debugPrint(snapshot.error.toString());
+            return Text('มีบางอย่างผิดพลาด ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            final activity = snapshot.data!;
+
+            return activity.isNotEmpty
+                ? ListView(
+                    children: activity.map<Widget>(((e) {
+                      return resultCard(e);
+                    })).toList(),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 100, horizontal: 20),
+                      child: Center(
+                        child: Text(
+                          'ยังไม่มีประวัติกิจกรรม',
+                          style: Theme.of(context).textTheme.displaySmall,
+                        ),
                       ),
                     ),
-                  ),
-                  child: RunningResultCard(
-                    status: _runningResultList[index].status,
-                    bib: _runningResultList[index].bib,
-                    distance: _runningResultList[index].distance,
-                    date: _runningResultList[index].date,
-                  ),
-                );
-              },
-            ),
-          ],
+                  );
+          }
+          return const Center(child: CircularProgressIndicator());
+        },
+      ),
+    );
+  }
+
+  Widget resultCard(CheckingModel checkingModel) {
+    return InkWell(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RunningDetail(
+            bib: checkingModel.bib,
+            imgUrl: checkingModel.eventImage,
+            name: checkingModel.displayName,
+            date: DateFormat('yyyy-MM-dd').format(checkingModel.eventDate),
+            distance: checkingModel.distance,
+            eventName: checkingModel.title,
+          ),
         ),
+      ),
+      child: RunningResultCard(
+        status: checkingModel.status,
+        bib: checkingModel.bib,
+        distance: checkingModel.distance,
+        date: DateFormat('yyyy-MM-dd').format(checkingModel.eventDate),
       ),
     );
   }

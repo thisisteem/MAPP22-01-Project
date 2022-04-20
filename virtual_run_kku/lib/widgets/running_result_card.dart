@@ -39,6 +39,13 @@ class _RunningResultCardState extends State<RunningResultCard> {
 
   @override
   Widget build(BuildContext context) {
+    var thaiStatus = widget.status == 'checking'
+        ? 'กำลังตรวจสอบ'
+        : widget.status == 'approved'
+            ? 'ผ่าน'
+            : widget.status == 'rejected'
+                ? 'ไม่ผ่าน'
+                : 'กำลังตรวจสอบ';
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 5),
       elevation: 3,
@@ -105,7 +112,7 @@ class _RunningResultCardState extends State<RunningResultCard> {
               SizedBox(
                 width: 100,
                 child: Text(
-                  widget.status,
+                  thaiStatus,
                   style: MyConstant.h3Style(colorSecondary),
                   textAlign: TextAlign.center,
                 ),

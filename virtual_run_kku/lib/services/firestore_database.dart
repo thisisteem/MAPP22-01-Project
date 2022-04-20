@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/models/activity_model.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 import 'package:virtual_run_kku/models/profile.dart';
-import 'package:virtual_run_kku/screens/activity.dart';
 import 'package:virtual_run_kku/widgets/toast.dart';
 
+import '../models/checking_model.dart';
 import '../utils/functions/bib_converter.dart';
 
 final user = FirebaseAuth.instance.currentUser!;
@@ -218,3 +218,14 @@ Stream<List<ActivityModel>> readActivityHistory() => FirebaseFirestore.instance
           )
           .toList(),
     );
+
+Stream<List<CheckingModel>> readChecking() =>
+    FirebaseFirestore.instance.collection('Checking').snapshots().map(
+          (snapshot) => snapshot.docs
+              .map(
+                (doc) => CheckingModel.fromJson(
+                  doc.data(),
+                ),
+              )
+              .toList(),
+        );

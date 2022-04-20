@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import 'package:intl/intl.dart';
-import 'admin.dart';
 
 class RunningDetail extends StatefulWidget {
   const RunningDetail(
@@ -11,14 +10,14 @@ class RunningDetail extends StatefulWidget {
       required this.imgUrl,
       required this.name,
       required this.distance,
-      required this.projectName,
+      required this.eventName,
       required this.date})
       : super(key: key);
   final String bib;
   final String imgUrl;
   final String name;
   final double distance;
-  final String projectName;
+  final String eventName;
   final String date;
 
   @override
@@ -92,17 +91,25 @@ class _RunningDetailState extends State<RunningDetail> {
               ),
             ),
             _detail(widget.name, widget.bib, widget.date, widget.distance,
-                widget.projectName),
+                widget.eventName),
             const SizedBox(
               height: 20,
             ),
-            const Center(
+            Center(
               child: SizedBox(
                 width: 325,
                 child: TextField(
+                  minLines:
+                      2, // any number you need (It works as the rows for the textarea)
+                  keyboardType: TextInputType.multiline,
+                  maxLines: null,
+                  style: const TextStyle(
+                    fontSize: 24.0,
+                  ),
                   decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'คำแนะนำในการปรับปรุงข้อมูล'),
+                      border: const OutlineInputBorder(),
+                      hintText: 'คำแนะนำในการปรับปรุงข้อมูล',
+                      hintStyle: Theme.of(context).textTheme.headlineSmall),
                 ),
               ),
             ),
@@ -172,8 +179,7 @@ Widget _buttonChoice(BuildContext context) {
 Widget _resultPhoto(String imgUrl) {
   return Container(
     padding: const EdgeInsets.only(top: 20),
-    height: 300,
-    width: 500,
+    height: 200,
     child: Center(
       child: Image(
         image: NetworkImage(imgUrl),
@@ -183,7 +189,7 @@ Widget _resultPhoto(String imgUrl) {
 }
 
 Widget _detail(
-    String name, String bib, String date, double distance, String projectName) {
+    String name, String bib, String date, double distance, String eventName) {
   final DateFormat formatter = DateFormat('dd MMMM yy');
   DateTime newDate = DateTime.parse(date);
   final String formatted = formatter.format(newDate);
@@ -222,7 +228,7 @@ Widget _detail(
                 height: 7,
               ),
               Text(
-                "ชื่อโครงการ: $projectName",
+                "ชื่อโครงการ: $eventName",
                 style: MyConstant.h3Style(colorSecondary),
               ),
               const SizedBox(
