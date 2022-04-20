@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/services/firestore_database.dart';
 
 import '../models/activity_model.dart';
+import '../screens/send_result_step.dart';
 import '../utils/constants/colors.dart';
 import '../utils/functions/seconds_to_time.dart';
 
@@ -81,8 +82,39 @@ class _ActivityCardState extends State<ActivityCard> {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        widget.activity.rejectReason,
+                        '${widget.activity.rejectReason} (กรุณาส่งใหม่อีกครั้ง)',
                         style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                      const SizedBox(height: 20),
+                      OutlinedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SendResultStep(activity: widget.activity)),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.refresh,
+                              color: colorRed,
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              'ส่งใหม่อีกครั้ง',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(color: colorRed),
+                            ),
+                          ],
+                        ),
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: colorRed),
+                        ),
                       ),
                     ],
                   )

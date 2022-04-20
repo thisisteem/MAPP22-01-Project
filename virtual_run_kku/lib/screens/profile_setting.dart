@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/models/profile.dart';
 
@@ -13,6 +14,8 @@ class ProfileSetting extends StatefulWidget {
 }
 
 class _ProfileSettingState extends State<ProfileSetting> {
+  final user = FirebaseAuth.instance.currentUser!;
+
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _profileNameController = TextEditingController();
 
@@ -27,7 +30,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
 
   @override
   void initState() {
-    _profileNameController.text = profile.name;
+    _profileNameController.text = user.displayName!;
     super.initState();
   }
 
@@ -132,7 +135,7 @@ class _ProfileSettingState extends State<ProfileSetting> {
 
   Widget buildProfileImage() {
     return CustomProfileImagePicker(
-      urlImage: profile.urlImage,
+      urlImage: user.photoURL,
     );
   }
 }

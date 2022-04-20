@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -6,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../models/activity_model.dart';
 import '../utils/constants/colors.dart';
 import '../utils/functions/seconds_to_time.dart';
+import 'package:firebase_image/firebase_image.dart';
 
 class HistoryCard extends StatefulWidget {
   final ActivityModel activity;
@@ -30,12 +30,12 @@ class _HistoryCardState extends State<HistoryCard> {
         child: ExpandablePanel(
           header: Column(
             children: [
-              CachedNetworkImage(
-                imageUrl: widget.activity.resultImage!,
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-                height: 150,
-                width: double.infinity,
+              Image(
+                image: FirebaseImage(
+                    'gs://virtualrunkku-c67d1.appspot.com/${widget.activity.resultImage}'),
                 fit: BoxFit.cover,
+                width: double.infinity,
+                height: 150,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 15, bottom: 5, left: 20),
