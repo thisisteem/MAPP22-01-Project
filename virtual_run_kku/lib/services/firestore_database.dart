@@ -2,15 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/models/activity_model.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 import 'package:virtual_run_kku/models/profile.dart';
-import 'package:virtual_run_kku/screens/activity.dart';
 import 'package:virtual_run_kku/widgets/toast.dart';
 
+import '../providers/file_upload_provider.dart';
 import '../utils/functions/bib_converter.dart';
+import 'firestore_storage.dart';
 
 final user = FirebaseAuth.instance.currentUser!;
+final FirebaseStorage storage = FirebaseStorage();
 
 // ! General
 
@@ -44,7 +47,6 @@ Future<bool> checkIfUserEventExists({
 
 Future joinEvent(NewsModel news) async {
   bool docExists = await checkIfUserEventExists(docName: news.title);
-  print('is event exist: $docExists');
 
   if (!docExists) {
     final docUser =
@@ -140,32 +142,64 @@ Future sendResult({
   required String activityTitle,
   required int timeSpendInSeconds,
   required double distance,
+  String? fileName,
+  required BuildContext context,
 }) async {
   final docUser =
       FirebaseFirestore.instance.collection('Profile').doc(user.displayName);
+  final fileUploadProvider =
+      Provider.of<FileUploadProvider>(context, listen: false);
 
-  // TODO ส่งรูป
+  await storage.uploadFile(
+      fileName: fileUploadProvider.fileName,
+      filePath: fileUploadProvider.filePath);
 
-  await docUser
-      .collection('Event')
-      .doc('HW Virtual Run 2022')
-      .update({
-        'isSendResult': true,
-        'status': 'checking',
-        'sendResultDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
-        'timeSpendInSeconds': timeSpendInSeconds,
-        'distance': distance,
-      })
-      .then(
-        (value) => toastSuccess(msg: 'ส่งผลการวิ่งสำเร็จ!'),
-      )
-      .catchError(
-        (error) {
-          debugPrint("Failed to add user: $error");
-          toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
-        },
-      );
+  await docUser.collection('Event').doc('HW Virtual Run 2022').update({
+    'isSendResult': true,
+    'status': 'checking',
+    'sendResultDate': DateFormat('yyyy-MM-dd').format(DateTime.now()),
+    'timeSpendInSeconds': timeSpendInSeconds,
+    'distance': distance,
+  }).then((value) {
+    toastSuccess(msg: 'ส่งผลการวิ่งสำเร็จ!');
+  }).catchError(
+    (error) {
+      debugPrint("Failed to add user: $error");
+      toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
+    },
+  );
+
+  // Update send result
+  // Update status
+  updateIsSendResult(status: true, eventTitle: activityTitle);
+  changeStatus(status: 'checking', eventTitle: activityTitle);
 }
+
+void updateIsSendResult({
+  required String eventTitle,
+  required bool status,
+}) =>
+    FirebaseFirestore.instance
+        .collection('Profile')
+        .doc(user.displayName)
+        .collection('Event')
+        .doc(eventTitle)
+        .update({
+      'isSendResult': status,
+    });
+
+void changeStatus({
+  required String eventTitle,
+  required String status,
+}) =>
+    FirebaseFirestore.instance
+        .collection('Profile')
+        .doc(user.displayName)
+        .collection('Event')
+        .doc(eventTitle)
+        .update({
+      'status': status,
+    });
 
 // ! Activity Screen
 

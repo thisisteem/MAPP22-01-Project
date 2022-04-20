@@ -7,6 +7,7 @@ import 'package:virtual_run_kku/widgets/toast.dart';
 
 import '../providers/file_upload_provider.dart';
 import '../utils/constants/colors.dart';
+import '../utils/functions/file_name_converter.dart';
 import '../utils/functions/seconds_to_time.dart';
 import '../widgets/custom_image_picker.dart';
 import '../widgets/custom_textformfield.dart';
@@ -27,6 +28,8 @@ class _SendResultStepState extends State<SendResultStep> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeStartController = TextEditingController();
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final fileUploadProvider = Provider.of<FileUploadProvider>(context);
@@ -46,45 +49,64 @@ class _SendResultStepState extends State<SendResultStep> {
             primary: colorPrimary,
             minimumSize: const Size.fromHeight(40),
           ),
-          onPressed: () {
-            // Navigator.pop(context);
-            if (_formKey.currentState!.validate() &&
-                fileUploadProvider.fileName != '' &&
-                fileUploadProvider.filePath != '') {
-              _formKey.currentState!.save();
-              debugPrint('ระยะทาง: ${_distanceController.text}');
-              debugPrint('เวลาที่ใช้: ${_timeSpendController.text}');
-              debugPrint('วันที่วิ่ง: ${_dateController.text}');
-              debugPrint('เวลาที่เริ่มวิ่ง: ${_timeStartController.text}');
-              // hhmmssToSeconds(_timeSpendController.text);
+          onPressed: isLoading
+              ? null
+              : () {
+                  // Navigator.pop(context);
 
-              // sendResult(
-              //   activityTitle: widget.activity.title,
-              //   timeSpendInSeconds: hhmmssToSeconds(_timeSpendController.text),
-              //   distance: double.parse(_distanceController.text),
-              // ).then((value) => Navigator.pop(context));
-            } else {
-              toastError(msg: 'กรุณาใส่ข้อมูลให้ครบ');
-            }
-          },
-          child: Text(
-            'ส่งผลการวิ่ง',
-            style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                  color: colorWhite,
+                  if (_formKey.currentState!.validate() &&
+                      fileUploadProvider.fileName != '' &&
+                      fileUploadProvider.filePath != '') {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    _formKey.currentState!.save();
+                    debugPrint('ระยะทาง: ${_distanceController.text}');
+                    debugPrint('เวลาที่ใช้: ${_timeSpendController.text}');
+                    debugPrint('วันที่วิ่ง: ${_dateController.text}');
+                    debugPrint(
+                        'เวลาที่เริ่มวิ่ง: ${_timeStartController.text}');
+                    // hhmmssToSeconds(_timeSpendController.text);
+                    fileUploadProvider.fileName = fileNameConvert(
+                      title: widget.activity.title,
+                      oldName: fileUploadProvider.fileName,
+                    );
+                    sendResult(
+                      activityTitle: widget.activity.title,
+                      timeSpendInSeconds:
+                          hhmmssToSeconds(_timeSpendController.text),
+                      distance: double.parse(_distanceController.text),
+                      fileName: fileUploadProvider.fileName,
+                      context: context,
+                    ).then((value) {
+                      setState(() {
+                        isLoading = false;
+                      });
+                      Navigator.pop(context);
+                    });
+                  } else {
+                    toastError(msg: 'กรุณาใส่ข้อมูลให้ครบ');
+                  }
+                },
+          child: isLoading
+              ? SizedBox(
+                  child: CircularProgressIndicator(
+                    color: colorPrimary,
+                  ),
+                  height: 20.0,
+                  width: 20.0,
+                )
+              : Text(
+                  'ส่งผลการวิ่ง',
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        color: colorWhite,
+                      ),
                 ),
-          ),
         ),
       ),
       backgroundColor: colorWhite,
       body: ListView(
         children: [
-          ElevatedButton(
-            child: const Text('check'),
-            onPressed: () {
-              debugPrint('fileName: ${fileUploadProvider.fileName}');
-              debugPrint('filePath: ${fileUploadProvider.filePath}');
-            },
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: Form(
