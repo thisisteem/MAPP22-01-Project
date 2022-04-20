@@ -59,8 +59,7 @@ class AdminButton extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.pushReplacementNamed(
-                context, MyConstant.rountAdminAuthen);
+            Navigator.pushNamed(context, MyConstant.rountAdminAuthen);
           },
           child: Text(
             'สำหรับผู้ดูแลระบบ',

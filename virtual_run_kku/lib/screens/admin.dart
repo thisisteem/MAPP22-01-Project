@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
-import 'package:virtual_run_kku/screens/contact_us.dart';
 import 'package:virtual_run_kku/screens/list_bug_report.dart';
 import 'package:virtual_run_kku/screens/news_create.dart';
-import 'package:virtual_run_kku/screens/profile_setting.dart';
 import 'package:virtual_run_kku/screens/result_check.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
 
 import '../auth/authen.dart';
-import '../third_party/google_third_party.dart';
 import '../utils/constants/my_constants.dart';
-import '../widgets/my_app_bar.dart';
-import 'main_screen.dart';
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -70,9 +63,13 @@ class _AdminState extends State<Admin> {
               ),
               OutlinedButton(
                 onPressed: () {
-                  final provider =
-                      Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogout();
+                  Navigator.pushReplacement(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.leftToRight,
+                      child: const Authen(),
+                    ),
+                  );
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
