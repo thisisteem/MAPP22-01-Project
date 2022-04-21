@@ -36,7 +36,7 @@ Future<bool> checkIfUserEventExists({
   try {
     var collectionRef = FirebaseFirestore.instance
         .collection('Profile')
-        .doc(user.displayName)
+        .doc(user.email)
         .collection('Event');
     var doc = await collectionRef.doc(docName).get();
     return doc.exists;
@@ -61,10 +61,10 @@ Future createEventUser(NewsModel news) async {
   final user = FirebaseAuth.instance.currentUser!;
 
   bool docExists = await checkIfUserEventExists(docName: news.title);
-  print('user: ${user.displayName}');
+  print('user: ${user.email}');
   if (!docExists) {
     final docUser =
-        FirebaseFirestore.instance.collection('Profile').doc(user.displayName);
+        FirebaseFirestore.instance.collection('Profile').doc(user.email);
 
     final activity = ActivityModel(
       bib: nextBib(firstChar: news.title[0], number: news.currentBib),
@@ -209,7 +209,7 @@ Stream<List<NewsModel>> readNews() => FirebaseFirestore.instance
 
 Stream<List<ActivityModel>> readSendResult() => FirebaseFirestore.instance
     .collection('Profile')
-    .doc(FirebaseAuth.instance.currentUser!.displayName)
+    .doc(FirebaseAuth.instance.currentUser!.email)
     .collection('Event')
     .where('isSendResult', isEqualTo: false)
     .orderBy('eventDate')
@@ -235,7 +235,7 @@ Future sendResult({
   final user = FirebaseAuth.instance.currentUser!;
 
   final docUser =
-      FirebaseFirestore.instance.collection('Profile').doc(user.displayName);
+      FirebaseFirestore.instance.collection('Profile').doc(user.email);
   final fileUploadProvider =
       Provider.of<FileUploadProvider>(context, listen: false);
 
@@ -273,7 +273,7 @@ Future<void> updateIsSendResult({
 
   await FirebaseFirestore.instance
       .collection('Profile')
-      .doc(user.displayName)
+      .doc(user.email)
       .collection('Event')
       .doc(eventTitle)
       .update({
@@ -289,7 +289,7 @@ Future<void> changeStatus({
 
   await FirebaseFirestore.instance
       .collection('Profile')
-      .doc(user.displayName)
+      .doc(user.email)
       .collection('Event')
       .doc(eventTitle)
       .update({
@@ -305,7 +305,7 @@ Future<void> updateSendResultImage({
 
   await FirebaseFirestore.instance
       .collection('Profile')
-      .doc(user.displayName)
+      .doc(user.email)
       .collection('Event')
       .doc(eventTitle)
       .update({
@@ -317,7 +317,7 @@ Future<void> updateSendResultImage({
 
 Stream<List<ActivityModel>> readActivity() => FirebaseFirestore.instance
     .collection('Profile')
-    .doc(FirebaseAuth.instance.currentUser!.displayName)
+    .doc(FirebaseAuth.instance.currentUser!.email)
     .collection('Event')
     .orderBy('status', descending: false)
     .orderBy('title')
@@ -337,7 +337,7 @@ Future<void> archive(String eventTitle) async {
 
   await FirebaseFirestore.instance
       .collection('Profile')
-      .doc(user.displayName)
+      .doc(user.email)
       .collection('Event')
       .doc(eventTitle)
       .update({
@@ -356,7 +356,7 @@ Future<void> archive(String eventTitle) async {
 
 Stream<List<ActivityModel>> readActivityHistory() => FirebaseFirestore.instance
     .collection('Profile')
-    .doc(FirebaseAuth.instance.currentUser!.displayName)
+    .doc(FirebaseAuth.instance.currentUser!.email)
     .collection('Event')
     .where('isArchive', isEqualTo: true)
     .orderBy('eventDate', descending: true)
@@ -392,7 +392,7 @@ Future<void> createCheckingForAdmin({
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
       .collection('Profile')
-      .doc(user.displayName)
+      .doc(user.email)
       .collection('Event')
       .doc(activityTitle)
       .get();
@@ -401,6 +401,7 @@ Future<void> createCheckingForAdmin({
 
   final newJson = {
     'displayName': user.displayName,
+    'email': user.email,
     'title': json['title'],
     'distance': json['distance'],
     'bib': json['bib'],
@@ -415,7 +416,7 @@ Future<void> createCheckingForAdmin({
     'resultImage': json['resultImage'],
   };
   String docName = checkingDocumentIdConverter(
-    displayName: user.displayName!,
+    email: user.email!,
     eventTitle: activityTitle,
     bib: json['bib'],
   );
@@ -425,12 +426,12 @@ Future<void> createCheckingForAdmin({
 Future<void> changeStatusAdmin({
   required String eventTitle,
   required String status,
-  required String displayName,
+  required String email,
   String? rejectReason,
 }) =>
     FirebaseFirestore.instance
         .collection('Profile')
-        .doc(displayName)
+        .doc(email)
         .collection('Event')
         .doc(eventTitle)
         .update({
@@ -440,11 +441,11 @@ Future<void> changeStatusAdmin({
 
 Future<void> deleteChecking({
   required String eventTitle,
-  required String displayName,
+  required String email,
   required String bib,
 }) async {
   String docName = checkingDocumentIdConverter(
-    displayName: displayName,
+    email: email,
     eventTitle: eventTitle,
     bib: bib,
   );

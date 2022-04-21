@@ -15,21 +15,24 @@ class CheckingModel {
   final String? resultImage;
   final String eventImage;
   final String displayName;
+  final String email;
 
-  CheckingModel(
-      {required this.title,
-      required this.distance,
-      required this.bib,
-      this.timeSpendInSeconds,
-      required this.eventDate,
-      required this.eventImage,
-      this.sendResultDate,
-      required this.isSendResult,
-      required this.isArchive,
-      required this.status,
-      required this.rejectReason,
-      this.resultImage,
-      required this.displayName});
+  CheckingModel({
+    required this.title,
+    required this.distance,
+    required this.bib,
+    this.timeSpendInSeconds,
+    required this.eventDate,
+    required this.eventImage,
+    this.sendResultDate,
+    required this.isSendResult,
+    required this.isArchive,
+    required this.status,
+    required this.rejectReason,
+    this.resultImage,
+    required this.displayName,
+    required this.email,
+  });
 
   Map<String, dynamic> toJson({
     String? firstTitleChar,
@@ -47,21 +50,24 @@ class CheckingModel {
         'status': status,
         'rejectReason': rejectReason,
         'resultImage': resultImage ?? '',
-        'displayName': displayName
+        'displayName': displayName,
+        'email': email,
       };
 
   static CheckingModel fromJson(Map<String, dynamic> json) => CheckingModel(
-      title: json['title'],
-      distance: json['distance'],
-      bib: json['bib'],
-      timeSpendInSeconds: json['timeSpendInSeconds'],
-      eventDate: DateTime.parse(json['eventDate']),
-      eventImage: json['eventImage'],
-      sendResultDate: DateTime.parse(json['sendResultDate']),
-      isSendResult: json['isSendResult'],
-      isArchive: json['isArchive'],
-      status: json['status'],
-      rejectReason: json['rejectReason'],
-      resultImage: json['resultImage'],
-      displayName: json['displayName']);
+        title: json['title'],
+        distance: json['distance'],
+        bib: json['bib'],
+        timeSpendInSeconds: json['timeSpendInSeconds'],
+        eventDate: DateTime.parse(json['eventDate']),
+        eventImage: json['eventImage'],
+        sendResultDate: DateTime.parse(json['sendResultDate']),
+        isSendResult: json['isSendResult'],
+        isArchive: json['isArchive'],
+        status: json['status'],
+        rejectReason: json['rejectReason'],
+        resultImage: json['resultImage'],
+        displayName: json['displayName'],
+        email: json['email'],
+      );
 }

@@ -1,4 +1,5 @@
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
@@ -126,12 +127,12 @@ class _RunningDetailState extends State<RunningDetail> {
                   await changeStatusAdmin(
                     eventTitle: widget.activity.title,
                     status: 'rejected',
-                    displayName: widget.activity.displayName,
+                    email: widget.activity.email,
                     rejectReason: _rejectReasonController.text,
                   );
                   await deleteChecking(
                     eventTitle: widget.activity.title,
-                    displayName: widget.activity.displayName,
+                    email: widget.activity.email,
                     bib: widget.activity.bib,
                   );
                 },
@@ -177,12 +178,12 @@ class _RunningDetailState extends State<RunningDetail> {
                   await changeStatusAdmin(
                     eventTitle: widget.activity.title,
                     status: 'approved',
-                    displayName: widget.activity.displayName,
+                    email: widget.activity.email,
                     rejectReason: _rejectReasonController.text,
                   );
                   await deleteChecking(
                     eventTitle: widget.activity.title,
-                    displayName: widget.activity.displayName,
+                    email: widget.activity.email,
                     bib: widget.activity.bib,
                   );
                 },
