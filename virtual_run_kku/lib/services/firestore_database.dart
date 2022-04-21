@@ -370,9 +370,13 @@ Future<void> updateProfileStats({
 
   final json = snapshot.data()!;
 
-  double oldDistance = json['distance'];
+  dynamic oldDistance = json['distance'];
   int oldEvents = json['events'];
   int oldTimeInSeconds = json['timeInSeconds'];
+
+  print('new: ${json['distance']}');
+  print('new: ${json['events']}');
+  print('new: ${json['timeInSeconds']}');
 
   await FirebaseFirestore.instance
       .collection('Profile')

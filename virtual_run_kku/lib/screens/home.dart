@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
   setProfileData() async {
     bool docExists = await checkIfProfileExists(user.email!);
     if (!docExists) {
-      createProfile(
+      await createProfile(
         collectionName: user.email!,
         profileData: ProfileModel(
           distance: 0,
@@ -274,7 +274,8 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(height: 40),
                   Text(
-                    DateFormat('วันที่ dd/MM/yyyy', 'th').format(DateTime.parse(news.date)),
+                    DateFormat('วันที่ dd/MM/yyyy', 'th')
+                        .format(DateTime.parse(news.date)),
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!
