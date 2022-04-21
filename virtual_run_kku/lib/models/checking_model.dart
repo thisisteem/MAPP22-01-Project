@@ -4,7 +4,7 @@ class CheckingModel {
   final String title;
   final dynamic distance;
   final String bib;
-  final int? timeSpendInSeconds;
+  final dynamic timeSpendInSeconds;
   final DateTime eventDate;
   final DateTime? sendResultDate;
   // ? Status [checking, approved, rejected]

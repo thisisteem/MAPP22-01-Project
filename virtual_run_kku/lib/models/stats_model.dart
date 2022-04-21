@@ -1,7 +1,7 @@
 class Stats {
-  final double distance;
-  final int events;
-  final int timeInSeconds;
+  final dynamic distance;
+  final dynamic events;
+  final dynamic timeInSeconds;
 
   Stats({
     required this.distance,

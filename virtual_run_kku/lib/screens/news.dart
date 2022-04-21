@@ -19,6 +19,19 @@ class News extends StatefulWidget {
 }
 
 class _NewsState extends State<News> {
+  int currentBib = 0;
+
+  @override
+  void initState() {
+    _getCurrentBib(eventTitle: widget.news.title);
+
+    super.initState();
+  }
+
+  void _getCurrentBib({required String eventTitle}) async {
+    currentBib = await getCurrentEventBib(eventTitle: eventTitle);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,6 +134,23 @@ class _NewsState extends State<News> {
                       Expanded(
                         child: Text(
                           '${widget.news.distance.toString()} กม.',
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        'จำนวนคนเข้าร่วม: ',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(color: colorGrey),
+                      ),
+                      Expanded(
+                        child: Text(
+                          '$currentBib คน',
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),

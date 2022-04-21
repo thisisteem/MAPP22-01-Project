@@ -1,10 +1,10 @@
 class NewsModel {
   final String title;
-  final double distance;
+  final dynamic distance;
   final String description;
   final String date;
   final String urlImage;
-  final int currentBib;
+  final dynamic currentBib;
 
   NewsModel({
     required this.title,

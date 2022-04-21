@@ -1,8 +1,8 @@
 class ProfileModel {
   final String name;
-  final double distance;
-  final int events;
-  final int timeInSeconds;
+  final dynamic distance;
+  final dynamic events;
+  final dynamic timeInSeconds;
   final String urlImage;
 
   ProfileModel({

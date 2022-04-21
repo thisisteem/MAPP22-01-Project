@@ -2,9 +2,9 @@ import 'package:intl/intl.dart';
 
 class ActivityModel {
   final String title;
-  final double distance;
+  final dynamic distance;
   final String bib;
-  final int? timeSpendInSeconds;
+  final dynamic timeSpendInSeconds;
   final DateTime eventDate;
   final DateTime? sendResultDate;
   // ? Status [checking, approved, rejected]

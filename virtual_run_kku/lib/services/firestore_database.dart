@@ -121,6 +121,22 @@ Future<void> increaseBib({
   });
 }
 
+Future<int> getCurrentEventBib({
+  required String eventTitle,
+}) async {
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+      .instance
+      .collection('Events')
+      .doc(eventTitle)
+      .get();
+
+  final json = snapshot.data()!;
+
+  int currentBib = json['currentBib'];
+
+  return currentBib;
+}
+
 Future createEvent(NewsModel news) async {
   bool newsExists = await checkIfEventExists(newsTitle: news.title);
   print('is event exist: $newsExists');
