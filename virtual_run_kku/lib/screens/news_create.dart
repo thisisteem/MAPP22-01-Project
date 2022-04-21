@@ -124,8 +124,7 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
               context,
               showTitleActions: true,
               minTime: DateTime(DateTime.now().year + 443),
-              maxTime: DateTime(DateTime.now().year + 543, DateTime.now().month,
-                  DateTime.now().day),
+              maxTime: DateTime(DateTime.now().year + 545),
               onConfirm: (date) {
                 _date.text = '${date.day}/${date.month}/${date.year}';
               },

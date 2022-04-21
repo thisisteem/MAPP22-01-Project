@@ -203,6 +203,7 @@ Future<ProfileModel?> readProfile(String docId) async {
 
 Stream<List<NewsModel>> readNews() => FirebaseFirestore.instance
     .collection('Events')
+    .orderBy('date', descending: true)
     .snapshots()
     .map((snapshot) =>
         snapshot.docs.map((doc) => NewsModel.fromJson(doc.data())).toList());
