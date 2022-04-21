@@ -14,7 +14,6 @@ import '../utils/functions/bib_converter.dart';
 import '../utils/functions/checking_document_id_converter.dart';
 import 'firestore_storage.dart';
 
-final user = FirebaseAuth.instance.currentUser!;
 final FirebaseStorage storage = FirebaseStorage();
 
 // ! General
@@ -33,6 +32,7 @@ Future<bool> checkIfProfileExists(String docName) async {
 Future<bool> checkIfUserEventExists({
   required String docName,
 }) async {
+  final user = FirebaseAuth.instance.currentUser!;
   try {
     var collectionRef = FirebaseFirestore.instance
         .collection('Profile')
@@ -58,8 +58,10 @@ Future<bool> checkIfEventExists({
 }
 
 Future createEventUser(NewsModel news) async {
-  bool docExists = await checkIfUserEventExists(docName: news.title);
+  final user = FirebaseAuth.instance.currentUser!;
 
+  bool docExists = await checkIfUserEventExists(docName: news.title);
+  print('user: ${user.displayName}');
   if (!docExists) {
     final docUser =
         FirebaseFirestore.instance.collection('Profile').doc(user.displayName);
@@ -92,9 +94,31 @@ Future createEventUser(NewsModel news) async {
         toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
       },
     );
+
+    // Increase current BIB of Event
+    increaseBib(eventTitle: news.title);
   } else {
     toastError(msg: 'คุณได้เข้าร่วมกิจกรรมนี้แล้ว');
   }
+}
+
+Future<void> increaseBib({
+  required String eventTitle,
+}) async {
+// Get current bib from database
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+      .instance
+      .collection('Events')
+      .doc(eventTitle)
+      .get();
+
+  final json = snapshot.data()!;
+
+  int currentBib = json['currentBib'];
+
+  FirebaseFirestore.instance.collection('Events').doc(eventTitle).update({
+    'currentBib': currentBib + 1,
+  });
 }
 
 Future createEvent(NewsModel news) async {
@@ -169,7 +193,7 @@ Stream<List<NewsModel>> readNews() => FirebaseFirestore.instance
 
 Stream<List<ActivityModel>> readSendResult() => FirebaseFirestore.instance
     .collection('Profile')
-    .doc(user.displayName)
+    .doc(FirebaseAuth.instance.currentUser!.displayName)
     .collection('Event')
     .where('isSendResult', isEqualTo: false)
     .orderBy('eventDate')
@@ -192,6 +216,8 @@ Future sendResult({
   String? fileName,
   required BuildContext context,
 }) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
   final docUser =
       FirebaseFirestore.instance.collection('Profile').doc(user.displayName);
   final fileUploadProvider =
@@ -223,50 +249,59 @@ Future sendResult({
   createCheckingForAdmin(activityTitle: activityTitle);
 }
 
-void updateIsSendResult({
+Future<void> updateIsSendResult({
   required String eventTitle,
   required bool status,
-}) =>
-    FirebaseFirestore.instance
-        .collection('Profile')
-        .doc(user.displayName)
-        .collection('Event')
-        .doc(eventTitle)
-        .update({
-      'isSendResult': status,
-    });
+}) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  await FirebaseFirestore.instance
+      .collection('Profile')
+      .doc(user.displayName)
+      .collection('Event')
+      .doc(eventTitle)
+      .update({
+    'isSendResult': status,
+  });
+}
 
 Future<void> changeStatus({
   required String eventTitle,
   required String status,
-}) =>
-    FirebaseFirestore.instance
-        .collection('Profile')
-        .doc(user.displayName)
-        .collection('Event')
-        .doc(eventTitle)
-        .update({
-      'status': status,
-    });
+}) async {
+  final user = FirebaseAuth.instance.currentUser!;
 
-void updateSendResultImage({
+  await FirebaseFirestore.instance
+      .collection('Profile')
+      .doc(user.displayName)
+      .collection('Event')
+      .doc(eventTitle)
+      .update({
+    'status': status,
+  });
+}
+
+Future<void> updateSendResultImage({
   required String eventTitle,
   required String path,
-}) =>
-    FirebaseFirestore.instance
-        .collection('Profile')
-        .doc(user.displayName)
-        .collection('Event')
-        .doc(eventTitle)
-        .update({
-      'resultImage': path,
-    });
+}) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  await FirebaseFirestore.instance
+      .collection('Profile')
+      .doc(user.displayName)
+      .collection('Event')
+      .doc(eventTitle)
+      .update({
+    'resultImage': path,
+  });
+}
 
 // ! Activity Screen
 
 Stream<List<ActivityModel>> readActivity() => FirebaseFirestore.instance
     .collection('Profile')
-    .doc(user.displayName)
+    .doc(FirebaseAuth.instance.currentUser!.displayName)
     .collection('Event')
     .orderBy('status', descending: false)
     .orderBy('title')
@@ -281,27 +316,31 @@ Stream<List<ActivityModel>> readActivity() => FirebaseFirestore.instance
           .toList(),
     );
 
-void archive(String eventTitle) => FirebaseFirestore.instance
-    .collection('Profile')
-    .doc(user.displayName)
-    .collection('Event')
-    .doc(eventTitle)
-    .update({
-      'isArchive': true,
-    })
-    .then(
-      (value) => toastSuccess(msg: 'กิจกรรมได้ถูกจัดเก็บไปที่ประวัติแล้ว!'),
-    )
-    .catchError((error) {
-      debugPrint("Failed to add user: $error");
-      toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
-    });
+Future<void> archive(String eventTitle) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
+  await FirebaseFirestore.instance
+      .collection('Profile')
+      .doc(user.displayName)
+      .collection('Event')
+      .doc(eventTitle)
+      .update({
+        'isArchive': true,
+      })
+      .then(
+        (value) => toastSuccess(msg: 'กิจกรรมได้ถูกจัดเก็บไปที่ประวัติแล้ว!'),
+      )
+      .catchError((error) {
+        debugPrint("Failed to add user: $error");
+        toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
+      });
+}
 
 // ! History Screen
 
 Stream<List<ActivityModel>> readActivityHistory() => FirebaseFirestore.instance
     .collection('Profile')
-    .doc(user.displayName)
+    .doc(FirebaseAuth.instance.currentUser!.displayName)
     .collection('Event')
     .where('isArchive', isEqualTo: true)
     .orderBy('eventDate', descending: true)
@@ -329,9 +368,11 @@ Stream<List<CheckingModel>> readChecking() =>
         );
 // ! Admin
 
-void createCheckingForAdmin({
+Future<void> createCheckingForAdmin({
   required String activityTitle,
 }) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
       .collection('Profile')
