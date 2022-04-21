@@ -23,13 +23,14 @@ class _NewsState extends State<News> {
 
   @override
   void initState() {
-    _getCurrentBib(eventTitle: widget.news.title);
+    _getCurrentBib();
 
     super.initState();
   }
 
-  void _getCurrentBib({required String eventTitle}) async {
-    currentBib = await getCurrentEventBib(eventTitle: eventTitle);
+  void _getCurrentBib() async {
+    currentBib = await getCurrentEventBib(eventTitle: widget.news.title);
+    setState(() {});
   }
 
   @override
@@ -61,9 +62,14 @@ class _NewsState extends State<News> {
                   style: Theme.of(context).textTheme.headlineMedium,
                   textAlign: TextAlign.center,
                 ),
-                onConfirmBtnTap: () {
+                onConfirmBtnTap: () async {
                   Navigator.pop(context);
-                  createEventUser(widget.news);
+                  bool canJoin = await createEventUser(widget.news);
+                  canJoin
+                      ? setState(() {
+                          currentBib += 1;
+                        })
+                      : null;
                 });
           },
           child: Text(

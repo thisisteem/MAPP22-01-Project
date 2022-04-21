@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/my_constants.dart';
 import '../widgets/custom_textformfield.dart';
+import '../widgets/toast.dart';
 
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
@@ -14,6 +15,8 @@ class ContactUs extends StatefulWidget {
 
 class _ContactUsState extends State<ContactUs> {
   final _formKey = GlobalKey<FormState>();
+  TextEditingController _bugReportController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,9 +55,12 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                   onPressed: () {
                     // Navigator.pop(context);
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                    }
+                    // if (_formKey.currentState!.validate()) {
+                    //   _formKey.currentState!.save();
+                    //   print(_bugReportController);
+                    // }
+                    toastSuccess(msg: 'ส่งการรายงานสำเร็จ!');
+                    Navigator.pop(context);
                   },
                   child: Text(
                     'บันทึก',
@@ -114,6 +120,7 @@ class _ContactUsState extends State<ContactUs> {
               numMaxLine: 3,
               textLabel: 'แจ้งปัญหา (Optional)',
               isRequired: true,
+              controller: _bugReportController,
               textInputAction: TextInputAction.next,
               validator: (value) {
                 if (value == null || value.isEmpty) {

@@ -57,7 +57,7 @@ Future<bool> checkIfEventExists({
   }
 }
 
-Future createEventUser(NewsModel news) async {
+Future<bool> createEventUser(NewsModel news) async {
   final user = FirebaseAuth.instance.currentUser!;
 
   bool docExists = await checkIfUserEventExists(docName: news.title);
@@ -97,8 +97,10 @@ Future createEventUser(NewsModel news) async {
 
     // Increase current BIB of Event
     increaseBib(eventTitle: news.title);
+    return true;
   } else {
     toastError(msg: 'คุณได้เข้าร่วมกิจกรรมนี้แล้ว');
+    return false;
   }
 }
 
