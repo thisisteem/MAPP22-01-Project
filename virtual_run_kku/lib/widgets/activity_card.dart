@@ -216,7 +216,7 @@ class _ActivityCardState extends State<ActivityCard> {
                                             ),
                                             onConfirmBtnTap: () {
                                               Navigator.pop(context);
-                                              archive(widget.activity.title);
+                                              archive(widget.activity);
                                             });
                                       },
                                       child: Row(

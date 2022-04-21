@@ -116,7 +116,7 @@ Future<void> increaseBib({
 
   int currentBib = json['currentBib'];
 
-  FirebaseFirestore.instance.collection('Events').doc(eventTitle).update({
+  await FirebaseFirestore.instance.collection('Events').doc(eventTitle).update({
     'currentBib': currentBib + 1,
   });
 }
@@ -332,24 +332,53 @@ Stream<List<ActivityModel>> readActivity() => FirebaseFirestore.instance
           .toList(),
     );
 
-Future<void> archive(String eventTitle) async {
+Future<void> archive(ActivityModel activity) async {
   final user = FirebaseAuth.instance.currentUser!;
 
   await FirebaseFirestore.instance
       .collection('Profile')
       .doc(user.email)
       .collection('Event')
-      .doc(eventTitle)
+      .doc(activity.title)
       .update({
-        'isArchive': true,
-      })
-      .then(
-        (value) => toastSuccess(msg: 'กิจกรรมได้ถูกจัดเก็บไปที่ประวัติแล้ว!'),
-      )
-      .catchError((error) {
-        debugPrint("Failed to add user: $error");
-        toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
-      });
+    'isArchive': true,
+  }).then(
+    (value) {
+      toastSuccess(msg: 'กิจกรรมได้ถูกจัดเก็บไปที่ประวัติแล้ว!');
+      updateProfileStats(activity: activity);
+    },
+  ).catchError((error) {
+    debugPrint("Failed to add user: $error");
+    toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
+  });
+}
+
+Future<void> updateProfileStats({
+  required ActivityModel activity,
+}) async {
+  final user = FirebaseAuth.instance.currentUser!;
+
+// Get current bib from database
+  DocumentSnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore
+      .instance
+      .collection('Profile')
+      .doc(user.email)
+      .get();
+
+  final json = snapshot.data()!;
+
+  int oldDistance = json['distance'];
+  int oldEvents = json['events'];
+  int oldTimeInSeconds = json['timeInSeconds'];
+
+  await FirebaseFirestore.instance
+      .collection('Profile')
+      .doc(user.email)
+      .update({
+    'distance': oldDistance + activity.distance,
+    'events': oldEvents + 1,
+    'timeInSeconds': oldTimeInSeconds + activity.timeSpendInSeconds,
+  });
 }
 
 // ! History Screen
