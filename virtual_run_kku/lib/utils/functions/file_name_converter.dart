@@ -16,3 +16,16 @@ String fileNameConvert({required String title, required String oldName}) {
   print(newName);
   return newName;
 }
+
+String fileNewsNameConvert({required String title, required String oldName}) {
+  String newName = '';
+  title = title.replaceAll(' ', '_');
+  DateTime now = DateTime.now();
+  String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+
+  String extension = oldName.split('.')[1];
+
+  newName = '${title}_$formattedDate.$extension';
+  print(newName);
+  return newName;
+}

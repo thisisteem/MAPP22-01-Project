@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -66,16 +67,12 @@ class _NewsDetailsCardState extends State<NewsDetailsCard> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(11),
-                      child: CachedNetworkImage(
-                        imageUrl: widget.news.urlImage,
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        height: 80,
-                        width: 50,
-                        fit: BoxFit.cover,
-                      ),
+                    child: Image(
+                      image: FirebaseImage(
+                          'gs://virtualrunkku-c67d1.appspot.com/${widget.news.urlImage}'),
+                      fit: BoxFit.cover,
+                      height: 50,
+                      width: 50,
                     ),
                   ),
                   const SizedBox(width: 10),

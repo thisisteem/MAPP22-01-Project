@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:expandable/expandable.dart';
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/services/firestore_database.dart';
@@ -35,13 +36,13 @@ class _ActivityCardState extends State<ActivityCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                child: CachedNetworkImage(
-                  imageUrl: widget.activity.eventImage,
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                  height: 150,
-                  width: 100,
+                padding: const EdgeInsets.all(10),
+                child: Image(
+                  image: FirebaseImage(
+                      'gs://virtualrunkku-c67d1.appspot.com/${widget.activity.eventImage}'),
                   fit: BoxFit.cover,
+                  height: 150,
+                  width: 150,
                 ),
               ),
               const SizedBox(width: 10),

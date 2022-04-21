@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
+import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
@@ -88,14 +89,14 @@ class _NewsState extends State<News> {
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
               child: Column(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(11),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.news.urlImage,
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                      height: 240,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8),
+                    child: Image(
+                      image: FirebaseImage(
+                          'gs://virtualrunkku-c67d1.appspot.com/${widget.news.urlImage}'),
                       fit: BoxFit.cover,
+                      height: 250,
+                      width: 250,
                     ),
                   ),
                   const SizedBox(height: 20),

@@ -61,6 +61,7 @@ class _SendResultStepState extends State<SendResultStep> {
                       isLoading = true;
                     });
                     _formKey.currentState!.save();
+                    debugPrint('file path: ${fileUploadProvider.fileName}');
                     debugPrint('ระยะทาง: ${_distanceController.text}');
                     debugPrint('เวลาที่ใช้: ${_timeSpendController.text}');
                     debugPrint('วันที่วิ่ง: ${_dateController.text}');

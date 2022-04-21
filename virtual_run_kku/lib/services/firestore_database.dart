@@ -139,11 +139,19 @@ Future<int> getCurrentEventBib({
   return currentBib;
 }
 
-Future createEvent(NewsModel news) async {
+Future createEvent(
+    {required NewsModel news,
+    required BuildContext context,
+    required String fileName}) async {
   bool newsExists = await checkIfEventExists(newsTitle: news.title);
+  final fileUploadProvider =
+      Provider.of<FileUploadProvider>(context, listen: false);
   print('is event exist: $newsExists');
 
   if (!newsExists) {
+    await storage.uploadNewsImages(
+        fileName: fileUploadProvider.fileName,
+        filePath: fileUploadProvider.filePath);
     final docNews = FirebaseFirestore.instance.collection('Events');
 
     final newsDetails = NewsModel(
@@ -172,6 +180,9 @@ Future createEvent(NewsModel news) async {
   } else {
     toastError(msg: 'กิจกรรมนี้มีแล้ว');
   }
+
+  String path = 'images/news/$fileName';
+  updateNewsImage(path: path, eventTitle: news.title);
 }
 
 Future createProfile(
@@ -313,6 +324,15 @@ Future<void> updateSendResultImage({
       .doc(eventTitle)
       .update({
     'resultImage': path,
+  });
+}
+
+Future<void> updateNewsImage({
+  required String eventTitle,
+  required String path,
+}) async {
+  await FirebaseFirestore.instance.collection('Events').doc(eventTitle).update({
+    'urlImage': path,
   });
 }
 

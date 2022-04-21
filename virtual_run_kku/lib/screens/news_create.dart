@@ -3,14 +3,20 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
+import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 import 'package:virtual_run_kku/services/firestore_database.dart';
 import 'package:intl/intl.dart';
+import '../providers/file_upload_provider.dart';
 import '../utils/constants/colors.dart';
+import '../utils/functions/file_name_converter.dart';
 import '../utils/functions/seconds_to_time.dart';
 import '../widgets/custom_image_picker.dart';
 import '../widgets/custom_textformfield.dart';
 import '../widgets/date_picker_custom_textformfield.dart';
+import '../widgets/toast.dart';
+
+bool isLoading = false;
 
 class CreateNewsPage extends StatefulWidget {
   CreateNewsPage({Key? key}) : super(key: key);
@@ -29,6 +35,7 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
   final TextEditingController _distance = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('สร้างข่าว'),
@@ -43,21 +50,41 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
           ),
           onPressed: () {
             // Navigator.pop(context);
-            if (_formKey.currentState!.validate()) {
+            if (_formKey.currentState!.validate() &&
+                fileUploadProvider.fileName != '' &&
+                fileUploadProvider.filePath != '') {
+              setState(() {
+                isLoading = true;
+              });
               _formKey.currentState!.save();
+              debugPrint(buildImagePicker().toString());
+              fileUploadProvider.fileName = fileNewsNameConvert(
+                title: _title.text,
+                oldName: fileUploadProvider.fileName,
+              );
               createEvent(
-                NewsModel(
+                news: NewsModel(
                     title: _title.text,
                     distance: double.parse(_distance.text),
                     description: _description.text,
                     date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
                     urlImage: '',
                     currentBib: 1000),
-              );
+                context: context,
+                fileName: fileUploadProvider.fileName,
+              ).then((value) {
+                setState(() {
+                  isLoading = false;
+                });
+                Navigator.pop(context);
+              });
+
               // debugPrint('ระยะทาง: ${_distance.text}');
               // debugPrint('วันที่ลง: ${_date.text}');
               // debugPrint('หัวข้อ: ${_title.text}');
               // debugPrint('รายละเอียด: ${_description.text}');
+            } else {
+              toastError(msg: 'กรุณาใส่ข้อมูลให้ครบ');
             }
           },
           child: Text(
