@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:virtual_run_kku/screens/list_bug_report.dart';
 import 'package:virtual_run_kku/screens/news_create.dart';
+import 'package:virtual_run_kku/screens/news_list.dart';
 import 'package:virtual_run_kku/screens/result_check.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
 
@@ -50,48 +51,10 @@ class _AdminState extends State<Admin> {
           Column(
             children: [
               _buildResultCheck(),
-              _buildContactUsCard(),
+              _buildNewsLists(),
+              _buildNewsCreate(),
               _buildBugReported(),
               const SizedBox(height: 50),
-              Container(
-                margin: const EdgeInsets.all(10),
-                child: Text(
-                  "เวอร์ชั่น $version",
-                  style: MyConstant.h3Style(colorGrey),
-                ),
-                alignment: Alignment.center,
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.leftToRight,
-                      child: const Authen(),
-                    ),
-                  );
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.exit_to_app,
-                      color: colorRed,
-                    ),
-                    const SizedBox(width: 5),
-                    Text(
-                      'ออกจากระบบ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: colorRed),
-                    ),
-                  ],
-                ),
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: colorRed),
-                ),
-              ),
             ],
           ),
         ],
@@ -174,7 +137,7 @@ class _AdminState extends State<Admin> {
     );
   }
 
-  Widget _buildContactUsCard() {
+  Widget _buildNewsCreate() {
     return Card(
       elevation: 2,
       child: InkWell(
@@ -195,7 +158,7 @@ class _AdminState extends State<Admin> {
             children: [
               const SizedBox(width: 10),
               Icon(
-                Icons.contact_support,
+                Icons.build,
                 size: 40,
                 color: colorPrimary,
               ),
@@ -241,6 +204,43 @@ class _AdminState extends State<Admin> {
               const SizedBox(width: 15),
               Text(
                 'ตรวจสอบการรายงานบัค',
+                style: Theme.of(context).textTheme.headlineSmall,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNewsLists() {
+    return Card(
+      elevation: 2,
+      child: InkWell(
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NewsLists(),
+          ),
+        ),
+        child: Container(
+          width: double.infinity,
+          height: 75,
+          padding: const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 12,
+          ),
+          child: Row(
+            children: [
+              const SizedBox(width: 10),
+              Icon(
+                Icons.newspaper,
+                size: 40,
+                color: colorPrimary,
+              ),
+              const SizedBox(width: 15),
+              Text(
+                'ข่าวทั้งหมด',
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ],

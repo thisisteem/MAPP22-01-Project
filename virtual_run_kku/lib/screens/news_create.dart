@@ -1,7 +1,11 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
-
+import 'package:virtual_run_kku/models/news_model.dart';
+import 'package:virtual_run_kku/services/firestore_database.dart';
+import 'package:intl/intl.dart';
 import '../utils/constants/colors.dart';
 import '../utils/functions/seconds_to_time.dart';
 import '../widgets/custom_image_picker.dart';
@@ -21,7 +25,7 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
   final TextEditingController _title = TextEditingController();
   // final TextEditingController _currentBib = TextEditingController();
   final TextEditingController _date = TextEditingController();
-  final TextEditingController _discription = TextEditingController();
+  final TextEditingController _description = TextEditingController();
   final TextEditingController _distance = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -41,10 +45,19 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
             // Navigator.pop(context);
             if (_formKey.currentState!.validate()) {
               _formKey.currentState!.save();
+              createEvent(
+                NewsModel(
+                    title: _title.text,
+                    distance: double.parse(_distance.text),
+                    description: _description.text,
+                    date: DateFormat('yyyy-MM-dd').format(DateTime.now()),
+                    urlImage: '',
+                    currentBib: 1000),
+              );
               // debugPrint('ระยะทาง: ${_distance.text}');
               // debugPrint('วันที่ลง: ${_date.text}');
               // debugPrint('หัวข้อ: ${_title.text}');
-              // debugPrint('รายละเอียด: ${_discription.text}');
+              // debugPrint('รายละเอียด: ${_description.text}');
             }
           },
           child: Text(
@@ -182,7 +195,7 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
           textLabel: 'รายละเอียดข่าว',
           isRequired: true,
           textInputAction: TextInputAction.next,
-          controller: _discription,
+          controller: _description,
           validator: (value) {
             if (value == null || value.isEmpty) {
               return 'โปรดกรอกรายละเอียดข่าว';
@@ -190,7 +203,7 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
             return null;
           },
           onSaved: (value) {
-            _discription.text = value.toString().trim();
+            _description.text = value.toString().trim();
           },
         ),
       ],

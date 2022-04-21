@@ -103,7 +103,7 @@ class _NewsState extends State<News> {
                       Expanded(
                         child: Text(
                           DateFormat('dd MMMM yyyy', 'th')
-                              .format(widget.news.date),
+                              .format(DateTime.parse(widget.news.date)),
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                       ),
