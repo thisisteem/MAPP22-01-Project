@@ -367,7 +367,7 @@ Future<void> updateProfileStats({
 
   final json = snapshot.data()!;
 
-  int oldDistance = json['distance'];
+  double oldDistance = json['distance'];
   int oldEvents = json['events'];
   int oldTimeInSeconds = json['timeInSeconds'];
 
