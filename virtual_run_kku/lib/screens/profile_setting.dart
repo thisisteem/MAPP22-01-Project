@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:virtual_run_kku/models/profile.dart';
-
 import '../utils/constants/colors.dart';
 import '../widgets/custom_profile_image_picker.dart';
 import '../widgets/custom_textformfield.dart';
@@ -18,15 +16,6 @@ class _ProfileSettingState extends State<ProfileSetting> {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _profileNameController = TextEditingController();
-
-  final ProfileModel profile = ProfileModel(
-    name: 'Eleanor Pena',
-    urlImage:
-        'https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80',
-    distance: 30,
-    events: 2,
-    timeInSeconds: 1239,
-  );
 
   @override
   void initState() {

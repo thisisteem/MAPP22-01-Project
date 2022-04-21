@@ -7,7 +7,6 @@ import 'package:virtual_run_kku/screens/result_check.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
 
 import '../auth/authen.dart';
-import '../utils/constants/my_constants.dart';
 
 class Admin extends StatefulWidget {
   const Admin({Key? key}) : super(key: key);
@@ -100,43 +99,6 @@ class _AdminState extends State<Admin> {
     );
   }
 
-  Widget _buildNews(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: InkWell(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => CreateNewsPage(),
-          ),
-        ),
-        child: Container(
-          width: double.infinity,
-          height: 75,
-          padding: const EdgeInsets.symmetric(
-            vertical: 5,
-            horizontal: 12,
-          ),
-          child: Row(
-            children: [
-              const SizedBox(width: 10),
-              Icon(
-                Icons.contact_support,
-                size: 40,
-                color: colorPrimary,
-              ),
-              const SizedBox(width: 15),
-              Text(
-                'สร้างข่าว',
-                style: Theme.of(context).textTheme.headlineSmall,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildNewsCreate() {
     return Card(
       elevation: 2,
@@ -144,7 +106,7 @@ class _AdminState extends State<Admin> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CreateNewsPage(),
+            builder: (context) => const CreateNewsPage(),
           ),
         ),
         child: Container(
@@ -220,7 +182,7 @@ class _AdminState extends State<Admin> {
         onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => NewsLists(),
+            builder: (context) => const NewsLists(),
           ),
         ),
         child: Container(

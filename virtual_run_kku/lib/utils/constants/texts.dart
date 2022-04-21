@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 // General
 String appName = 'Virtual Run KKU';
 String titleHome = 'หน้าหลัก';

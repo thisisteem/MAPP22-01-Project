@@ -1,14 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable/expandable.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:virtual_run_kku/models/activity_model.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
 
-import '../providers/file_upload_provider.dart';
-import '../screens/send_result_step.dart';
 import '../utils/constants/colors.dart';
 
 class NewsDetailsCard extends StatefulWidget {
@@ -22,8 +17,6 @@ class NewsDetailsCard extends StatefulWidget {
 class _NewsDetailsCardState extends State<NewsDetailsCard> {
   @override
   Widget build(BuildContext context) {
-    final fileUploadProvider = Provider.of<FileUploadProvider>(context);
-
     return Container(
       key: widget.key,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),

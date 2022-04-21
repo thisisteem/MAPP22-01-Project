@@ -61,7 +61,7 @@ Future<bool> createEventUser(NewsModel news) async {
   final user = FirebaseAuth.instance.currentUser!;
 
   bool docExists = await checkIfUserEventExists(docName: news.title);
-  print('user: ${user.email}');
+  debugPrint('user: ${user.email}');
   if (!docExists) {
     final docUser =
         FirebaseFirestore.instance.collection('Profile').doc(user.email);
@@ -146,7 +146,7 @@ Future createEvent(
   bool newsExists = await checkIfEventExists(newsTitle: news.title);
   final fileUploadProvider =
       Provider.of<FileUploadProvider>(context, listen: false);
-  print('is event exist: $newsExists');
+  debugPrint('is event exist: $newsExists');
 
   if (!newsExists) {
     await storage.uploadNewsImages(
@@ -394,9 +394,9 @@ Future<void> updateProfileStats({
   int oldEvents = json['events'];
   int oldTimeInSeconds = json['timeInSeconds'];
 
-  print('new: ${json['distance']}');
-  print('new: ${json['events']}');
-  print('new: ${json['timeInSeconds']}');
+  debugPrint('new: ${json['distance']}');
+  debugPrint('new: ${json['events']}');
+  debugPrint('new: ${json['timeInSeconds']}');
 
   await FirebaseFirestore.instance
       .collection('Profile')

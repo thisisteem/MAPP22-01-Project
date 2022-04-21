@@ -14,8 +14,7 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController _bugReportController = TextEditingController();
+  final TextEditingController _bugReportController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +53,6 @@ class _ContactUsState extends State<ContactUs> {
                     minimumSize: const Size.fromHeight(40),
                   ),
                   onPressed: () {
-                    // Navigator.pop(context);
-                    // if (_formKey.currentState!.validate()) {
-                    //   _formKey.currentState!.save();
-                    //   print(_bugReportController);
-                    // }
                     toastSuccess(msg: 'ส่งการรายงานสำเร็จ!');
                     Navigator.pop(context);
                   },

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 String intToTimeLeft(int value) {
   int h, m, s;
 
@@ -30,8 +28,8 @@ int hhmmssToSeconds(String time) {
 
   time.split(':').asMap().forEach(
     (index, value) {
-      // print('index: $index');
-      // print('value: $value');
+      // debugPrint('index: $index');
+      // debugPrint('value: $value');
 
       if (index == 0) {
         result += int.parse(value) * 3600;

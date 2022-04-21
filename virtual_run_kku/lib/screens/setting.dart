@@ -15,7 +15,7 @@ class Setting extends StatefulWidget {
 }
 
 class _SettingState extends State<Setting> {
-  final String version = "0.0.1";
+  final String version = "1.0.0";
   bool isLoading = false;
 
   @override

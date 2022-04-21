@@ -1,5 +1,3 @@
-import 'package:cool_alert/cool_alert.dart';
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
 

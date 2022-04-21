@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';

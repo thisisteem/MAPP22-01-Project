@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker_bdaya/flutter_datetime_picker_bdaya.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/models/news_model.dart';
@@ -10,7 +7,6 @@ import 'package:intl/intl.dart';
 import '../providers/file_upload_provider.dart';
 import '../utils/constants/colors.dart';
 import '../utils/functions/file_name_converter.dart';
-import '../utils/functions/seconds_to_time.dart';
 import '../widgets/custom_image_picker.dart';
 import '../widgets/custom_textformfield.dart';
 import '../widgets/date_picker_custom_textformfield.dart';
@@ -19,7 +15,7 @@ import '../widgets/toast.dart';
 bool isLoading = false;
 
 class CreateNewsPage extends StatefulWidget {
-  CreateNewsPage({Key? key}) : super(key: key);
+  const CreateNewsPage({Key? key}) : super(key: key);
 
   @override
   State<CreateNewsPage> createState() => _CreateNewsPageState();
@@ -98,10 +94,6 @@ class _CreateNewsPageState extends State<CreateNewsPage> {
       backgroundColor: colorWhite,
       body: ListView(
         children: [
-          // Container(
-          //   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-          //   child: Text('test'),
-          // ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
             child: Form(

@@ -4,13 +4,11 @@ import 'package:virtual_run_kku/models/news_model.dart';
 import 'package:virtual_run_kku/screens/admin.dart';
 import 'package:virtual_run_kku/services/firestore_database.dart';
 
-import '../models/activity_model.dart';
 import '../utils/constants/colors.dart';
 import '../widgets/news_details_card.dart';
-import 'main_screen.dart';
 
 class NewsLists extends StatefulWidget {
-  NewsLists({Key? key}) : super(key: key);
+  const NewsLists({Key? key}) : super(key: key);
 
   @override
   State<NewsLists> createState() => _NewsListsState();

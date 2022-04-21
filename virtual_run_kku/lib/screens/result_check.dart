@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:virtual_run_kku/screens/running_detail.dart';
 import 'package:virtual_run_kku/widgets/running_result_card.dart';
 
 import '../models/checking_model.dart';
@@ -16,7 +14,6 @@ class ResultCheck extends StatefulWidget {
 class _ResultCheckState extends State<ResultCheck> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     readChecking();
   }

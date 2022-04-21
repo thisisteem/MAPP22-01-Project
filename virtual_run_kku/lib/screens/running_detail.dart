@@ -1,9 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
-import 'package:virtual_run_kku/utils/constants/my_constants.dart';
 import 'package:intl/intl.dart';
 
 import '../models/checking_model.dart';
