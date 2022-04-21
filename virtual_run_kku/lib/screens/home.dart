@@ -274,7 +274,7 @@ class _HomeState extends State<Home> {
                   ),
                   const SizedBox(height: 40),
                   Text(
-                    DateFormat('วันที่ dd/MM/yyyy', 'th').format(news.date),
+                    DateFormat('วันที่ dd/MM/yyyy', 'th').format(DateTime.parse(news.date)),
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall!

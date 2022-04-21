@@ -40,8 +40,19 @@ Future<bool> checkIfUserEventExists({
   }
 }
 
-// ! Home Screen
+Future<bool> checkIfEventExists({
+  required String newsTitle,
+}) async {
+  try {
+    var collectionRef = FirebaseFirestore.instance.collection('Events');
+    var doc = await collectionRef.doc(newsTitle).get();
+    return doc.exists;
+  } catch (e) {
+    rethrow;
+  }
+}
 
+// ! Home Screen
 Future joinEvent(NewsModel news) async {
   bool docExists = await checkIfUserEventExists(docName: news.title);
   print('is event exist: $docExists');
@@ -53,7 +64,7 @@ Future joinEvent(NewsModel news) async {
     final activity = ActivityModel(
       bib: nextBib(firstChar: news.title[0], number: news.currentBib),
       distance: news.distance,
-      eventDate: news.date,
+      eventDate: DateTime.parse(news.date),
       eventImage: news.urlImage,
       isArchive: false,
       isSendResult: false,
@@ -80,6 +91,41 @@ Future joinEvent(NewsModel news) async {
     );
   } else {
     toastError(msg: 'คุณได้เข้าร่วมกิจกรรมนี้แล้ว');
+  }
+}
+
+Future createEvent(NewsModel news) async {
+  bool newsExists = await checkIfEventExists(newsTitle: news.title);
+  print('is event exist: $newsExists');
+
+  if (!newsExists) {
+    final docNews = FirebaseFirestore.instance.collection('Events');
+
+    final newsDetails = NewsModel(
+      currentBib: 0,
+      date: news.date,
+      description: news.description,
+      distance: news.distance,
+      title: news.title,
+      urlImage: news.urlImage,
+    );
+
+    final json = newsDetails.toJson();
+
+    await docNews
+        .doc(news.title)
+        .set(json)
+        .then(
+          (value) => toastSuccess(msg: 'สร้างกิจกรรมสำเร็จ!'),
+        )
+        .catchError(
+      (error) {
+        debugPrint("Failed to add user: $error");
+        toastError(msg: 'มีบางอย่างผิดพลาด โปรดลองอีกครั้ง');
+      },
+    );
+  } else {
+    toastError(msg: 'กิจกรรมนี้มีแล้ว');
   }
 }
 

@@ -29,7 +29,7 @@ final Map<String, WidgetBuilder> map = {
   '/fullResult': (BuildContext context) => const FullResult(),
   '/sendResult': (BuildContext context) => const SendResult(),
   '/admin': (BuildContext context) => const Admin(),
-  '/adminLogin': (BuildContext context) => AdminLoginScreen(),
+  '/adminLogin': (BuildContext context) => const AdminLoginScreen(),
 };
 
 String? initialRoute;

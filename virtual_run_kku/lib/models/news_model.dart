@@ -2,7 +2,7 @@ class NewsModel {
   final String title;
   final double distance;
   final String description;
-  final DateTime date;
+  final String date;
   final String urlImage;
   final int currentBib;
 
@@ -28,7 +28,7 @@ class NewsModel {
         title: json['title'],
         distance: json['distance'],
         description: json['description'],
-        date: DateTime.parse(json['date']),
+        date: json['date'],
         urlImage: json['urlImage'],
         currentBib: json['currentBib'],
       );
