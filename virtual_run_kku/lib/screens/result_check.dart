@@ -18,6 +18,13 @@ class _ResultCheckState extends State<ResultCheck> {
     readChecking();
   }
 
+  Future<void> _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      readChecking();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,13 +42,16 @@ class _ResultCheckState extends State<ResultCheck> {
             final activity = snapshot.data!;
 
             return activity.isNotEmpty
-                ? ListView(
-                    children: activity.map<Widget>(((e) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: resultCard(e),
-                      );
-                    })).toList(),
+                ? RefreshIndicator(
+                    onRefresh: _onRefresh,
+                    child: ListView(
+                      children: activity.map<Widget>(((e) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: resultCard(e),
+                        );
+                      })).toList(),
+                    ),
                   )
                 : Padding(
                     padding: const EdgeInsets.only(top: 20),
