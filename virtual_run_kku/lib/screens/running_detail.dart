@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:firebase_image/firebase_image.dart';
 import 'package:flutter/material.dart';
 import 'package:virtual_run_kku/utils/constants/colors.dart';
@@ -16,6 +17,8 @@ class RunningDetail extends StatefulWidget {
 }
 
 class _RunningDetailState extends State<RunningDetail> {
+  final TextEditingController _rejectReasonController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +59,7 @@ class _RunningDetailState extends State<RunningDetail> {
                   minLines:
                       2, // any number you need (It works as the rows for the textarea)
                   keyboardType: TextInputType.multiline,
+                  controller: _rejectReasonController,
                   maxLines: null,
                   style: const TextStyle(
                     fontSize: 24.0,
@@ -89,13 +93,49 @@ class _RunningDetailState extends State<RunningDetail> {
         children: [
           InkWell(
             onTap: () async {
-              _showFailedDialog();
-              // await changeStatusAdmin(
-              //   eventTitle: widget.activity.title,
-              //   status: 'rejected',
-              //   displayName: widget.activity.displayName,
-              // );
-              // Navigator.pop(context);
+              CoolAlert.show(
+                context: context,
+                type: CoolAlertType.confirm,
+                title: '',
+                confirmBtnText: 'ใช่',
+                cancelBtnText: 'ยกเลิก',
+                confirmBtnColor: colorRed,
+                confirmBtnTextStyle: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .copyWith(color: colorWhite),
+                widget: Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'คุณแน่ใจหรือไม่ ที่จะไม่ให้ผ่าน',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        'เหตุผล ${_rejectReasonController.text != '' ? _rejectReasonController.text : '-'}',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                onConfirmBtnTap: () async {
+                  Navigator.pop(context);
+                  _showFailedDialog();
+                  await changeStatusAdmin(
+                    eventTitle: widget.activity.title,
+                    status: 'rejected',
+                    displayName: widget.activity.displayName,
+                    rejectReason: _rejectReasonController.text,
+                  );
+                  await deleteChecking(
+                    eventTitle: widget.activity.title,
+                    displayName: widget.activity.displayName,
+                    bib: widget.activity.bib,
+                  );
+                },
+              );
             },
             child: Container(
               decoration: BoxDecoration(
@@ -115,7 +155,38 @@ class _RunningDetailState extends State<RunningDetail> {
           ),
           InkWell(
             onTap: () {
-              _showSuccessDialog();
+              CoolAlert.show(
+                context: context,
+                type: CoolAlertType.confirm,
+                title: '',
+                confirmBtnText: 'ใช่',
+                cancelBtnText: 'ยกเลิก',
+                confirmBtnColor: colorGreen,
+                confirmBtnTextStyle: Theme.of(context)
+                    .textTheme
+                    .headlineMedium!
+                    .copyWith(color: colorWhite),
+                widget: Text(
+                  'คุณแน่ใจหรือไม่ ที่จะให้ผ่าน',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                  textAlign: TextAlign.center,
+                ),
+                onConfirmBtnTap: () async {
+                  Navigator.pop(context);
+                  _showSuccessDialog();
+                  await changeStatusAdmin(
+                    eventTitle: widget.activity.title,
+                    status: 'approved',
+                    displayName: widget.activity.displayName,
+                    rejectReason: _rejectReasonController.text,
+                  );
+                  await deleteChecking(
+                    eventTitle: widget.activity.title,
+                    displayName: widget.activity.displayName,
+                    bib: widget.activity.bib,
+                  );
+                },
+              );
             },
             child: Container(
               decoration: BoxDecoration(
@@ -279,7 +350,7 @@ class _RunningDetailState extends State<RunningDetail> {
                 ),
                 Center(
                   child: Text(
-                    'Success',
+                    'ผ่าน',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,
@@ -289,27 +360,9 @@ class _RunningDetailState extends State<RunningDetail> {
               ],
             ),
           ),
-          actions: const <Widget>[
-            // Center(
-            //   child:
-            //   ElevatedButton(
-            //     style: ElevatedButton.styleFrom(primary: Colors.black12),
-            //     child: const Text(
-            //       'Success',
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 20,
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       Navigator.of(context).pop();
-            //     },
-            //   ),
-            // ),
-          ],
         );
       },
-    );
+    ).then((value) => Navigator.of(context).pop());
   }
 
   _showFailedDialog() {
@@ -344,26 +397,8 @@ class _RunningDetailState extends State<RunningDetail> {
               ],
             ),
           ),
-          actions: const <Widget>[
-            // Center(
-            //   child:
-            //   ElevatedButton(
-            //     style: ElevatedButton.styleFrom(primary: Colors.black12),
-            //     child: const Text(
-            //       'Success',
-            //       style: TextStyle(
-            //         color: Colors.white,
-            //         fontSize: 20,
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //       Navigator.of(context).pop();
-            //     },
-            //   ),
-            // ),
-          ],
         );
       },
-    );
+    ).then((value) => Navigator.of(context).pop());
   }
 }

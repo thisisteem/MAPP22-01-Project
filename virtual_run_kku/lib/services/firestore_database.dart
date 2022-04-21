@@ -329,7 +329,9 @@ Stream<List<CheckingModel>> readChecking() =>
         );
 // ! Admin
 
-void createCheckingForAdmin({required String activityTitle}) async {
+void createCheckingForAdmin({
+  required String activityTitle,
+}) async {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
   DocumentSnapshot<Map<String, dynamic>> snapshot = await _firestore
       .collection('Profile')
@@ -367,6 +369,7 @@ Future<void> changeStatusAdmin({
   required String eventTitle,
   required String status,
   required String displayName,
+  String? rejectReason,
 }) =>
     FirebaseFirestore.instance
         .collection('Profile')
@@ -375,4 +378,19 @@ Future<void> changeStatusAdmin({
         .doc(eventTitle)
         .update({
       'status': status,
+      'rejectReason': rejectReason ?? '',
     });
+
+Future<void> deleteChecking({
+  required String eventTitle,
+  required String displayName,
+  required String bib,
+}) async {
+  String docName = checkingDocumentIdConverter(
+    displayName: displayName,
+    eventTitle: eventTitle,
+    bib: bib,
+  );
+
+  FirebaseFirestore.instance.collection('Checking').doc(docName).delete();
+}

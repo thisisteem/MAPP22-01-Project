@@ -1,3 +1,4 @@
+import 'package:auth_buttons/auth_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:virtual_run_kku/utils/constants/my_constants.dart';
@@ -16,6 +17,8 @@ class Authen extends StatefulWidget {
 }
 
 class _AuthenState extends State<Authen> {
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => GoogleSignInProvider(),
@@ -33,6 +36,21 @@ class _AuthenState extends State<Authen> {
                     ],
                   ),
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      isLoading
+                          ? SizedBox(
+                              child: CircularProgressIndicator(
+                                color: colorPrimary,
+                              ),
+                              height: 40.0,
+                              width: 40.0,
+                            )
+                          : Container(),
+                    ],
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
@@ -43,7 +61,7 @@ class _AuthenState extends State<Authen> {
                           // ),
                           Container(
                             margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: const GoogleButton(),
+                            child: googleButton(),
                           ),
                           Row(
                             children: [
@@ -77,11 +95,35 @@ class _AuthenState extends State<Authen> {
   Widget bypassAdmin() {
     return IconButton(
       onPressed: () {
+        setState(() {
+          isLoading = true;
+        });
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const Admin(),
         ));
       },
       icon: const Icon(Icons.person),
+    );
+  }
+
+  Widget googleButton() {
+    return GoogleAuthButton(
+      onPressed: isLoading
+          ? null
+          : () {
+              setState(() {
+                isLoading = true;
+              });
+              final provider =
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
+              provider.googleLogin();
+            },
+
+      // onPressed: () => Navigator.pushNamed(context, MyConstant.routeMainScreen),
+
+      darkMode: false,
+      text: 'เข้าสู่ระบบด้วย Google',
+      style: MyConstant.authButtonStyleTextDark,
     );
   }
 }

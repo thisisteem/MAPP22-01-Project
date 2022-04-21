@@ -21,27 +21,6 @@ class FacebookButton extends StatelessWidget {
   }
 }
 
-class GoogleButton extends StatelessWidget {
-  const GoogleButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GoogleAuthButton(
-      onPressed: () {
-        final provider =
-            Provider.of<GoogleSignInProvider>(context, listen: false);
-        provider.googleLogin();
-      },
-
-      // onPressed: () => Navigator.pushNamed(context, MyConstant.routeMainScreen),
-
-      darkMode: false,
-      text: 'เข้าสู่ระบบด้วย Google',
-      style: MyConstant.authButtonStyleTextDark,
-    );
-  }
-}
-
 class AdminButton extends StatelessWidget {
   const AdminButton({Key? key}) : super(key: key);
 

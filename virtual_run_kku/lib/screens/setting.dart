@@ -16,6 +16,7 @@ class Setting extends StatefulWidget {
 
 class _SettingState extends State<Setting> {
   final String version = "0.0.1";
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -42,26 +43,42 @@ class _SettingState extends State<Setting> {
                 alignment: Alignment.center,
               ),
               OutlinedButton(
-                onPressed: () {
-                  final provider =
-                      Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogout();
-                },
+                onPressed: isLoading
+                    ? null
+                    : () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        final provider = Provider.of<GoogleSignInProvider>(
+                            context,
+                            listen: false);
+                        provider.googleLogout();
+                      },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.exit_to_app,
-                      color: colorRed,
-                    ),
+                    isLoading
+                        ? Container()
+                        : Icon(
+                            Icons.exit_to_app,
+                            color: colorRed,
+                          ),
                     const SizedBox(width: 5),
-                    Text(
-                      'ออกจากระบบ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: colorRed),
-                    ),
+                    isLoading
+                        ? SizedBox(
+                            child: CircularProgressIndicator(
+                              color: colorRed,
+                            ),
+                            height: 20.0,
+                            width: 20.0,
+                          )
+                        : Text(
+                            'ออกจากระบบ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(color: colorRed),
+                          ),
                   ],
                 ),
                 style: OutlinedButton.styleFrom(

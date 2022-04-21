@@ -50,7 +50,7 @@ class _NewsState extends State<News> {
                 ),
                 onConfirmBtnTap: () {
                   Navigator.pop(context);
-                  createEvent(widget.news);
+                  createEventUser(widget.news);
                 });
           },
           child: Text(
